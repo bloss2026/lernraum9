@@ -1638,6 +1638,7 @@
         }
 
         .math-button:hover { transform: translateY(-1px); border-color: var(--math-accent-strong); }
+        .math-button:disabled { cursor: not-allowed; opacity: 0.55; transform: none; }
         .math-button:focus-visible,
         .math-tab:focus-visible,
         .math-topic-button:focus-visible,
@@ -1819,6 +1820,15 @@
         .math-exam-questions { margin: 1rem 0; }
         .math-exam-questions .math-exercise-grid { grid-template-columns: 1fr; }
         .math-exam-questions .math-answer { max-width: 420px; }
+        .math-exam-choice { margin-top: 1.5rem; }
+        .math-exam-choice h2 { margin: 0 0 0.4rem; color: var(--math-text); font-size: 1.2rem; }
+        .math-exam-choice > p { margin: 0; color: var(--math-muted); }
+        .math-exam-choice-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+        .math-exam-choice-option { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.9rem; border: 1px solid var(--math-border); border-radius: 12px; background: var(--math-panel-alt); color: var(--math-text); cursor: pointer; line-height: 1.5; }
+        .math-exam-choice-option:has(input:checked) { border-color: var(--math-accent-strong); box-shadow: inset 0 0 0 1px var(--math-accent-strong); }
+        .math-exam-choice-option input { width: 1.15rem; height: 1.15rem; flex: 0 0 auto; margin-top: 0.15rem; accent-color: var(--math-accent-strong); }
+        .math-exam-choice-questions { margin-top: 1.25rem; }
+        .math-exam-choice-questions h3 { margin-bottom: 0.75rem; color: var(--math-accent); }
         .math-calculator { margin: 1rem 0; padding: 1rem; border: 1px solid var(--math-border); border-radius: 14px; background: var(--math-panel); }
         .math-calculator label { margin-bottom: 0.65rem; }
         .math-calculator > div { display: flex; align-items: center; gap: 0.6rem; max-width: 680px; }
@@ -1843,6 +1853,7 @@
             .math-lesson-grid,
             .math-exercise-grid,
             .math-exam-intro-grid { grid-template-columns: 1fr; }
+            .math-exam-choice-grid { grid-template-columns: 1fr; }
             .math-section-heading { align-items: flex-start; }
         }
         @media (max-width: 520px) {

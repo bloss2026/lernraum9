@@ -132,7 +132,7 @@ function renderSubjectPage(subject) {
                         <span class="subject-icon" aria-hidden="true">📝</span>
                         <span class="subject-status available">Prüfungstraining</span>
                         <h3>Prüfungssimulator</h3>
-                        <p>Übe A1 ohne Hilfsmittel, danach A2 und den Wahlteil B.</p>
+                        <p>135 Minuten · Pflichtteile A1 und A2 · zwei von drei Aufgaben im Wahlteil B.</p>
                         <span class="portal-card-link">Prüfung starten →</span>
                     </a>
                 </div>
@@ -337,7 +337,7 @@ function renderMathTopicPage() {
                         <span class="subject-icon" aria-hidden="true">📝</span>
                         <span class="subject-status available">Prüfungstraining</span>
                         <h3>Prüfungssimulator</h3>
-                        <p>Trainiere A1, A2 und den Wahlteil B für den Hauptschulabschluss.</p>
+                        <p>135 Minuten · A1 und A2 verpflichtend · zwei von drei Aufgaben in Teil B.</p>
                         <span class="portal-card-link">Prüfung starten →</span>
                 </a>
             </div>

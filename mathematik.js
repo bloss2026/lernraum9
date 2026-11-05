@@ -485,23 +485,37 @@
 
     const exam = {
         a1: [
-            { id: 'exam-a1-1', prompt: 'Berechne ohne Taschenrechner: 3/4 von 20.', answer: 15, points: 2, steps: ['20 durch 4 teilen: 5.', '5 · 3 = 15.'], error: 'Bruchteilaufgabe: erst durch den Nenner teilen, dann mit dem Zähler multiplizieren.' },
-            { id: 'exam-a1-2', prompt: 'Löse: 4x − 7 = 13.', answer: 5, points: 2, steps: ['Auf beiden Seiten 7 addieren: 4x = 20.', 'Durch 4 teilen: x = 5.'], error: 'Gleichung: Führe die Umkehroperationen auf beiden Seiten aus.' },
-            { id: 'exam-a1-3', prompt: 'Berechne 12 % von 150.', answer: 18, points: 2, steps: ['150 · 12 / 100.', '18.'], error: 'Prozentrechnung: Prozentwert = Grundwert · Prozentsatz / 100.' },
-            { id: 'exam-a1-4', prompt: 'Rechne aus: 2,5 + 3,75.', answer: 6.25, points: 2, steps: ['Dezimalstellen untereinander schreiben: 2,50 + 3,75.', 'Ergebnis: 6,25.'], error: 'Achte beim Addieren auf gleich ausgerichtete Dezimalkommas.' }
+            { id: 'exam-a1-1', prompt: 'Berechne 3⁴.', answer: 81, points: 2, steps: ['3⁴ = 3 · 3 · 3 · 3.', '3 · 3 · 3 · 3 = 81.'], error: 'Der Exponent gibt an, wie oft die Basis als Faktor vorkommt.' },
+            { id: 'exam-a1-2', prompt: 'Berechne √169.', answer: 13, points: 2, steps: ['Gesucht ist die nichtnegative Zahl, deren Quadrat 169 ergibt.', '13² = 169.', 'Also ist √169 = 13.'], error: 'Prüfe den Wurzelwert, indem du ihn quadrierst.' },
+            { id: 'exam-a1-3', prompt: 'Löse: 5x − 8 = 17.', answer: 5, points: 2, steps: ['Auf beiden Seiten 8 addieren: 5x = 25.', 'Durch 5 teilen: x = 5.'], error: 'Führe jede Umkehroperation auf beiden Seiten der Gleichung aus.' },
+            { id: 'exam-a1-4', prompt: 'Berechne 25 % von 240.', answer: 60, points: 2, steps: ['25 % = 1/4.', '240 durch 4 teilen: 60.', '25 % von 240 sind 60.'], error: 'Der Prozentwert ist Grundwert mal Prozentsatz geteilt durch 100.' },
+            { id: 'exam-a1-5', prompt: 'Berechne 3/4 + 1/8. Gib das Ergebnis als Dezimalzahl an.', answer: 0.875, points: 3, steps: ['3/4 auf Achtel erweitern: 3/4 = 6/8.', '6/8 + 1/8 = 7/8.', '7/8 = 0,875.'], error: 'Mache Brüche vor dem Addieren gleichnamig.' },
+            { id: 'exam-a1-6', prompt: 'Ein Kapital von 1.200 € wird ein Jahr mit 2 % verzinst. Wie hoch sind die Zinsen?', answer: 24, points: 3, steps: ['Z = K · p / 100.', 'Z = 1.200 · 2 / 100.', 'Z = 24 €.'], error: 'Jahreszinsen = Kapital mal Zinssatz geteilt durch 100.' }
         ],
         a2: [
-            { id: 'exam-a2-1', prompt: 'Ein Taxi verlangt 4 € Grundgebühr und 2 € pro Kilometer. Wie viel kostet eine Fahrt über 7 km?', answer: 18, points: 3, steps: ['Kostenfunktion: K = 2 · Kilometer + 4.', 'K = 2 · 7 + 4.', 'K = 18 €.'], error: 'Lineare Funktion: Steigung mal Strecke plus Grundgebühr.' },
-            { id: 'exam-a2-2', prompt: 'Ein Zylinder hat r = 3 cm und h = 5 cm. Berechne das Volumen mit π ≈ 3,14.', answer: 141.3, tolerance: 0.5, points: 3, steps: ['V = πr²h.', 'V = 3,14 · 3² · 5.', 'V = 3,14 · 9 · 5 = 141,3 cm³.'], error: 'Zylinder: erst den Radius quadrieren, dann mit Höhe und π multiplizieren.' }
+            { id: 'exam-a2-1', prompt: 'Bei y = −2x + 9: Berechne y für x = 4.', answer: 1, points: 3, steps: ['x = 4 einsetzen: y = −2 · 4 + 9.', 'y = −8 + 9.', 'y = 1.'], error: 'Setze den x-Wert in y = mx + b ein und beachte das Vorzeichen.' },
+            { id: 'exam-a2-2', prompt: 'Die Parabel y = x² − 4x + 3 schneidet die x-Achse an zwei Stellen. Gib die kleinere Nullstelle an.', answer: 1, points: 4, steps: ['Nullstellen: x² − 4x + 3 = 0.', 'Faktorisieren: (x − 1)(x − 3) = 0.', 'Die Nullstellen sind 1 und 3; die kleinere ist 1.'], error: 'Für Nullstellen setzt du y = 0 und löst die quadratische Gleichung.' },
+            { id: 'exam-a2-3', prompt: 'Ein rechtwinkliges Dreieck hat eine Hypotenuse von 13 cm und eine Kathete von 5 cm. Berechne die andere Kathete.', answer: 12, points: 3, steps: ['a² = 13² − 5².', 'a² = 169 − 25 = 144.', 'a = √144 = 12 cm.'], error: 'Wenn eine Kathete fehlt, ziehe ihr Quadrat von der Hypotenusenquadratzahl ab.' },
+            { id: 'exam-a2-4', prompt: 'Nach einer Preiserhöhung um 10 % kostet ein Artikel 220 €. Wie hoch war der Preis vorher?', answer: 200, points: 3, steps: ['Nach der Erhöhung entsprechen 220 € insgesamt 110 %.', 'Ursprungspreis = 220 / 1,10.', 'Der ursprüngliche Preis war 200 €.'], error: 'Nach einer Erhöhung um 10 % entspricht der neue Preis 110 %, nicht 100 %.' },
+            { id: 'exam-a2-5', prompt: 'Ein Zylinder hat r = 3 cm und h = 4 cm. Berechne das Volumen mit π ≈ 3,14.', answer: 113.04, tolerance: 0.2, points: 3, steps: ['V = πr²h.', 'V = 3,14 · 3² · 4.', 'V = 3,14 · 9 · 4 = 113,04 cm³.'], error: 'Beim Zylinder wird der Radius quadriert und anschließend mit Höhe und π multipliziert.' },
+            { id: 'exam-a2-6', prompt: 'Berechne den Mittelwert der Daten 4, 6, 8 und 10.', answer: 7, points: 2, steps: ['Werte addieren: 4 + 6 + 8 + 10 = 28.', 'Durch die Anzahl 4 teilen.', 'Der Mittelwert ist 28/4 = 7.'], error: 'Addiere alle Werte und teile durch die Anzahl der Werte.' },
+            { id: 'exam-a2-7', prompt: 'Ein Dreieck hat eine Grundseite von 12 cm und eine Höhe von 7 cm. Berechne den Flächeninhalt.', answer: 42, points: 3, steps: ['A = g · h / 2.', 'A = 12 · 7 / 2 = 84/2.', 'Der Flächeninhalt ist 42 cm².'], error: 'Beim Dreieck wird das Produkt aus Grundseite und zugehöriger Höhe halbiert.' }
         ],
         b: {
             B1: [
-                { id: 'exam-b1-1', prompt: 'Ein rechtwinkliges Dreieck hat Katheten 9 cm und 12 cm. Berechne die Hypotenuse.', answer: 15, points: 3, steps: ['c² = 9² + 12².', 'c² = 81 + 144 = 225.', 'c = 15 cm.'], error: 'Pythagoras: c ist die Hypotenuse und steht allein auf einer Seite der Gleichung.' },
-                { id: 'exam-b1-2', prompt: 'Ein Guthaben von 800 € wird ein Jahr mit 2,5 % verzinst. Wie hoch sind die Zinsen?', answer: 20, points: 2, steps: ['Z = 800 · 2,5 / 100.', 'Z = 20 €.'], error: 'Zinsen für ein Jahr: Kapital mal Zinssatz geteilt durch 100.' }
+                { id: 'exam-b1-1', prompt: 'Ein rechtwinkliges Dreieck hat Katheten 8 cm und 15 cm. Berechne die Hypotenuse.', answer: 17, points: 3, steps: ['c² = 8² + 15² = 64 + 225 = 289.', 'c = √289.', 'c = 17 cm.'], error: 'Die Hypotenuse liegt gegenüber dem rechten Winkel und wird mit a² + b² = c² berechnet.' },
+                { id: 'exam-b1-2', prompt: 'Ein Prisma hat eine Grundfläche von 24 cm² und eine Länge von 7 cm. Berechne das Volumen.', answer: 168, points: 3, steps: ['V = G · Länge.', 'V = 24 · 7.', 'V = 168 cm³.'], error: 'Prismenvolumen = Grundfläche mal Länge.' },
+                { id: 'exam-b1-3', prompt: 'Ein Zylinder hat r = 4 cm und h = 5 cm. Berechne das Volumen mit π ≈ 3,14.', answer: 251.2, tolerance: 0.2, points: 4, steps: ['V = πr²h.', 'V = 3,14 · 4² · 5.', 'V = 3,14 · 16 · 5 = 251,2 cm³.'], error: 'Quadriere zuerst den Radius und gib das Ergebnis in Kubikeinheiten an.' }
             ],
             B2: [
-                { id: 'exam-b2-1', prompt: 'Eine faire Münze wird zweimal geworfen. Wie groß ist die Wahrscheinlichkeit für mindestens einmal Kopf in Prozent?', answer: 75, points: 3, steps: ['Gegenereignis: kein Kopf bedeutet Zahl-Zahl.', 'P(Zahl-Zahl) = 1/2 · 1/2 = 1/4.', 'P(mindestens einmal Kopf) = 1 − 1/4 = 3/4 = 75 %.'], error: 'Nutze das Gegenereignis Zahl-Zahl und ziehe dessen Wahrscheinlichkeit von 100 % ab.' },
-                { id: 'exam-b2-2', prompt: 'Eine Gerade verläuft durch (0|2) und (4|10). Berechne ihre Steigung.', answer: 2, points: 2, steps: ['Änderung y: 10 − 2 = 8.', 'Änderung x: 4 − 0 = 4.', 'm = 8 / 4 = 2.'], error: 'Steigung: Änderung der y-Werte durch Änderung der x-Werte teilen.' }
+                { id: 'exam-b2-1', prompt: 'Eine faire Münze wird zweimal geworfen. Wie groß ist die Wahrscheinlichkeit für mindestens einmal Kopf in Prozent?', answer: 75, points: 3, steps: ['Gegenereignis: kein Kopf bedeutet Zahl-Zahl.', 'P(Zahl-Zahl) = 1/2 · 1/2 = 1/4.', 'P(mindestens einmal Kopf) = 1 − 1/4 = 3/4 = 75 %.'], error: 'Nutze das Gegenereignis und ziehe seine Wahrscheinlichkeit von 100 % ab.' },
+                { id: 'exam-b2-2', prompt: 'Berechne den Median der Daten 3, 5, 6, 10, 11.', answer: 6, points: 3, steps: ['Die Daten sind bereits sortiert.', 'Bei fünf Werten liegt der Median an dritter Stelle.', 'Der Median ist 6.'], error: 'Sortiere die Daten und bestimme den mittleren Wert.' },
+                { id: 'exam-b2-3', prompt: 'Ein Beutel enthält 4 rote und 6 blaue Kugeln. Wie groß ist die Wahrscheinlichkeit, eine rote Kugel zu ziehen, in Prozent?', answer: 40, points: 4, steps: ['Insgesamt gibt es 10 Kugeln.', 'P(Rot) = 4/10 = 0,4.', 'Die Wahrscheinlichkeit beträgt 40 %.'], error: 'Wahrscheinlichkeit = günstige Ergebnisse geteilt durch alle gleich wahrscheinlichen Ergebnisse.' }
+            ],
+            B3: [
+                { id: 'exam-b3-1', prompt: 'Berechne den Funktionswert von f(x) = x² − 2x + 4 für x = 3.', answer: 7, points: 3, steps: ['x = 3 einsetzen: f(3) = 3² − 2 · 3 + 4.', 'f(3) = 9 − 6 + 4.', 'f(3) = 7.'], error: 'Setze den Wert für x überall ein und beachte die Reihenfolge der Rechenoperationen.' },
+                { id: 'exam-b3-2', prompt: 'Löse x² − 7x + 12 = 0. Gib die kleinere Lösung an.', answer: 3, points: 4, steps: ['Faktorisieren: x² − 7x + 12 = (x − 3)(x − 4).', 'Nullprodukt: x − 3 = 0 oder x − 4 = 0.', 'Die Lösungen sind 3 und 4; die kleinere ist 3.'], error: 'Faktorisiere die quadratische Gleichung und prüfe beide Lösungen.' },
+                { id: 'exam-b3-3', prompt: 'Die Parabel f(x) = (x − 4)² + 2 hat ihren Scheitelpunkt bei (4|2). Wie groß ist die x-Koordinate des Scheitelpunkts?', answer: 4, points: 3, steps: ['Scheitelpunktform: f(x) = (x − h)² + k.', 'Hier ist h = 4 und k = 2.', 'Die x-Koordinate ist 4.'], error: 'Lies in der Scheitelpunktform f(x) = (x − h)² + k den Wert h ab.' }
             ]
         }
     };
@@ -532,7 +546,7 @@
             activeSubtopicFilter = lesson.id;
         }
     }
-    let examState = { phase: 'intro', bChoice: 'B1', answers: {}, remainingSeconds: 45 * 60, interval: null };
+    let examState = { phase: 'intro', bChoices: [], answers: {}, remainingSeconds: 135 * 60, deadline: null, interval: null };
     let feedbackState = {};
 
     function escapeHtml(value) {
@@ -650,43 +664,60 @@
             host.innerHTML = `
                 <div class="math-section-heading"><div><span class="math-eyebrow">PRÜFUNGSSIMULATOR</span><h2>Trainiere den Prüfungsablauf</h2></div></div>
                 <div class="math-exam-intro-grid">
-                    <article class="math-panel"><span class="math-exam-number">A1</span><h3>Hilfsmittelfreier Teil</h3><p>45-Minuten-Timer · kein Taschenrechner · Grundlagen und Bruchteile.</p></article>
-                    <article class="math-panel"><span class="math-exam-number">A2</span><h3>Anwendungsaufgaben</h3><p>Mit digitalem Taschenrechner-Hinweis · Funktionen und Geometrie.</p></article>
-                    <article class="math-panel"><span class="math-exam-number">B</span><h3>Wahlteil</h3><p>Wähle zwischen zwei Übungsvarianten und bearbeite die Aufgaben.</p></article>
+                    <article class="math-panel"><span class="math-exam-number">A1</span><h3>Pflichtteil A1</h3><p>Alle Aufgaben in A1 bearbeiten.</p></article>
+                    <article class="math-panel"><span class="math-exam-number">A2</span><h3>Pflichtteil A2</h3><p>Alle Aufgaben in A2 bearbeiten.</p></article>
+                    <article class="math-panel"><span class="math-exam-number">B</span><h3>Wahlteil</h3><p>Drei Aufgabenangebote. Wähle genau zwei davon.</p></article>
                 </div>
-                <div class="math-notice"><strong>Hinweis:</strong> Dies ist eine selbst erstellte Übungssimulation, keine Originalprüfung. Dauer und Aufbau orientieren sich an deiner Vorgabe. Die Notenanzeige ist eine veränderbare Orientierung und kein amtlicher BW-Notenschlüssel.</div>
+                <div class="math-notice"><strong>Bearbeitungszeit: 135 Minuten.</strong> Die Zeit läuft für die gesamte Prüfung. A1 und A2 sind Pflichtteile; im Wahlteil B bearbeitest du genau zwei von drei Aufgabenangeboten.</div>
+                <div class="math-notice">Dies ist eine selbst erstellte Übungssimulation, keine Originalprüfung. Die Notenanzeige ist eine Orientierung und kein amtlicher Notenschlüssel.</div>
                 <button type="button" class="math-button math-button-primary" data-exam-start>Prüfung starten</button>`;
             return;
         }
         if (examState.phase === 'a1') {
             host.innerHTML = `
-                <div class="math-exam-topline"><div><span class="math-eyebrow">TEIL A1 · OHNE HILFSMITTEL</span><h2>Rechne ohne Taschenrechner</h2></div><div class="math-timer" role="timer" aria-live="off">${formatTime(examState.remainingSeconds)}</div></div>
-                <div class="math-notice">Taschenrechner und digitale Hilfsmittel sind in diesem Übungsteil nicht vorgesehen. Bei Zeitablauf wird A1 automatisch abgeschlossen.</div>
+                <div class="math-exam-topline"><div><span class="math-eyebrow">PFLICHTTEIL A1</span><h2>Bearbeite alle Aufgaben aus A1</h2></div><div class="math-timer" role="timer" aria-live="off">${formatTime(examState.remainingSeconds)}</div></div>
                 ${renderExamQuestions(exam.a1)}
-                <button type="button" class="math-button math-button-primary" data-exam-next>A1 abgeben und mit A2 fortfahren</button>`;
+                <button type="button" class="math-button math-button-primary" data-exam-next>Weiter zu Pflichtteil A2</button>`;
             return;
         }
         if (examState.phase === 'a2b') {
-            const questions = [...exam.a2, ...exam.b[examState.bChoice]];
             host.innerHTML = `
-                <div class="math-section-heading"><div><span class="math-eyebrow">TEIL A2 &amp; WAHLTEIL B</span><h2>Anwenden und begründen</h2></div></div>
-                <div class="math-notice"><strong>Taschenrechner-Hinweis:</strong> In diesem Übungsteil darfst du einen Taschenrechner verwenden. Das digitale Werkzeug unten ist eine einfache Rechenhilfe, kein wissenschaftlicher Taschenrechner.</div>
-                <div class="math-calculator"><label for="mathCalcExpression">Rechenhilfe: zwei Zahlen addieren</label><div><input id="mathCalcA" type="number" step="any" placeholder="Zahl 1"><span>+</span><input id="mathCalcB" type="number" step="any" placeholder="Zahl 2"><button type="button" class="math-button" data-calculate>Berechnen</button></div><output id="mathCalcResult" aria-live="polite"></output></div>
-                <label class="math-filter-label">Wahlteil auswählen
-                    <select id="mathBChoice" class="math-select"><option value="B1" ${examState.bChoice === 'B1' ? 'selected' : ''}>Wahlteil B1 · Geometrie &amp; Zinsen</option><option value="B2" ${examState.bChoice === 'B2' ? 'selected' : ''}>Wahlteil B2 · Wahrscheinlichkeit &amp; Funktionen</option></select>
-                </label>
-                <div class="math-exam-questions">${renderExamQuestions(questions)}</div>
-                <button type="button" class="math-button math-button-primary" data-exam-submit>Prüfung auswerten</button>`;
+                <div class="math-exam-topline"><div><span class="math-eyebrow">PFLICHTTEIL A2</span><h2>Bearbeite alle Aufgaben aus A2</h2></div><div class="math-timer" role="timer" aria-live="off">${formatTime(examState.remainingSeconds)}</div></div>
+                ${renderExamQuestions(exam.a2)}
+                <section class="math-panel math-exam-choice">
+                    <h2>Wahlteil B: Wähle genau zwei von drei Aufgaben</h2>
+                    <p>${examState.bChoices.length} von 2 ausgewählt</p>
+                    <div class="math-exam-choice-grid">
+                        ${[
+                            ['B1', 'Geometrie', 'Pythagoras sowie Flächen- und Körperberechnungen.'],
+                            ['B2', 'Daten und Zufall', 'Statistik und Wahrscheinlichkeiten.'],
+                            ['B3', 'Quadratische Funktionen', 'Funktionswerte, Nullstellen und Scheitelpunkt.']
+                        ].map(([id, title, description]) => `
+                            <label class="math-exam-choice-option">
+                                <input type="checkbox" data-b-choice="${id}" ${examState.bChoices.includes(id) ? 'checked' : ''}>
+                                <span><strong>${id} · ${title}</strong><br>${description}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </section>
+                ${examState.bChoices.length ? examState.bChoices.map((choice, index) => `
+                    <section class="math-exam-choice-questions">
+                        <h3>Wahlaufgabe ${choice}</h3>
+                        ${renderExamQuestions(exam.b[choice], exam.a2.length + index * exam.b[choice].length)}
+                    </section>
+                `).join('') : ''}
+                <p class="math-notice" aria-live="polite">${examState.bChoices.length === 2 ? 'Beide Wahlaufgaben ausgewählt. Du kannst die Prüfung abgeben.' : 'Wähle genau zwei Wahlaufgaben, um die Prüfung abzugeben.'}</p>
+                <button type="button" class="math-button math-button-primary" data-exam-submit ${examState.bChoices.length === 2 ? '' : 'disabled'}>Prüfung auswerten</button>`;
             return;
         }
         renderExamResults();
     }
 
-    function renderExamQuestions(questions) {
+    function renderExamQuestions(questions, startIndex = 0) {
         return `<div class="math-exercise-grid">${questions.map((task, index) => `
             <article class="math-panel math-exercise">
                 <div class="math-exercise-meta"><span>${task.id.toUpperCase().replaceAll('-', ' · ')}</span><span>${task.points} Punkte</span></div>
-                <h3>${index + 1}. ${task.prompt}</h3>
+                <h3>${startIndex + index + 1}. ${task.prompt}</h3>
                 ${taskInput(task, examState.answers[task.id] || '')}
             </article>`).join('')}</div>`;
     }
@@ -744,15 +775,16 @@
     }
 
     function beginExamTimer() {
-        examState.remainingSeconds = 45 * 60;
+        examState.remainingSeconds = 135 * 60;
+        examState.deadline = Date.now() + examState.remainingSeconds * 1000;
         examState.interval = window.setInterval(() => {
-            examState.remainingSeconds -= 1;
+            examState.remainingSeconds = Math.max(0, Math.ceil((examState.deadline - Date.now()) / 1000));
             const timer = document.querySelector('.math-timer');
-            if (timer) timer.textContent = formatTime(Math.max(examState.remainingSeconds, 0));
+            if (timer) timer.textContent = formatTime(examState.remainingSeconds);
             if (examState.remainingSeconds <= 0) {
                 stopExamTimer();
-                examState.phase = 'a2b';
-                document.getElementById('mathLiveRegion').textContent = 'Die Zeit für Teil A1 ist abgelaufen. A1 wurde abgeschlossen; du kannst mit A2 und dem Wahlteil fortfahren.';
+                examState.phase = 'results';
+                document.getElementById('mathLiveRegion').textContent = 'Die Bearbeitungszeit von 135 Minuten ist abgelaufen. Deine bisher bearbeiteten Aufgaben werden ausgewertet.';
                 renderExam();
             }
         }, 1000);
@@ -768,11 +800,11 @@
 
     function renderExamResults() {
         stopExamTimer();
-        const questions = [...exam.a1, ...exam.a2, ...exam.b[examState.bChoice]];
+        const questions = [...exam.a1, ...exam.a2, ...examState.bChoices.flatMap(choice => exam.b[choice])];
         const graded = gradeQuestions(questions);
         const score = graded.reduce((sum, task) => sum + (task.correct ? task.points : 0), 0);
         const max = graded.reduce((sum, task) => sum + task.points, 0);
-        const percent = Math.round(score / max * 100);
+        const percent = max ? Math.round(score / max * 100) : 0;
         const grade = gradeScale.find(item => percent >= item.min) || gradeScale[gradeScale.length - 1];
         window.LernraumDB.update('mathematikLearningState', state => ({
             ...state,
@@ -784,6 +816,7 @@
         document.getElementById('mathViewExam').innerHTML = `
             <div class="math-section-heading"><div><span class="math-eyebrow">AUSWERTUNG</span><h2>Dein Ergebnis</h2></div></div>
             <div class="math-result-card"><div class="math-result-percent">${percent}%</div><div><strong>${score} von ${max} Punkten</strong><p>Orientierungsnote: ${grade.grade} · ${grade.label}</p></div></div>
+            ${examState.bChoices.length < 2 ? '<div class="math-notice">Unvollständige Prüfung: Die Zeit endete, bevor zwei Wahlaufgaben ausgewählt und bearbeitet wurden. Die Anzeige ist nur ein Zwischenstand für die angezeigten Aufgaben.</div>' : ''}
             <div class="math-notice">Die Note ist eine Übungsorientierung, kein offizielles Prüfungsergebnis. Den verwendeten Notenschlüssel kannst du im Array <code>gradeScale</code> in <code>mathematik.js</code> anpassen.</div>
             <h3 class="math-analysis-heading">Fehleranalyse und Lösungswege</h3>
             <div class="math-exercise-grid">${graded.map(task => `<article class="math-panel math-result-question ${task.correct ? 'is-correct' : 'is-incorrect'}">
@@ -853,22 +886,22 @@
             updateThemeButton();
         }
         if (target.hasAttribute('data-exam-start')) {
-            examState = { ...examState, phase: 'a1', answers: {}, bChoice: 'B1' };
+            examState = { phase: 'a1', bChoices: [], answers: {}, remainingSeconds: 135 * 60, deadline: null, interval: null };
             renderExam();
             beginExamTimer();
         }
         if (target.hasAttribute('data-exam-next')) {
-            stopExamTimer();
             examState.phase = 'a2b';
             renderExam();
         }
         if (target.hasAttribute('data-exam-submit')) {
+            if (examState.bChoices.length !== 2) return;
             examState.phase = 'results';
             renderExam();
         }
         if (target.hasAttribute('data-exam-reset')) {
             stopExamTimer();
-            examState = { phase: 'intro', bChoice: 'B1', answers: {}, remainingSeconds: 45 * 60, interval: null };
+            examState = { phase: 'intro', bChoices: [], answers: {}, remainingSeconds: 135 * 60, deadline: null, interval: null };
             renderExam();
         }
         if (target.hasAttribute('data-calculate')) {
@@ -886,8 +919,14 @@
             activeSubtopicFilter = null;
             renderPractice();
         }
-        if (event.target.id === 'mathBChoice') {
-            examState.bChoice = event.target.value;
+        if (event.target.matches('[data-b-choice]')) {
+            const selectedChoices = [...root.querySelectorAll('[data-b-choice]:checked')].map(input => input.dataset.bChoice);
+            if (selectedChoices.length > 2) {
+                event.target.checked = false;
+                document.getElementById('mathLiveRegion').textContent = 'Du kannst genau zwei Wahlaufgaben auswählen.';
+                return;
+            }
+            examState.bChoices = selectedChoices;
             renderExam();
         }
         if (event.target.matches('[data-task-answer]')) {
