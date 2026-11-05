@@ -269,10 +269,13 @@ function renderAtomTopicPage() {
 function renderMathTopicPage() {
     const topics = {
         algebra: {
-            icon: '➗', title: 'Arithmetik & Algebra', description: 'Terme, Gleichungen, Potenz- und Wurzelrechnung, Prozent- und Zinsrechnung.',
+            icon: '➗', title: 'Arithmetik & Algebra', description: 'Terme, Gleichungen, Brüche, Formeln, Potenz- und Wurzelrechnung sowie Prozent- und Zinsrechnung.',
             subtopics: [
                 { id: 'terms', icon: '🔤', title: 'Terme', description: 'Terme ordnen, zusammenfassen und Klammern auflösen.' },
                 { id: 'equations', icon: '⚖️', title: 'Gleichungen', description: 'Gleichungen schrittweise lösen und die Lösung prüfen.' },
+                { id: 'fractions', icon: '½', title: 'Brüche & rationale Zahlen', description: 'Brüche kürzen, erweitern und mit Vorzeichen rechnen.' },
+                { id: 'rearranging-formulas', icon: '🔄', title: 'Formeln umstellen', description: 'Formeln nach der gesuchten Variablen umstellen.' },
+                { id: 'word-equations', icon: '📝', title: 'Textaufgaben mit Gleichungen', description: 'Text in Gleichungen übersetzen und Ergebnisse prüfen.' },
                 { id: 'powers', icon: '²', title: 'Potenzrechnung', description: 'Potenzen berechnen und Potenzgesetze anwenden.' },
                 { id: 'roots', icon: '√', title: 'Wurzelrechnung', description: 'Quadratwurzeln bestimmen und mit Wurzeln rechnen.' },
                 { id: 'percent', icon: '%', title: 'Prozentrechnung', description: 'Grundwert, Prozentwert und Prozentsatz berechnen.' },

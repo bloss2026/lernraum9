@@ -9,10 +9,13 @@
             id: 'algebra',
             title: 'Arithmetik & Algebra',
             icon: '➗',
-            summary: 'Terme, Gleichungen, Potenz- und Wurzelrechnung sowie Prozent- und Zinsaufgaben sicher bearbeiten.',
+            summary: 'Terme, Gleichungen, Brüche, Formeln, Potenzen, Wurzeln sowie Prozent- und Zinsaufgaben sicher bearbeiten.',
             lessons: [
                 { id: 'terms', title: 'Terme', text: 'Fasse gleichartige Glieder zusammen. Klammern löst du mit dem Distributivgesetz auf: a(b + c) = ab + ac.', example: '3x + 2x − 4 = 5x − 4; 2(x + 3) = 2x + 6.' },
                 { id: 'equations', title: 'Gleichungen', text: 'Führe auf beiden Seiten dieselbe Rechenoperation aus. Ziel ist, x allein stehen zu lassen.', example: '3x + 5 = 20 → 3x = 15 → x = 5. Probe: 3 · 5 + 5 = 20.' },
+                { id: 'fractions', title: 'Brüche & rationale Zahlen', text: 'Brüche kürzen und erweitern, gleichnamig machen und sicher mit Vorzeichen rechnen.', example: '3/4 + 1/8 = 6/8 + 1/8 = 7/8.' },
+                { id: 'rearranging-formulas', title: 'Formeln umstellen', text: 'Stelle eine Formel nach einer gesuchten Variablen um, indem du auf beiden Seiten Umkehroperationen ausführst.', example: 's = v · t wird nach t umgestellt zu t = s / v.' },
+                { id: 'word-equations', title: 'Textaufgaben mit Gleichungen', text: 'Übersetze Angaben in eine Gleichung, löse sie und prüfe, ob das Ergebnis zur Situation passt.', example: 'Das Dreifache einer Zahl plus 4 ist 19: 3x + 4 = 19, also x = 5.' },
                 { id: 'powers', title: 'Potenzrechnung', text: 'Eine Potenz fasst gleiche Faktoren zusammen: aⁿ bedeutet, dass a n-mal mit sich selbst multipliziert wird. Bei gleicher Basis gilt aᵐ · aⁿ = aᵐ⁺ⁿ und aᵐ : aⁿ = aᵐ⁻ⁿ (a ≠ 0).', example: '2⁴ = 2 · 2 · 2 · 2 = 16; 3² · 3³ = 3⁵ = 243.' },
                 { id: 'roots', title: 'Wurzelrechnung', text: 'Die Quadratwurzel √a ist die nichtnegative Zahl, deren Quadrat a ergibt. Quadrieren und Quadratwurzelziehen sind Umkehroperationen.', example: '√49 = 7, denn 7² = 49. Bei √(3² + 4²) rechnest du zuerst unter der Wurzel: √25 = 5.' },
                 { id: 'percent', title: 'Prozentrechnung', text: 'Prozentwert W = Grundwert G · p / 100. Der Prozentsatz beschreibt einen Anteil von 100.', example: '20 % von 80 €: W = 80 · 20 / 100 = 16 €.' },
@@ -82,6 +85,48 @@
             ],
             commonMistake: 'Wird auf einer Seite addiert, muss auf der anderen Seite ebenfalls addiert werden. Beim Verschieben eines Terms ändert sich sein Vorzeichen, weil du dieselbe Gegenoperation auf beiden Seiten ausführst.',
             sources: [{ label: 'Mathebibel: Gleichungen', url: 'https://www.mathebibel.de/gleichungen' }]
+        },
+        fractions: {
+            paragraphs: [
+                'Rationale Zahlen sind Zahlen, die sich als Bruch ganzer Zahlen schreiben lassen. Ein Bruch besteht aus Zähler und Nenner; der Nenner darf nie 0 sein. Gleichwertige Brüche entstehen durch Erweitern oder Kürzen, also wenn Zähler und Nenner mit derselben Zahl multipliziert oder durch dieselbe Zahl geteilt werden.',
+                'Zum Addieren und Subtrahieren müssen Brüche gleichnamig sein. Beim Multiplizieren rechnest du Zähler mal Zähler und Nenner mal Nenner. Beim Dividieren multiplizierst du mit dem Kehrwert. Achte bei negativen Zahlen darauf, das Vorzeichen konsequent mitzunehmen.'
+            ],
+            steps: ['Vorzeichen beachten und Brüche wenn möglich kürzen.', 'Bei Addition oder Subtraktion einen gemeinsamen Nenner bestimmen.', 'Zähler entsprechend erweitern und dann addieren oder subtrahieren.', 'Beim Multiplizieren Zähler und Nenner jeweils miteinander multiplizieren.', 'Beim Dividieren den zweiten Bruch umdrehen und multiplizieren.', 'Ergebnis kürzen und auf Plausibilität prüfen.'],
+            examples: [
+                { title: 'Brüche addieren', lines: ['3/4 + 1/8', '= 6/8 + 1/8', '= 7/8'] },
+                { title: 'Bruch kürzen', lines: ['18/24', '= (18 : 6)/(24 : 6)', '= 3/4'] },
+                { title: 'Brüche multiplizieren', lines: ['2/3 · 3/5', '= 6/15', '= 2/5'] }
+            ],
+            commonMistake: 'Bei Addition darfst du nicht Nenner und Zähler einfach getrennt addieren. 1/2 + 1/3 ist 3/6 + 2/6 = 5/6, nicht 2/5.',
+            sources: [{ label: 'Mathebibel: Brüche addieren', url: 'https://www.mathebibel.de/brueche-addieren' }, { label: 'Mathebibel: Brüche multiplizieren', url: 'https://www.mathebibel.de/brueche-multiplizieren' }]
+        },
+        'rearranging-formulas': {
+            paragraphs: [
+                'Eine Formel beschreibt einen Zusammenhang zwischen mehreren Größen. Beim Umstellen bleibt die Gleichung im Gleichgewicht: Jede Rechenoperation wird auf beiden Seiten rückgängig gemacht, bis die gesuchte Variable allein steht.',
+                'Arbeite in umgekehrter Reihenfolge der Rechenoperationen. Bei s = v · t teilst du zum Freistellen von t durch v. Bei A = (g · h)/2 multiplizierst du zuerst mit 2 und teilst danach durch g, wenn h gesucht ist. Prüfe das Ergebnis, indem du die Ausgangswerte in die ursprüngliche Formel einsetzt.'
+            ],
+            steps: ['Gesuchte Variable markieren.', 'Klammern und Rechenoperationen in der Formel erkennen.', 'Mit Umkehroperationen die gesuchte Variable freistellen.', 'Dieselben Schritte auf beiden Seiten der Gleichung ausführen.', 'Formelprobe mit einfachen Zahlen machen.', 'Auf sinnvolle Einheiten und mögliche Division durch 0 achten.'],
+            examples: [
+                { title: 'Weg-Zeit-Formel nach der Zeit umstellen', lines: ['s = v · t', '| :v', 't = s/v'] },
+                { title: 'Rechteckfläche nach der Breite umstellen', lines: ['A = a · b', '| :a', 'b = A/a'] },
+                { title: 'Dreiecksfläche nach der Höhe umstellen', lines: ['A = (g · h)/2', '| ·2 und :g', 'h = 2A/g'] }
+            ],
+            commonMistake: 'Beim Umstellen darfst du nicht nur auf einer Seite etwas verändern. Führe die Umkehroperation immer auf beiden Seiten aus.',
+            sources: [{ label: 'Mathebibel: Formeln umstellen', url: 'https://www.mathebibel.de/formeln-umstellen' }]
+        },
+        'word-equations': {
+            paragraphs: [
+                'In einer Textaufgabe ist eine Zahl oft unbekannt. Nenne sie x und übersetze die beschriebenen Rechenschritte in eine Gleichung. Wörter wie „das Doppelte“, „um 5 größer“ oder „zusammen“ helfen dabei, die passenden Terme zu bilden.',
+                'Löse die Gleichung anschließend wie gewohnt. Zum Schluss setzt du die Lösung in den ursprünglichen Text ein: Passt sie zur Frage und zur Einheit? Wenn nach einem Preis gefragt ist, muss das Ergebnis beispielsweise ein sinnvoller Geldbetrag sein.'
+            ],
+            steps: ['Gesuchte Größe und Einheit aus der Frage herauslesen.', 'Unbekannte mit x bezeichnen.', 'Text Schritt für Schritt in einen Term und eine Gleichung übersetzen.', 'Gleichung lösen und Rechenweg übersichtlich notieren.', 'Lösung in den Text einsetzen und Antwortsatz mit Einheit schreiben.'],
+            examples: [
+                { title: 'Zahl gesucht', lines: ['Das Dreifache einer Zahl plus 4 ist 19.', '3x + 4 = 19', '3x = 15, also x = 5.'] },
+                { title: 'Zwei aufeinanderfolgende Zahlen', lines: ['Die Summe zweier aufeinanderfolgender Zahlen ist 31.', 'x + (x + 1) = 31', '2x = 30, also sind die Zahlen 15 und 16.'] },
+                { title: 'Preisaufgabe', lines: ['Drei gleiche Hefte kosten zusammen 12 €.', '3x = 12', 'x = 4 € pro Heft.'] }
+            ],
+            commonMistake: 'Übersetze die gesamte Aussage und prüfe, worauf sich die gesuchte Zahl bezieht. Bei „5 größer als x“ lautet der Term x + 5.',
+            sources: [{ label: 'Mathebibel: Textaufgaben mit Gleichungen', url: 'https://www.mathebibel.de/textaufgaben-mit-gleichungen' }]
         },
         powers: {
             paragraphs: [
@@ -300,6 +345,143 @@
         { id: 's4', topic: 'probability', subtopic: 'statistics', kind: 'number', prompt: 'Bestimme den Median: 2, 5, 7, 10, 11.', answer: 7, steps: ['Die Werte sind bereits sortiert.', 'Bei fünf Werten liegt der Median an dritter Stelle.', 'Der Median ist 7.'] },
         { id: 's5', topic: 'probability', subtopic: 'path-rules', kind: 'choice', prompt: 'Welche Regel verwendest du, um die Wahrscheinlichkeit eines einzelnen Pfades zu berechnen?', options: ['Wahrscheinlichkeiten entlang des Pfades multiplizieren', 'Alle Zahlen des Diagramms addieren', 'Nur die letzte Wahrscheinlichkeit verwenden', 'Durch die Anzahl aller Pfade teilen'], answer: 'Wahrscheinlichkeiten entlang des Pfades multiplizieren', steps: ['Ein Pfad besteht aus mehreren aufeinanderfolgenden Ereignissen.', 'Für die Wahrscheinlichkeit dieses Pfades multiplizierst du die Astwahrscheinlichkeiten.', 'Das ist die 1. Pfadregel.'] }
     ];
+
+    function addPracticeSet(subtopic, items) {
+        const topic = topics.find(item => item.lessons.some(lesson => lesson.id === subtopic));
+        if (!topic) throw new Error(`Für das Unterthema "${subtopic}" fehlt ein Themengebiet.`);
+        items.forEach(([prompt, answer, unit, steps, tolerance], index) => {
+            exercises.push({
+                id: `extra-${subtopic}-${index + 1}`,
+                topic: topic.id,
+                subtopic,
+                kind: 'number',
+                prompt,
+                answer,
+                unit,
+                steps,
+                ...(tolerance ? { tolerance } : {})
+            });
+        });
+    }
+
+    addPracticeSet('terms', [
+        ['Fasse zusammen: 7x − 3x + 2.', 4, 'Koeffizient vor x', ['Gleichartige x-Glieder zusammenfassen: 7x − 3x = 4x.', 'Der Term lautet 4x + 2.', 'Der Koeffizient vor x ist 4.']],
+        ['Löse die Klammer auf und fasse zusammen: 2(x + 4) + 3x.', 5, 'Koeffizient vor x', ['2 mit beiden Klammergliedern multiplizieren: 2x + 8 + 3x.', 'Gleichartige x-Glieder zusammenfassen: 5x + 8.', 'Der Koeffizient vor x ist 5.']],
+        ['Berechne den Wert von 3a − 2 für a = 5.', 13, '', ['a durch 5 ersetzen: 3 · 5 − 2.', 'Zuerst multiplizieren: 15 − 2.', 'Der Termwert ist 13.']],
+        ['Fasse zusammen: 4y + 6 − y − 2.', 3, 'Koeffizient vor y', ['y-Glieder: 4y − y = 3y.', 'Zahlen: 6 − 2 = 4.', 'Der Term lautet 3y + 4; der Koeffizient ist 3.']]
+    ]);
+    addPracticeSet('equations', [
+        ['Löse: 4x − 7 = 13.', 5, 'x =', ['Auf beiden Seiten 7 addieren: 4x = 20.', 'Durch 4 teilen.', 'x = 5.']],
+        ['Löse: 2x + 9 = 25.', 8, 'x =', ['Auf beiden Seiten 9 abziehen: 2x = 16.', 'Durch 2 teilen.', 'x = 8.']],
+        ['Löse: 5x = 45.', 9, 'x =', ['Beide Seiten durch 5 teilen.', 'x = 45 / 5.', 'x = 9.']],
+        ['Löse: 3x + 4 = x + 18.', 7, 'x =', ['Auf beiden Seiten x abziehen: 2x + 4 = 18.', 'Auf beiden Seiten 4 abziehen: 2x = 14.', 'Durch 2 teilen: x = 7.']]
+    ]);
+    addPracticeSet('fractions', [
+        ['Berechne: 1/4 + 2/4. Gib den Zähler des gekürzten Ergebnisses an.', 3, 'Zähler', ['Die Brüche haben denselben Nenner: 1/4 + 2/4 = 3/4.', '3/4 ist bereits vollständig gekürzt.', 'Der Zähler ist 3.']],
+        ['Berechne: 5/6 − 1/3. Gib den Zähler des gekürzten Ergebnisses an.', 1, 'Zähler', ['1/3 auf Sechstel erweitern: 1/3 = 2/6.', '5/6 − 2/6 = 3/6.', '3/6 gekürzt ist 1/2; der Zähler ist 1.']],
+        ['Berechne: 2/3 · 3/5. Gib den Nenner des gekürzten Ergebnisses an.', 5, 'Nenner', ['Zähler mal Zähler und Nenner mal Nenner: 6/15.', '6/15 durch 3 kürzen: 2/5.', 'Der Nenner ist 5.']],
+        ['Berechne: 3/4 : 1/2. Gib das Ergebnis als Dezimalzahl an.', 1.5, '', ['Beim Dividieren mit dem Kehrwert multiplizieren: 3/4 · 2/1.', 'Das ergibt 6/4 = 3/2.', '3/2 = 1,5.']],
+        ['Berechne: −2/5 + 1/5. Gib das Ergebnis als Dezimalzahl an.', -0.2, '', ['Die Nenner sind gleich: −2/5 + 1/5 = −1/5.', '−1/5 als Dezimalzahl ist −0,2.', 'Das Ergebnis ist −0,2.']]
+    ]);
+    addPracticeSet('rearranging-formulas', [
+        ['s = v · t. Berechne t für s = 36 km und v = 12 km/h.', 3, 'h', ['Nach t umstellen: t = s/v.', 'Werte einsetzen: t = 36/12.', 't = 3 Stunden.']],
+        ['A = a · b. Berechne b für A = 42 cm² und a = 6 cm.', 7, 'cm', ['Nach b umstellen: b = A/a.', 'Einsetzen: b = 42/6.', 'b = 7 cm.']],
+        ['U = 2a + 2b. Berechne a für U = 30 cm und b = 5 cm.', 10, 'cm', ['2a = U − 2b.', '2a = 30 − 10 = 20.', 'a = 20/2 = 10 cm.']],
+        ['A = (g · h)/2. Berechne h für A = 30 cm² und g = 10 cm.', 6, 'cm', ['Mit 2 multiplizieren: 2A = g · h.', 'Durch g teilen: h = 2A/g.', 'h = 60/10 = 6 cm.']],
+        ['v = s/t. Berechne s für v = 8 m/s und t = 5 s.', 40, 'm', ['Nach s umstellen: s = v · t.', 'Einsetzen: s = 8 · 5.', 's = 40 m.']]
+    ]);
+    addPracticeSet('word-equations', [
+        ['Das Vierfache einer Zahl ist 36. Wie groß ist die Zahl?', 9, '', ['Unbekannte Zahl x nennen: 4x = 36.', 'Beide Seiten durch 4 teilen.', 'x = 9.']],
+        ['Eine Zahl wird um 8 vergrößert. Das Ergebnis ist 21. Wie groß ist die Zahl?', 13, '', ['Gleichung aufstellen: x + 8 = 21.', 'Auf beiden Seiten 8 abziehen.', 'x = 13.']],
+        ['Ein Erwachsenenticket kostet 6 € mehr als ein Kinderticket. Zusammen kosten beide 20 €. Was kostet das Kinderticket?', 7, '€', ['Kinderticket x, Erwachsenenticket x + 6.', 'x + (x + 6) = 20, also 2x = 14.', 'x = 7 €.']],
+        ['Drei gleiche Hefte und ein Stift für 2 € kosten zusammen 17 €. Was kostet ein Heft?', 5, '€', ['Heftpreis x: 3x + 2 = 17.', '2 abziehen: 3x = 15.', 'x = 5 € pro Heft.']],
+        ['Ein Rechteck ist 3 cm länger als breit. Sein Umfang beträgt 30 cm. Wie breit ist es?', 6, 'cm', ['Breite x, Länge x + 3.', '2x + 2(x + 3) = 30, also 4x + 6 = 30.', '4x = 24, daher x = 6 cm.']],
+        ['Nach 5 € Rabatt kostet ein Spiel 28 €. Wie hoch war der ursprüngliche Preis?', 33, '€', ['Ursprungspreis x: x − 5 = 28.', 'Auf beiden Seiten 5 addieren.', 'x = 33 €.']]
+    ]);
+    addPracticeSet('powers', [
+        ['Berechne: 3⁴.', 81, '', ['3⁴ bedeutet 3 · 3 · 3 · 3.', '3 · 3 = 9 und 9 · 9 = 81.', 'Das Ergebnis ist 81.']],
+        ['Vereinfache und berechne: 2³ · 2².', 32, '', ['Gleiche Basis multiplizieren: Exponenten addieren, 2⁵.', '2⁵ = 2 · 2 · 2 · 2 · 2.', 'Das Ergebnis ist 32.']],
+        ['Vereinfache und berechne: 5⁴ : 5².', 25, '', ['Bei gleicher Basis werden beim Dividieren die Exponenten subtrahiert: 5².', '5² = 5 · 5.', 'Das Ergebnis ist 25.']],
+        ['Berechne: (−3)².', 9, '', ['Die Klammer zeigt, dass die ganze Zahl −3 quadriert wird.', '(−3) · (−3) = 9.', 'Das Ergebnis ist 9.']]
+    ]);
+    addPracticeSet('roots', [
+        ['Berechne √196.', 14, '', ['14 · 14 = 196.', 'Die nichtnegative Quadratwurzel ist gesucht.', '√196 = 14.']],
+        ['Berechne √225 − 5.', 10, '', ['Zuerst die Wurzel berechnen: √225 = 15.', '15 − 5 = 10.', 'Das Ergebnis ist 10.']],
+        ['Ein rechtwinkliges Dreieck hat Katheten 5 cm und 12 cm. Wie lang ist die Hypotenuse?', 13, 'cm', ['c² = 5² + 12² = 25 + 144 = 169.', 'c = √169.', 'c = 13 cm.']],
+        ['Zwischen welchen ganzen Zahlen liegt √50? Gib die kleinere Zahl an.', 7, '', ['7² = 49 und 8² = 64.', '50 liegt zwischen 49 und 64.', '√50 liegt zwischen 7 und 8; die kleinere Zahl ist 7.']]
+    ]);
+    addPracticeSet('percent', [
+        ['Berechne 8 % von 250.', 20, '€', ['Prozentwert = Grundwert · Prozentsatz / 100.', '250 · 8 / 100 = 20.', 'Der Prozentwert ist 20 €.']],
+        ['18 sind wie viel Prozent von 120?', 15, '%', ['Prozentsatz = Prozentwert / Grundwert · 100.', '18 / 120 · 100 = 15.', 'Das sind 15 %.']],
+        ['Ein Pullover kostet 60 €. Der Preis steigt um 10 %. Wie hoch ist der neue Preis?', 66, '€', ['10 % von 60 € sind 6 €.', 'Zum alten Preis addieren: 60 € + 6 €.', 'Der neue Preis beträgt 66 €.']],
+        ['Ein Fahrrad kostet nach 20 % Rabatt 160 €. Wie hoch war der Preis vorher?', 200, '€', ['Nach 20 % Rabatt bleiben 80 % des ursprünglichen Preises.', '160 € entsprechen 80 %; 160 / 0,8 = 200.', 'Der ursprüngliche Preis war 200 €.']]
+    ]);
+    addPracticeSet('interest', [
+        ['Wie viele Jahreszinsen entstehen bei 900 € Kapital und 2 % Zinssatz?', 18, '€', ['Jahreszinsen = Kapital · Zinssatz / 100.', '900 · 2 / 100 = 18.', 'Es entstehen 18 € Zinsen.']],
+        ['Berechne die Zinsen für 400 € bei 3 % für ein halbes Jahr.', 6, '€', ['Jahreszinsen: 400 · 3 / 100 = 12 €.', 'Ein halbes Jahr ist die Hälfte davon.', '12 / 2 = 6 € Zinsen.']],
+        ['Wie hoch ist das Kapital, wenn 5 % Jahreszinsen 25 € betragen?', 500, '€', ['K = Z · 100 / p.', 'K = 25 · 100 / 5.', 'Das Kapital beträgt 500 €.']],
+        ['Wie hoch ist der Zinssatz, wenn 800 € in einem Jahr 32 € Zinsen bringen?', 4, '%', ['p = Z / K · 100.', 'p = 32 / 800 · 100.', 'Der Zinssatz beträgt 4 %.']]
+    ]);
+    addPracticeSet('linear-functions', [
+        ['Bei y = 4x − 3: Berechne y für x = 5.', 17, 'y =', ['x = 5 einsetzen: y = 4 · 5 − 3.', 'Multiplizieren: 20 − 3.', 'y = 17.']],
+        ['Bei y = −2x + 7: Berechne y für x = 3.', 1, 'y =', ['x = 3 einsetzen: y = −2 · 3 + 7.', '−6 + 7 = 1.', 'y = 1.']],
+        ['Bei y = 5x + 2: Welchen y-Achsenabschnitt b hat die Gerade?', 2, 'b =', ['Vergleiche y = 5x + 2 mit y = mx + b.', 'Der konstante Term ist der y-Achsenabschnitt.', 'b = 2.']],
+        ['Eine Funktion hat m = 3 und b = −4. Berechne y für x = 2.', 2, 'y =', ['In y = mx + b einsetzen: y = 3 · 2 − 4.', '6 − 4 = 2.', 'y = 2.']]
+    ]);
+    addPracticeSet('slope', [
+        ['Berechne die Steigung zwischen (0|1) und (2|5).', 2, 'm =', ['Änderung y: 5 − 1 = 4.', 'Änderung x: 2 − 0 = 2.', 'm = 4/2 = 2.']],
+        ['Berechne die Steigung zwischen (1|7) und (4|1).', -2, 'm =', ['Änderung y: 1 − 7 = −6.', 'Änderung x: 4 − 1 = 3.', 'm = −6/3 = −2.']],
+        ['Eine Gerade steigt bei 4 Schritten nach rechts um 12 nach oben. Wie groß ist m?', 3, 'm =', ['Steigung = Änderung y / Änderung x.', 'm = 12/4.', 'm = 3.']],
+        ['Eine Gerade fällt bei 5 Schritten nach rechts um 10 nach unten. Wie groß ist m?', -2, 'm =', ['Änderung nach unten ist −10; Änderung nach rechts ist 5.', 'm = −10/5.', 'm = −2.']]
+    ]);
+    addPracticeSet('graphs', [
+        ['Eine Gerade hat m = 1 und b = 4. Berechne y für x = 6.', 10, 'y =', ['y = mx + b einsetzen: y = 1 · 6 + 4.', '6 + 4 = 10.', 'y = 10.']],
+        ['Eine Gerade hat m = −3 und b = 2. Berechne y für x = 2.', -4, 'y =', ['y = −3 · 2 + 2.', '−6 + 2 = −4.', 'y = −4.']],
+        ['Eine Gerade schneidet die y-Achse bei 5. Wie groß ist y für x = 0?', 5, 'y =', ['Auf der y-Achse ist x = 0.', 'Der Funktionswert dort ist der y-Achsenabschnitt.', 'y = 5.']],
+        ['Für y = 2x − 1: Berechne den x-Wert, wenn y = 7 ist.', 4, 'x =', ['7 = 2x − 1.', '8 = 2x.', 'x = 4.']]
+    ]);
+    addPracticeSet('pythagoras', [
+        ['Die Katheten sind 9 cm und 12 cm lang. Berechne die Hypotenuse.', 15, 'cm', ['c² = 9² + 12² = 81 + 144 = 225.', 'c = √225.', 'c = 15 cm.']],
+        ['Die Hypotenuse ist 13 cm und eine Kathete 5 cm. Berechne die andere Kathete.', 12, 'cm', ['a² = 13² − 5² = 169 − 25 = 144.', 'a = √144.', 'a = 12 cm.']],
+        ['Die Katheten sind 8 cm und 15 cm lang. Wie lang ist die Hypotenuse?', 17, 'cm', ['c² = 8² + 15² = 64 + 225 = 289.', 'c = √289.', 'c = 17 cm.']],
+        ['Die Hypotenuse ist 10 cm und eine Kathete 6 cm. Wie lang ist die andere Kathete?', 8, 'cm', ['a² = 10² − 6² = 100 − 36 = 64.', 'a = √64.', 'a = 8 cm.']]
+    ]);
+    addPracticeSet('prism', [
+        ['Ein Prisma hat G = 18 cm² und eine Länge von 4 cm. Berechne V.', 72, 'cm³', ['V = G · Länge.', 'V = 18 · 4.', 'V = 72 cm³.']],
+        ['Ein Prisma hat G = 25 cm² und eine Länge von 6 cm. Berechne V.', 150, 'cm³', ['V = G · Länge.', 'V = 25 · 6.', 'V = 150 cm³.']],
+        ['Ein Prisma hat V = 96 cm³ und G = 12 cm². Wie lang ist es?', 8, 'cm', ['V = G · Länge, daher Länge = V/G.', '96/12 = 8.', 'Die Länge beträgt 8 cm.']],
+        ['Eine dreieckige Grundfläche hat g = 6 cm und h = 4 cm. Das Prisma ist 10 cm lang. Berechne V.', 120, 'cm³', ['Dreiecksfläche G = g · h / 2 = 6 · 4 / 2 = 12 cm².', 'V = G · Länge = 12 · 10.', 'V = 120 cm³.']]
+    ]);
+    addPracticeSet('cylinder', [
+        ['Ein Zylinder hat r = 3 cm und h = 4 cm. Berechne V mit π ≈ 3,14.', 113.04, 'cm³', ['V = πr²h.', 'V = 3,14 · 3² · 4 = 3,14 · 9 · 4.', 'V = 113,04 cm³.'], 0.2],
+        ['Ein Zylinder hat r = 2 cm und h = 7 cm. Berechne V mit π ≈ 3,14.', 87.92, 'cm³', ['V = πr²h.', 'V = 3,14 · 2² · 7 = 3,14 · 4 · 7.', 'V = 87,92 cm³.'], 0.2],
+        ['Ein Zylinder hat r = 5 cm und h = 2 cm. Berechne V mit π ≈ 3,14.', 157, 'cm³', ['V = πr²h.', 'V = 3,14 · 5² · 2 = 3,14 · 25 · 2.', 'V = 157 cm³.'], 0.2],
+        ['Ein Zylinder hat V = 314 cm³ und r = 5 cm. Berechne h mit π ≈ 3,14.', 4, 'cm', ['V = πr²h, daher h = V/(πr²).', 'h = 314/(3,14 · 25) = 314/78,5.', 'h = 4 cm.'], 0.05]
+    ]);
+    addPracticeSet('pyramid', [
+        ['Eine Pyramide hat G = 24 cm² und h = 10 cm. Berechne V.', 80, 'cm³', ['V = G · h / 3.', 'V = 24 · 10 / 3 = 240/3.', 'V = 80 cm³.']],
+        ['Eine Pyramide hat G = 45 cm² und h = 8 cm. Berechne V.', 120, 'cm³', ['V = G · h / 3.', 'V = 45 · 8 / 3 = 360/3.', 'V = 120 cm³.']],
+        ['Eine Pyramide hat V = 72 cm³ und G = 24 cm². Berechne h.', 9, 'cm', ['V = G · h / 3, daher h = 3V/G.', 'h = 3 · 72 / 24 = 216/24.', 'h = 9 cm.']],
+        ['Eine quadratische Pyramide hat Grundkante 5 cm und Höhe 12 cm. Berechne V.', 100, 'cm³', ['G = 5 · 5 = 25 cm².', 'V = G · h / 3 = 25 · 12 / 3.', 'V = 100 cm³.']]
+    ]);
+    addPracticeSet('tree-diagrams', [
+        ['In einer Urne liegen 3 rote und 1 blaue Kugel. Wie groß ist P(Rot) in Prozent?', 75, '%', ['Es gibt 4 Kugeln, davon 3 rot.', 'P(Rot) = 3/4.', '3/4 = 75 %.']],
+        ['Eine Münze wird zweimal geworfen. Wie viele vollständige Endpfade gibt es?', 4, 'Pfade', ['Beim ersten Wurf gibt es 2 Möglichkeiten.', 'Von jeder Möglichkeit gehen wieder 2 Äste ab.', '2 · 2 = 4 Endpfade.']],
+        ['In einer Urne liegen 2 rote und 3 blaue Kugeln. Wie groß ist P(Blau) in Prozent?', 60, '%', ['Insgesamt gibt es 5 Kugeln, davon 3 blau.', 'P(Blau) = 3/5.', '3/5 = 60 %.']],
+        ['Ein Zufallsrad hat 8 gleich große Felder, davon 3 grün. Wie groß ist P(Grün) in Prozent?', 37.5, '%', ['P(Grün) = 3/8.', '3 geteilt durch 8 ergibt 0,375.', '0,375 = 37,5 %.']]
+    ]);
+    addPracticeSet('path-rules', [
+        ['Zwei unabhängige Ereignisse haben jeweils P = 1/2. Wie groß ist die Wahrscheinlichkeit, dass beide eintreten, in Prozent?', 25, '%', ['Entlang eines Pfades multiplizieren: 1/2 · 1/2 = 1/4.', '1/4 als Prozent: 1/4 · 100.', 'Die Wahrscheinlichkeit beträgt 25 %.']],
+        ['Zwei verschiedene passende Pfade haben jeweils Wahrscheinlichkeit 20 %. Wie groß ist die Gesamtwahrscheinlichkeit?', 40, '%', ['Für verschiedene passende Pfade addieren.', '20 % + 20 % = 40 %.', 'Die Gesamtwahrscheinlichkeit beträgt 40 %.']],
+        ['Eine faire Münze wird dreimal geworfen. Wie groß ist P(Kopf-Kopf-Kopf) in Prozent?', 12.5, '%', ['Pfadwahrscheinlichkeit: 1/2 · 1/2 · 1/2 = 1/8.', '1/8 = 0,125.', '0,125 · 100 = 12,5 %.']],
+        ['Zwei unabhängige Ereignisse haben P(A) = 30 % und P(B) = 50 %. Wie groß ist P(A und B)?', 15, '%', ['Für unabhängige Ereignisse multiplizieren: 0,3 · 0,5 = 0,15.', '0,15 als Prozent sind 15 %.', 'P(A und B) = 15 %.']]
+    ]);
+    addPracticeSet('statistics', [
+        ['Berechne den Mittelwert von 3, 5, 7 und 9.', 6, '', ['Summe: 3 + 5 + 7 + 9 = 24.', 'Es gibt 4 Werte.', 'Mittelwert = 24/4 = 6.']],
+        ['Bestimme den Median: 1, 4, 6, 8, 10.', 6, '', ['Die Daten sind sortiert und es gibt 5 Werte.', 'Der mittlere, dritte Wert ist 6.', 'Der Median ist 6.']],
+        ['Bestimme den Median: 2, 4, 8, 10.', 6, '', ['Bei 4 Werten werden die beiden mittleren Werte gemittelt.', '(4 + 8)/2 = 6.', 'Der Median ist 6.']],
+        ['Bestimme die Spannweite der Werte 4, 7, 9 und 15.', 11, '', ['Größter Wert: 15; kleinster Wert: 4.', 'Spannweite = größter Wert − kleinster Wert.', '15 − 4 = 11.']]
+    ]);
 
     const exam = {
         a1: [
