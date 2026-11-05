@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atome und Atommodelle · Lernwerkzeuge | Lernraum 9</title>
+    <meta name="description" content="Lernmodule, interaktives Atommodell, Übungen, Quiz, Fortschritt und Lexikon zum Thema Atome.">
+    <meta name="theme-color" content="#10243b">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" href="./app-icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./pwa.js" defer></script>
+</head>
+<body>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar">
+        <div class="logo-area">
+            <span class="logo-mark" aria-hidden="true">⚗️</span>
+            <div class="logo-copy">
+                <h1>Lernraum 9</h1>
+                <p>DEIN LERNBEREICH</p>
+            </div>
+        </div>
+        <nav class="nav-links" aria-label="Hauptnavigation">
+            <h2 class="nav-section-label">SCHNELLZUGRIFF</h2>
+            <ul>
+                <li><a href="./index.html">🏠 Home</a></li>
+                <li><a href="./chemie.html">⚗️ Chemie-Themen</a></li>
+                <li><a class="active" aria-current="page" href="./chemie-atome.html">⚛️ Atome und Atommodelle</a></li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <span aria-hidden="true">🧪</span>
+            <p><strong>Chemie · Klasse 9</strong><br>Atome und Atommodelle</p>
+        </div>
+    </aside>
+
+    <!-- Hauptinhalt -->
+    <main>
+        <header>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h2 id="pageTitle" style="margin:0;">Dashboard</h2>
+            </div>
+            <div id="userBadge" style="font-weight: 600; color: var(--primary);">Lernplattform · Klasse 9</div>
+        </header>
+
+        <!-- 1. DASHBOARD -->
+        <section id="dashboard" class="view-section active">
+            <div class="card hero-card">
+                <div class="pill">🔥 Lernstreak aktiv</div>
+                <h3>Willkommen in deinem Lernraum für die 9. Klasse 👋</h3>
+                <p>Wähle ein Fach, lerne mit den vorhandenen Modulen und behalte deinen Lernfortschritt im Blick. Weitere Fachinhalte werden nach und nach ergänzt.</p>
+                <button class="btn" onclick="navigateTo('subjects')">Alle Fächer ansehen 🚀</button>
+                <button class="btn btn-teal" id="installAppButton" type="button" style="margin-left: 0.5rem;" onclick="installApp()">Lernraum 9 installieren</button>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3>Chemie-Fortschritt</h3>
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--teal);" id="dashProgressPercent">0%</div>
+                    <div class="progress-bar-container"><div class="progress-bar" id="dashProgressBar"></div></div>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;" id="dashModulesCount">0 von 10 Modulen abgeschlossen</p>
+                </div>
+                <div class="card">
+                    <h3>Quiz-Bestleistung</h3>
+                    <div style="font-size: 2rem; font-weight: 700; color: var(--primary);" id="dashQuizBest">0%</div>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">Dein Score im Wissenstest.</p>
+                </div>
+                <div class="card">
+                    <h3>Fächer im Lernraum</h3>
+                    <div style="font-size: 0.95rem; font-weight: 600; color: var(--success); margin-top: 0.5rem;">17 Fächer · Inhalte im Ausbau</div>
+                    <p style="font-size: 0.85rem; margin-top: 0.5rem;">Chemie ist derzeit das erste vollständig ausgearbeitete Fach.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Schnelleinstieg</h3>
+                <div class="grid-2">
+                    <button class="btn" style="justify-content: center;" onclick="navigateTo('subjects')">📚 Fach auswählen</button>
+                    <button class="btn btn-teal" style="justify-content: center;" onclick="navigateTo('quiz')">🎯 Sofort-Quiz starten</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAECHERKATALOG -->
+        <section id="subjects" class="view-section">
+            <div class="card">
+                <h2>Fächer der 9. Klasse</h2>
+                <p>Hier findest du die Fächerübersicht. Chemie enthält bereits ausgearbeitete Lernmodule; bei den anderen Fächern sind noch keine Lerninhalte hinterlegt.</p>
+                <p><strong>Hinweis:</strong> Fächer und Bezeichnungen unterscheiden sich je nach Bundesland und Schule. Die Übersicht ist deshalb eine anpassbare Auswahl und kein verbindlicher Lehrplan.</p>
+            </div>
+            <div id="subjectGrid" class="subject-grid"></div>
+        </section>
+
+        <section id="subjectPage" class="view-section">
+            <div class="card">
+                <button class="btn btn-teal" type="button" onclick="navigateTo('subjects')">← Alle Fächer</button>
+                <div id="subjectPageContent"></div>
+            </div>
+            <div id="topicGrid" class="subject-grid"></div>
+        </section>
+
+        <!-- 2. LERNMODULE -->
+        <section id="modules" class="view-section">
+            <div class="card">
+                <button class="btn btn-teal" type="button" onclick="openSubject('chemie')">← Chemie-Themen</button>
+                <h2>Visuelle Lernmodule (Klasse 9)</h2>
+                <p>Wir gehen gemeinsam Schritt für Schritt vor. Lerne das angezeigte Modul und beantworte danach die Fragen im Popup. Erst dann wird das nächste Modul freigeschaltet.</p>
+            </div>
+            <div id="moduleList" class="grid-2"></div>
+            <div id="moduleQuestionOverlay" class="atom-question-overlay hidden" aria-live="polite">
+                <div id="moduleQuestionCard" class="card module-question-card hidden">
+                    <div id="moduleQuestionProgress" class="atom-guide-progress"></div>
+                    <h3 id="moduleQuestionTitle">Frage</h3>
+                    <p id="moduleQuestionText"></p>
+                    <div id="moduleQuestionOptions" class="atom-question-options"></div>
+                    <div id="moduleQuestionFeedback" style="margin-top: 0.8rem; font-weight: 700; display: none;" aria-live="polite"></div>
+                    <div id="moduleQuestionStudy" class="visual-box module-question-study hidden">
+                        <strong id="moduleQuestionStudyTitle"></strong>
+                        <p id="moduleQuestionStudyText" style="margin: 0.5rem 0 0; color: var(--text-main);"></p>
+                        <button class="btn" type="button" style="margin-top: 1rem;" onclick="retryModuleQuestion()">Gelesen – Frage erneut beantworten</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. INTERAKTIVES ATOMMODELL -->
+        <section id="atommodel" class="view-section">
+            <div class="card">
+                <h2>Interaktives Atommodell (Bohr-Schalenmodell)</h2>
+                <p>Wir lernen Schritt für Schritt: zuerst den Aufbau, dann den Bezug zum Periodensystem und danach das interaktive Modell.</p>
+            </div>
+
+            <div id="atomStage0" class="atom-stage">
+                <div class="card atom-visual-card">
+                    <h3>1. Aufbau des Atoms</h3>
+                    <div class="atom-visual-layout">
+                        <svg viewBox="0 0 260 180" role="img" aria-label="Bohr-Schalenmodell eines Atoms">
+                            <defs>
+                                <radialGradient id="nucleusGrad" cx="50%" cy="50%" r="50%">
+                                    <stop offset="0%" stop-color="#fca5a5"/>
+                                    <stop offset="100%" stop-color="#ef4444"/>
+                                </radialGradient>
+                            </defs>
+                            <rect x="0" y="0" width="260" height="180" fill="#f0f9ff"/>
+                            <circle cx="130" cy="90" r="62" fill="none" stroke="#7dd3fc" stroke-width="2" stroke-dasharray="5 6"/>
+                            <circle cx="130" cy="90" r="42" fill="none" stroke="#38bdf8" stroke-width="2" stroke-dasharray="5 6"/>
+                            <circle cx="130" cy="90" r="22" fill="url(#nucleusGrad)"/>
+                            <circle cx="130" cy="90" r="10" fill="#f97316" opacity="0.45"/>
+                            <g fill="#fbbf24" font-size="9" font-weight="700">
+                                <circle cx="130" cy="90" r="4" fill="#fbbf24"/>
+                                <circle cx="149" cy="72" r="4" fill="#fbbf24"/>
+                                <circle cx="111" cy="111" r="4" fill="#fbbf24"/>
+                                <circle cx="154" cy="101" r="4" fill="#fbbf24"/>
+                            </g>
+                            <g fill="#22c55e" font-size="8" font-weight="700">
+                                <circle cx="86" cy="88" r="3" fill="#22c55e"/>
+                                <circle cx="132" cy="49" r="3" fill="#22c55e"/>
+                                <circle cx="175" cy="92" r="3" fill="#22c55e"/>
+                                <circle cx="132" cy="129" r="3" fill="#22c55e"/>
+                                <circle cx="94" cy="61" r="3" fill="#22c55e"/>
+                                <circle cx="165" cy="52" r="3" fill="#22c55e"/>
+                            </g>
+                            <g fill="#1e293b" font-size="12" font-weight="700">
+                                <text x="108" y="150">Kern</text>
+                                <text x="172" y="74">Schale</text>
+                            </g>
+                        </svg>
+                        <div class="atom-visual-facts">
+                            <p id="atomStudyNucleus"><strong>Kern:</strong> Der Kern ist im Zentrum des Atoms. Dort liegen Protonen und Neutronen dicht zusammen. Der Kern ist winzig, aber sehr schwer, weil Protonen und Neutronen viel Masse haben. Fast die gesamte Masse eines Atoms steckt hier.</p>
+                            <p id="atomStudyShell"><strong>Hülle:</strong> Die Atomhülle liegt außen um den Kern. Dort bewegen sich Elektronen. Sie sind viel leichter als Protonen und Neutronen und tragen eine negative elektrische Ladung.</p>
+                            <p id="atomStudyShells"><strong>Schalen:</strong> Elektronen sitzen nicht einfach überall verteilt, sondern auf Schalen. Die erste Schale heißt K, dann kommt L, danach M, dann N, O und so weiter. Jede Schale hat eine bestimmte „Kapazität“, also eine bestimmte Zahl, die dort Platz findet.</p>
+                            <p id="atomStudyShellCapacity"><strong>Wichtige Regel:</strong> Im vereinfachten Modell passen maximal 2 Elektronen in K, 8 in L, 18 in M und 32 in N. Bei den ersten 20 Elementen wird im Schulmodell meist die Verteilung 2, 8, 8, 2 verwendet. Maximale Kapazität und Auffüllreihenfolge sind also nicht dasselbe.</p>
+                            <p id="atomStudyNeutral"><strong>Merksatz:</strong> Die Zahl der Protonen im Kern bestimmt, wie viele Elektronen ein neutrales Atom normalerweise hat. Dadurch bleibt das Atom insgesamt elektrisch neutral.</p>
+                            <h4>Die drei Teilchen im Überblick</h4>
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding: 0.45rem; border-bottom: 1px solid var(--border);">Teilchen</th>
+                                            <th style="padding: 0.45rem; border-bottom: 1px solid var(--border);">Ladung</th>
+                                            <th style="padding: 0.45rem; border-bottom: 1px solid var(--border);">Ort</th>
+                                            <th style="padding: 0.45rem; border-bottom: 1px solid var(--border);">Masse (vereinfacht)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="atomStudyParticleTable">
+                                        <tr><td style="padding: 0.45rem;">Proton (p⁺)</td><td>+1</td><td>Kern</td><td>etwa 1 u</td></tr>
+                                        <tr><td style="padding: 0.45rem;">Neutron (n⁰)</td><td>0</td><td>Kern</td><td>etwa 1 u</td></tr>
+                                        <tr><td style="padding: 0.45rem;">Elektron (e⁻)</td><td>−1</td><td>Hülle</td><td>etwa 1/1836 u</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <p><strong>Atome sind größtenteils leerer Raum:</strong> Die Hülle nimmt im Vergleich zum winzigen Kern sehr viel Platz ein. Trotzdem steckt fast die ganze Masse im Kern.</p>
+                            <p><strong>Was verändert sich bei Teilchenänderungen?</strong> Eine andere Protonenzahl bedeutet ein anderes Element. Eine andere Neutronenzahl ergibt ein Isotop desselben Elements. Werden Elektronen aufgenommen oder abgegeben, entsteht ein Ion; der Kern und damit das Element bleiben dabei unverändert.</p>
+                            <p id="atomExplainText" style="margin: 0; color: var(--text-main); font-weight: 700; line-height: 1.5;">
+                                Das Bohr-Schalenmodell ist eine vereinfachte Zeichnung: Es zeigt Kern und Schalen, ist aber nicht maßstabsgetreu. In Wirklichkeit beschreibt man Elektronen genauer mit einem quantenmechanischen Modell.
+                            </p>
+                        </div>
+                    </div>
+                    <button class="btn" style="margin-top: 1rem;" onclick="startAtomQuestion(0)">Weiter</button>
+                </div>
+            </div>
+
+            <div id="atomStage1" class="atom-stage hidden">
+                <div class="card atom-visual-card">
+                    <h3>2. Bezug zum Periodensystem</h3>
+                    <div class="atom-visual-layout periodic-layout">
+                        <figure class="periodic-table-figure">
+                            <img src="periodic-table.svg" alt="Vollständiges Periodensystem der Elemente mit Ordnungszahlen und Elementsymbolen">
+                            <figcaption>
+                                Bild: Lekritz, <a href="https://commons.wikimedia.org/wiki/File:Colour_18-col_PT_with_labels.svg" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a> (unverändert).
+                            </figcaption>
+                        </figure>
+                        <div class="atom-visual-facts">
+                            <h4>1. So ist das Periodensystem aufgebaut</h4>
+                            <p id="atomStudyPeriodicTable" style="margin: 0;">Das Periodensystem ordnet alle Elemente in einer Tabelle. Die Elemente stehen der Reihe nach nach ihrer Ordnungszahl. Jedes Kästchen steht für ein Element und zeigt meistens den Namen, das Elementsymbol und die Ordnungszahl.</p>
+                            <ul style="margin: 0.2rem 0 0; padding-left: 1.2rem; color: var(--text-main); font-weight: 600; line-height: 1.5;">
+                                <li id="atomStudyAtomicNumber"><strong>Ordnungszahl:</strong> Sie sagt, wie viele Protonen im Atomkern sind. Sie bestimmt den Platz des Elements.</li>
+                                <li id="atomStudyPeriod"><strong>Periode:</strong> Das ist eine waagerechte Zeile. Bei den ersten Elementen zeigt sie, wie viele Elektronenschalen besetzt sind.</li>
+                                <li id="atomStudyGroup"><strong>Hauptgruppe:</strong> Das ist eine senkrechte Spalte. Elemente einer Hauptgruppe haben oft gleich viele Elektronen in der äußersten Schale und deshalb ähnliche Eigenschaften. Bei der Nummerierung 1–18 sind das bei den Hauptgruppen 1, 2 und 13–18; bei 13–18 entspricht die letzte Ziffer meist der Zahl der Außenelektronen. Helium ist eine Ausnahme.</li>
+                            </ul>
+                            <h4>2. Beispiele: So liest du die Tabelle</h4>
+                            <p>Wähle ein Element, um Ordnungszahl, Schalenbelegung und PSE-Angaben Schritt für Schritt zu verbinden:</p>
+                            <div role="group" aria-label="Beispiele im Periodensystem" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                                <button class="btn btn-teal" type="button" aria-pressed="true" onclick="showPeriodicExample('H')">Wasserstoff (H)</button>
+                                <button class="btn btn-teal" type="button" aria-pressed="false" onclick="showPeriodicExample('O')">Sauerstoff (O)</button>
+                                <button class="btn btn-teal" type="button" aria-pressed="false" onclick="showPeriodicExample('Na')">Natrium (Na)</button>
+                            </div>
+                            <div id="pseExampleDetails" class="visual-box" aria-live="polite">
+                                <strong>Wasserstoff (H)</strong>
+                                <p style="margin: 0.45rem 0 0;">Ordnungszahl 1 → 1 Proton. Beim neutralen Atom gibt es auch 1 Elektron: Schalenbelegung 1. Es steht in Periode 1 und Hauptgruppe 1; die eine Außenelektronenzahl ist hier zugleich die gesamte Elektronenzahl.</p>
+                            </div>
+                            <p id="pseExplainText" style="margin: 0; color: var(--text-main); font-weight: 700; line-height: 1.5;">Die Ordnungszahl bestimmt das Element. Periode und Hauptgruppe helfen, die Elektronenverteilung zu verstehen.</p>
+                            <p id="atomStudyPeriodicNeutral" style="margin: 0;">Bei einem neutralen Atom ist die Zahl der Elektronen genauso groß wie die Zahl der Protonen. Bei einem Ion gilt das nicht zwingend: Die Protonenzahl bleibt gleich, aber es wurden Elektronen abgegeben oder aufgenommen.</p>
+                            <div id="atomStudyAtomicMass" class="analogy-box">
+                                <strong>Relative Atommasse ist nicht dasselbe wie Massenzahl</strong>
+                                <p style="margin: 0.45rem 0 0;">Die relative Atommasse im PSE kann eine Dezimalzahl sein, weil sie die natürlich vorkommenden Isotope berücksichtigt. Die Massenzahl eines einzelnen Atoms ist dagegen die ganze Zahl aus Protonen + Neutronen. Bei Natrium steht etwa 22,99 im PSE; das häufige Natrium-23-Atom hat die Massenzahl 23.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn" style="margin-top: 1rem;" onclick="startAtomQuestion(1)">Weiter</button>
+                </div>
+            </div>
+
+            <div id="atomStage2" class="atom-stage hidden">
+                <div id="atomGuide" class="card atom-guide">
+                    <h3>3. Das interaktive Atommodell verstehen</h3>
+                    <p>Wir schauen uns erst an, was das Modell zeigt. Danach kannst du die Teilchen selbst verändern.</p>
+                    <div class="atom-guide-step" aria-live="polite">
+                        <div id="atomGuideProgress" class="atom-guide-progress">Schritt 1 von 3</div>
+                        <h4 id="atomGuideTitle">Der Kern und die Elektronen</h4>
+                        <p id="atomGuideText" class="hidden">In der Mitte siehst du den Atomkern mit Protonen und Neutronen. Die blauen Punkte außen sind Elektronen. Die Kreise zeigen die Schalen K, L und M.</p>
+                    </div>
+                    <button id="atomGuideNext" class="btn" type="button" onclick="advanceAtomGuide()">Anzeigen</button>
+                </div>
+                <div id="atomSandbox" class="atom-sandbox atom-interactive-hidden">
+                    <div class="canvas-wrapper">
+                        <canvas id="atomCanvas" width="400" height="400"></canvas>
+                    </div>
+                    <div class="card controls-panel">
+                        <h3>Teilchen anpassen</h3>
+                        <div class="control-group">
+                            <span>Protonen (p+): <strong id="valProtons">1</strong></span>
+                            <div>
+                                <button onclick="adjustParticle('p', -1)">-</button>
+                                <button onclick="adjustParticle('p', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <span>Neutronen (n0): <strong id="valNeutrons">0</strong></span>
+                            <div>
+                                <button onclick="adjustParticle('n', -1)">-</button>
+                                <button onclick="adjustParticle('n', 1)">+</button>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <span>Elektronen (e-): <strong id="valElectrons">1</strong></span>
+                            <div>
+                                <button onclick="adjustParticle('e', -1)">-</button>
+                                <button onclick="adjustParticle('e', 1)">+</button>
+                            </div>
+                        </div>
+                        <hr style="margin: 1rem 0; border: 0; border-top: 1px solid var(--border);">
+                        <div style="font-size: 0.9rem;">
+                            <p><strong>Element:</strong> <span id="infoElement">Wasserstoff (H)</span></p>
+                            <p><strong>Ordnungszahl:</strong> <span id="infoZ">1</span></p>
+                            <p><strong>Massenzahl:</strong> <span id="infoA">1</span></p>
+                            <p><strong>Ladung:</strong> <span id="infoCharge" style="color: var(--success);">Neutral</span></p>
+                        </div>
+
+                        <button class="btn" style="width: 100%; margin-top: 1rem; justify-content: center;" onclick="resetAtom()">Auf neutrales Atom zurücksetzen</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="atomQuestionOverlay" class="atom-question-overlay hidden" aria-live="polite">
+                <div id="atomQuestionCard" class="card atom-question-card">
+                    <h3 id="atomQuestionTitle">Frage</h3>
+                    <p id="atomQuestionText"></p>
+                    <div id="atomQuestionOptions" class="atom-question-options"></div>
+                    <div id="atomQuestionFeedback" style="margin-top: 0.8rem; font-weight: 700; display: none;"></div>
+                    <div id="atomQuestionStudy" class="visual-box module-question-study hidden">
+                        <strong id="atomQuestionStudyTitle"></strong>
+                        <p id="atomQuestionStudyText" style="margin: 0.5rem 0 0; color: var(--text-main);"></p>
+                        <button class="btn" type="button" style="margin-top: 1rem;" onclick="retryAtomQuestion()">Gelesen – Frage erneut beantworten</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ÜBUNGEN -->
+        <section id="exercises" class="view-section">
+            <div class="card">
+                <h2>Übungsaufgaben</h2>
+                <p>Lies zuerst den angezeigten Abschnitt. Öffne danach die Aufgabe und beantworte sie. Bei einer falschen Antwort kannst du den Abschnitt erneut lesen und dieselbe Aufgabe noch einmal versuchen.</p>
+            </div>
+            <div id="exerciseContainer"></div>
+        </section>
+
+        <!-- 5. QUIZ-SYSTEM -->
+        <section id="quiz" class="view-section">
+            <div class="card" id="quizStartScreen">
+                <h2>Wissenstest & Klassenarbeits-Quiz</h2>
+                <p>Beantworte die Fragen direkt. Bei einer falschen Antwort kannst du dieselbe Frage noch einmal versuchen.</p>
+                <button class="btn" onclick="startQuiz()">Quiz jetzt starten 🎯</button>
+            </div>
+            <div class="card" id="quizActiveScreen" style="display: none;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <span id="quizProgressText" style="font-weight: 600;"></span>
+                    <span id="quizScoreText" style="font-weight: 600; color: var(--primary);">Punkte: 0</span>
+                </div>
+                <h3 id="quizQuestionTitle">Fragetitel</h3>
+                <div id="quizOptionalBadge" class="pill" style="display: none;">Optionales Thema</div>
+                <p id="quizQuestionText" style="font-size: 1.1rem; margin-bottom: 1.5rem;"></p>
+                <div id="quizOptions" style="display: flex; flex-direction: column; gap: 0.75rem;"></div>
+                <div id="quizFeedback" style="margin-top: 1rem; font-weight: 600; display: none;"></div>
+                <button class="btn" id="quizRetryBtn" style="margin-top: 1rem; display: none;" onclick="retryQuizQuestion()">Frage erneut beantworten</button>
+                <button class="btn btn-teal" id="quizSkipOptionalBtn" style="margin-top: 1rem; display: none;" onclick="skipOptionalQuizQuestion()">Optionale Frage überspringen</button>
+                <button class="btn" id="quizNextBtn" style="margin-top: 1.5rem; display: none;" onclick="nextQuizQuestion()">Nächste Frage →</button>
+            </div>
+            <div class="card" id="quizResultScreen" style="display: none;">
+                <h2>Quiz beendet! 🎉</h2>
+                <p style="font-size: 1.2rem;" id="quizFinalScoreText"></p>
+                <button class="btn" onclick="startQuiz()">Nochmal versuchen 🔄</button>
+            </div>
+        </section>
+
+        <!-- 6. LERNFORTSCHRITT -->
+        <section id="progress" class="view-section">
+            <div class="card">
+                <h2>Dein persönlicher Lernfortschritt</h2>
+                <p>Hier siehst du genau, welche Module du bereits gelernt hast.</p>
+            </div>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Modulstatus</h3>
+                    <div id="progressModuleList"></div>
+                </div>
+                <div class="card">
+                    <h3>Statistik</h3>
+                    <p><strong>Abgeschlossene Lektionen:</strong> <span id="statCompletedCount">0</span> / 10</p>
+                    <p><strong>Bester Quiz-Score:</strong> <span id="statBestQuiz">0%</span></p>
+                    <button class="btn" style="background: var(--error); margin-top: 1rem;" onclick="resetProgress()">Fortschritt zurücksetzen 🗑️</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. LEXIKON -->
+        <section id="lexicon" class="view-section">
+            <div class="card">
+                <h2>Chemie-Lexikon</h2>
+                <p>Durchsuche wichtige Fachbegriffe rund um den Atomaufbau.</p>
+                <input type="text" id="lexiconSearch" class="search-input" placeholder="Begriff suchen (z.B. Proton, Isotop, Dalton)..." oninput="filterLexicon()">
+            </div>
+            <div class="card" id="lexiconList"></div>
+        </section>
+    </main>
+
+        <script src="./app.js" defer></script>
+</body>
+</html>
