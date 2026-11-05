@@ -340,6 +340,7 @@
     const requestedView = pageParams.get('view');
     let activeSubtopic = null;
     let activeSubtopicFilter = null;
+    let learningState = {};
     if (topics.some(topic => topic.id === requestedTopic)) {
         activeTopic = requestedTopic;
         activeFilter = requestedTopic;
@@ -522,24 +523,24 @@
     }
 
     function persistPractice() {
-        try {
-            const state = JSON.parse(localStorage.getItem('mathematikLearningState') || '{}');
-            state.feedback = feedbackState;
-            localStorage.setItem('mathematikLearningState', JSON.stringify(state));
-        } catch (error) {
-            console.warn('Der Mathematik-Lernstand konnte nicht gespeichert werden:', error);
-        }
+        window.LernraumDB.update('mathematikLearningState', state => ({
+            ...state,
+            feedback: feedbackState,
+            theme: root.dataset.theme
+        })).catch(error => {
+            console.error('Der Mathematik-Lernstand konnte nicht in IndexedDB gespeichert werden:', error);
+        });
     }
 
-    function loadState() {
+    async function loadState() {
         try {
-            const state = JSON.parse(localStorage.getItem('mathematikLearningState') || '{}');
-            feedbackState = state.feedback && typeof state.feedback === 'object' ? state.feedback : {};
-            const theme = state.theme === 'light' ? 'light' : 'dark';
+            learningState = await window.LernraumDB.get('mathematikLearningState') || {};
+            feedbackState = learningState.feedback && typeof learningState.feedback === 'object' ? learningState.feedback : {};
+            const theme = learningState.theme === 'light' ? 'light' : 'dark';
             root.dataset.theme = theme;
             updateThemeButton();
         } catch (error) {
-            console.warn('Der gespeicherte Mathematik-Lernstand konnte nicht gelesen werden:', error);
+            console.error('Der Mathematik-Lernstand konnte nicht aus IndexedDB geladen werden:', error);
             root.dataset.theme = 'dark';
         }
     }
@@ -591,14 +592,13 @@
         const max = graded.reduce((sum, task) => sum + task.points, 0);
         const percent = Math.round(score / max * 100);
         const grade = gradeScale.find(item => percent >= item.min) || gradeScale[gradeScale.length - 1];
-        try {
-            const state = JSON.parse(localStorage.getItem('mathematikLearningState') || '{}');
-            state.bestExamPercent = Math.max(Number(state.bestExamPercent) || 0, percent);
-            state.lastExam = { score, max, percent, grade: grade.grade, date: new Date().toISOString() };
-            localStorage.setItem('mathematikLearningState', JSON.stringify(state));
-        } catch (error) {
-            console.warn('Das Prüfungsergebnis konnte nicht gespeichert werden:', error);
-        }
+        window.LernraumDB.update('mathematikLearningState', state => ({
+            ...state,
+            bestExamPercent: Math.max(Number(state.bestExamPercent) || 0, percent),
+            lastExam: { score, max, percent, grade: grade.grade, date: new Date().toISOString() }
+        })).catch(error => {
+            console.error('Das Prüfungsergebnis konnte nicht in IndexedDB gespeichert werden:', error);
+        });
         document.getElementById('mathViewExam').innerHTML = `
             <div class="math-section-heading"><div><span class="math-eyebrow">AUSWERTUNG</span><h2>Dein Ergebnis</h2></div></div>
             <div class="math-result-card"><div class="math-result-percent">${percent}%</div><div><strong>${score} von ${max} Punkten</strong><p>Orientierungsnote: ${grade.grade} · ${grade.label}</p></div></div>
@@ -667,13 +667,7 @@
         }
         if (target.id === 'mathThemeToggle') {
             root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-            try {
-                const state = JSON.parse(localStorage.getItem('mathematikLearningState') || '{}');
-                state.theme = root.dataset.theme;
-                localStorage.setItem('mathematikLearningState', JSON.stringify(state));
-            } catch (error) {
-                console.warn('Das Farbschema konnte nicht gespeichert werden:', error);
-            }
+            persistPractice();
             updateThemeButton();
         }
         if (target.hasAttribute('data-exam-start')) {
@@ -733,13 +727,15 @@
         }
     });
 
-    loadState();
-    renderTopics();
-    renderPractice();
-    renderExam();
-    if (['practice', 'exam'].includes(requestedView)) {
-        switchView(requestedView);
-    } else {
-        root.closest('#portalApp')?.classList.toggle('math-subtopic-focus', Boolean(activeSubtopic));
-    }
+    root.setAttribute('aria-busy', 'true');
+    loadState().then(() => {
+        renderTopics();
+        renderPractice();
+        renderExam();
+        if (['practice', 'exam'].includes(requestedView)) {
+            switchView(requestedView);
+        } else {
+            root.closest('#portalApp')?.classList.toggle('math-subtopic-focus', Boolean(activeSubtopic));
+        }
+    }).finally(() => root.removeAttribute('aria-busy'));
 })();

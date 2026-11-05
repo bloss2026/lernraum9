@@ -52,16 +52,6 @@ function renderSubjectCards() {
 }
 
 function renderDashboard() {
-    let completed = 0;
-    let bestScore = 0;
-    try {
-        const state = JSON.parse(localStorage.getItem('chemieLernState') || '{}');
-        completed = Array.isArray(state.completedModules) ? state.completedModules.length : 0;
-        bestScore = Number.isFinite(state.quizBestScore) ? state.quizBestScore : 0;
-    } catch (error) {
-        console.warn('Der gespeicherte Chemie-Lernstand konnte nicht gelesen werden:', error);
-    }
-
     return `
         <section class="portal-hero">
             <span class="pill">LERNRAUM · KLASSE 9</span>
@@ -72,12 +62,12 @@ function renderDashboard() {
         <section class="portal-stats" aria-label="Lernstand">
             <article class="card">
                 <h2>Chemie-Module</h2>
-                <p class="portal-stat-number">${completed} / 10</p>
+                <p class="portal-stat-number" id="portalChemistryModules">— / 10</p>
                 <p>Module abgeschlossen</p>
             </article>
             <article class="card">
                 <h2>Quiz-Bestleistung</h2>
-                <p class="portal-stat-number">${bestScore}%</p>
+                <p class="portal-stat-number" id="portalChemistryBestScore">—%</p>
                 <p>Dein bisheriger Chemie-Quizstand</p>
             </article>
             <article class="card">
@@ -95,6 +85,17 @@ function renderDashboard() {
             <p class="portal-curriculum-note">Hinweis: Fächerangebot und Themen unterscheiden sich je nach Bundesland, Schulform und Schule.</p>
         </section>
     `;
+}
+
+function loadDashboardState() {
+    window.LernraumDB.get('chemieLernState').then(state => {
+        document.getElementById('portalChemistryModules').textContent =
+            `${Array.isArray(state?.completedModules) ? state.completedModules.length : 0} / 10`;
+        document.getElementById('portalChemistryBestScore').textContent =
+            `${Number.isFinite(state?.quizBestScore) ? state.quizBestScore : 0}%`;
+    }).catch(error => {
+        console.error('Der Chemie-Lernstand konnte im Dashboard nicht aus IndexedDB geladen werden:', error);
+    });
 }
 
 function renderSubjectPage(subject) {
@@ -440,4 +441,6 @@ if (app) {
             </main>
         `;
     }
+
+    if (page === 'home') loadDashboardState();
 }

@@ -452,11 +452,9 @@
         // --- LOKALER SPEICHER & STATE ---
         const optionalModuleIds = [8, 9];
 
-        function loadState() {
+        async function loadState() {
             try {
-                const rawState = localStorage.getItem('chemieLernState');
-                if (!rawState) return { completedModules: [], skippedModules: [], quizBestScore: 0, moduleUnlockedThrough: 1 };
-                const parsed = JSON.parse(rawState);
+                const parsed = await window.LernraumDB.get('chemieLernState') || {};
                 return {
                     completedModules: Array.isArray(parsed.completedModules) ? parsed.completedModules : [],
                     skippedModules: Array.isArray(parsed.skippedModules)
@@ -468,19 +466,17 @@
                         : 1
                 };
             } catch (error) {
-                console.warn('State konnte nicht geladen werden:', error);
+                console.error('Der Chemie-Lernstand konnte nicht aus IndexedDB geladen werden:', error);
                 return { completedModules: [], skippedModules: [], quizBestScore: 0, moduleUnlockedThrough: 1 };
             }
         }
 
-        let appState = loadState();
+        let appState = { completedModules: [], skippedModules: [], quizBestScore: 0, moduleUnlockedThrough: 1 };
 
         function saveState() {
-            try {
-                localStorage.setItem('chemieLernState', JSON.stringify(appState));
-            } catch (error) {
-                console.warn('State konnte nicht gespeichert werden:', error);
-            }
+            window.LernraumDB.set('chemieLernState', appState).catch(error => {
+                console.error('Der Chemie-Lernstand konnte nicht in IndexedDB gespeichert werden:', error);
+            });
         }
 
         const subjectsData = [
@@ -1995,7 +1991,8 @@
             }
         }
 
-        window.onload = () => {
+        window.onload = async () => {
+            appState = await loadState();
             updateDashboard();
             if (document.getElementById('subjectGrid')) renderSubjectCatalog();
             renderProgress();
