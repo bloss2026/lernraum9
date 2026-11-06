@@ -913,9 +913,37 @@
         }
         @media (max-width: 900px) {
             .portal-sidebar {
-                transform: translateX(-100%);
+                position: relative;
+                width: 100%;
+                height: auto;
+                overflow: hidden;
+                padding-bottom: 0;
+                transform: none;
+                border-right: 0;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+            }
+            .portal-sidebar nav {
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+                overflow-x: auto;
+                padding: 0.55rem 0.8rem;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+            }
+            .portal-nav-heading,
+            .portal-sidebar-footer {
+                display: none;
+            }
+            .portal-nav-link {
+                flex: 0 0 auto;
+                min-height: 42px;
+                margin: 0;
+                white-space: nowrap;
             }
             .portal-main {
+                width: 100%;
                 margin-left: 0;
                 padding: 1rem;
             }
@@ -1151,6 +1179,26 @@
             .portal-hero {
                 border-radius: 18px;
             }
+
+            .portal-brand { padding: 0.8rem 1rem; }
+            .portal-main { padding: 0.75rem 0.75rem 2rem; }
+            .portal-hero { padding: 1.25rem; }
+            .portal-hero h1 {
+                font-size: clamp(1.7rem, 8vw, 2.4rem);
+                line-height: 1.12;
+            }
+            .portal-stats {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 0.55rem;
+                margin-bottom: 1.25rem;
+            }
+            .portal-stats .card {
+                padding: 0.85rem 0.65rem;
+                border-radius: 14px;
+            }
+            .portal-stats h2 { font-size: 0.78rem; line-height: 1.3; }
+            .portal-stat-number { font-size: 1.45rem; }
+            .portal-stats .card > p:last-child { display: none; }
 
             .subject-grid,
             .grid-2,
