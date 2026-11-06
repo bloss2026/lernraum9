@@ -438,9 +438,9 @@ if (app) {
         app.innerHTML = `
             ${renderNavigation(subject?.id || '')}
             <main class="portal-main">
-                <header class="portal-topbar"><span>Lernplattform · Klasse 9</span><a href="./index.html">Startseite</a></header>
+                <header class="portal-topbar"><span>Lernplattform · Klasse 9</span>${page === 'home' ? '' : '<a href="./index.html">Startseite</a>'}</header>
                 ${page === 'home' ? renderDashboard() : renderSubjectPage(subject)}
-                <footer class="portal-footer">Lernraum 9 · Fachinhalte werden fortlaufend ergänzt.</footer>
+                ${page === 'home' ? '' : '<footer class="portal-footer">Lernraum 9 · Fachinhalte werden fortlaufend ergänzt.</footer>'}
             </main>
         `;
     }
