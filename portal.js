@@ -175,6 +175,7 @@ function renderNavigation(activeSubjectId = '') {
                 <span class="portal-brand-icon" aria-hidden="true">📚</span>
                 <span class="portal-brand-copy"><strong>Lernraum 9</strong><small>DEIN LERNRAUM</small></span>
             </a>
+            ${renderCloudMenu()}
             <nav aria-label="Fächer und Navigation">
                 <a class="portal-nav-link portal-dashboard-link ${document.documentElement.dataset.page === 'home' ? 'active' : ''}" href="./index.html">📊 Dashboard</a>
                 <h2 class="portal-nav-heading">DEINE FÄCHER</h2>
@@ -190,6 +191,36 @@ function renderNavigation(activeSubjectId = '') {
             </div>
         </aside>
         <button class="portal-nav-overlay" type="button" aria-label="Menü schließen" tabindex="-1" hidden></button>
+    `;
+}
+
+function renderCloudMenu() {
+    return `
+        <details class="portal-cloud-menu" id="cloudMenu">
+            <summary><span aria-hidden="true">☁️</span><span id="cloudMenuLabel">Lernkonto &amp; Synchronisierung</span></summary>
+            <div class="portal-cloud-menu-content">
+                <p class="portal-cloud-menu-description">Melde dich an, um deinen Lernstand auf mehreren Geräten zu nutzen.</p>
+                <form id="cloudAuthForm" class="cloud-auth-form">
+                    <label for="cloudEmail">E-Mail-Adresse</label>
+                    <input id="cloudEmail" name="email" type="email" autocomplete="email" required>
+                    <label for="cloudPassword">Passwort</label>
+                    <input id="cloudPassword" name="password" type="password" autocomplete="current-password" minlength="6" required>
+                    <div class="cloud-auth-actions">
+                        <button class="btn" type="submit" data-cloud-auth="signin">Anmelden</button>
+                        <button class="btn cloud-signup-button" type="submit" data-cloud-auth="signup">Konto erstellen</button>
+                    </div>
+                    <button id="cloudResendConfirmation" class="btn cloud-secondary-button" type="button">Bestätigungs-E-Mail erneut senden</button>
+                </form>
+                <div id="cloudAccountActions" class="cloud-account-actions" hidden>
+                    <p>Angemeldet als <strong id="cloudAccountEmail"></strong></p>
+                    <div class="cloud-auth-actions">
+                        <button id="cloudSyncNow" class="btn" type="button">Jetzt synchronisieren</button>
+                        <button id="cloudSignOut" class="btn cloud-secondary-button" type="button">Abmelden</button>
+                    </div>
+                </div>
+                <p id="cloudSyncStatus" class="cloud-sync-status" role="status" aria-live="polite"></p>
+            </div>
+        </details>
     `;
 }
 
@@ -232,35 +263,6 @@ function renderDashboard() {
                 <h2>Fächer</h2>
                 <p class="portal-stat-number">${subjects.length}</p>
                 <p>Chemie mit Lerninhalten, weitere Fächer als Platzhalter</p>
-            </article>
-        </section>
-        <section class="portal-content-section" aria-labelledby="cloudSyncTitle">
-            <article class="card cloud-sync-card">
-                <div>
-                    <span class="pill">DEIN LERNSTAND</span>
-                    <h2 id="cloudSyncTitle">Auf mehreren Geräten weiterlernen</h2>
-                    <p>Erstelle ein Lernkonto, damit dein Chemie- und Mathematik-Lernstand auf deinen Geräten verfügbar ist. Hast du schon ein Konto, aber noch keine Bestätigung? Gib deine E-Mail-Adresse ein und sende die Bestätigung erneut.</p>
-                </div>
-                <form id="cloudAuthForm" class="cloud-auth-form">
-                    <label for="cloudEmail">E-Mail-Adresse</label>
-                    <input id="cloudEmail" name="email" type="email" autocomplete="email" required>
-                    <label for="cloudPassword">Passwort</label>
-                    <input id="cloudPassword" name="password" type="password" autocomplete="current-password" minlength="6" required>
-                    <div class="cloud-auth-actions">
-                        <button class="btn" type="submit" data-cloud-auth="signin">Anmelden</button>
-                        <button class="btn cloud-signup-button" type="submit" data-cloud-auth="signup">Konto erstellen</button>
-                    </div>
-                    <button id="cloudResendConfirmation" class="btn cloud-secondary-button" type="button">Bestätigungs-E-Mail erneut senden</button>
-                </form>
-                <div id="cloudAccountActions" class="cloud-account-actions" hidden>
-                    <p>Angemeldet als <strong id="cloudAccountEmail"></strong></p>
-                    <div class="cloud-auth-actions">
-                        <button id="cloudSyncNow" class="btn" type="button">Jetzt synchronisieren</button>
-                        <button id="cloudSignOut" class="btn cloud-secondary-button" type="button">Abmelden</button>
-                    </div>
-                </div>
-                <p id="cloudSyncStatus" class="cloud-sync-status" role="status" aria-live="polite"></p>
-                <p class="cloud-privacy-note">Gespeichert werden nur Lernfortschritt und Übungseinstellungen. Verwende bei Bedarf mit deinen Eltern eine passende E-Mail-Adresse.</p>
             </article>
         </section>
         <section class="portal-content-section">
@@ -610,11 +612,12 @@ function renderMathLearningNavigation() {
     const topicId = topicTitles[requestedTopic] ? requestedTopic : legacyTopicIds[requestedTopic] || 'terms';
 
     return `
-        <aside class="portal-sidebar">
+        <aside class="portal-sidebar" id="portalSidebar">
             <a class="portal-brand" href="./index.html">
                 <span class="portal-brand-icon" aria-hidden="true">📚</span>
                 <span class="portal-brand-copy"><strong>Lernraum 9</strong><small>DEIN LERNRAUM</small></span>
             </a>
+            ${renderCloudMenu()}
             <nav aria-label="Hauptnavigation">
                 <h2 class="portal-nav-heading">SCHNELLZUGRIFF</h2>
                 <a class="portal-nav-link" href="./index.html">🏠 Home</a>
@@ -622,6 +625,7 @@ function renderMathLearningNavigation() {
                 <a class="portal-nav-link active" aria-current="page" href="./mathematik-themen.html?topic=${topicId}">${topicTitles[topicId]}</a>
             </nav>
         </aside>
+        <button class="portal-nav-overlay" type="button" aria-label="Menü schließen" tabindex="-1" hidden></button>
     `;
 }
 
@@ -852,102 +856,106 @@ if (app) {
 
     refreshSubjectProgressCards();
 
-    if (page === 'home') {
-        if (window.LernraumDB) loadDashboardState();
+    if (page === 'home' && window.LernraumDB) loadDashboardState();
 
-        const cloudAuthForm = document.getElementById('cloudAuthForm');
-        const cloudSyncStatus = document.getElementById('cloudSyncStatus');
-        const cloudAccountActions = document.getElementById('cloudAccountActions');
-        const cloudAccountEmail = document.getElementById('cloudAccountEmail');
-        const cloudSyncNow = document.getElementById('cloudSyncNow');
-        const cloudSignOut = document.getElementById('cloudSignOut');
-        const cloudResendConfirmation = document.getElementById('cloudResendConfirmation');
-        const cloudAuthButtons = cloudAuthForm ? cloudAuthForm.querySelectorAll('button[type="submit"]') : [];
+    const cloudAuthForm = document.getElementById('cloudAuthForm');
+    const cloudSyncStatus = document.getElementById('cloudSyncStatus');
+    const cloudAccountActions = document.getElementById('cloudAccountActions');
+    const cloudAccountEmail = document.getElementById('cloudAccountEmail');
+    const cloudSyncNow = document.getElementById('cloudSyncNow');
+    const cloudSignOut = document.getElementById('cloudSignOut');
+    const cloudResendConfirmation = document.getElementById('cloudResendConfirmation');
+    const cloudMenuLabel = document.getElementById('cloudMenuLabel');
+    const cloudAuthButtons = cloudAuthForm ? cloudAuthForm.querySelectorAll('button[type="submit"]') : [];
 
-        const updateCloudPanel = state => {
-            if (!cloudAuthForm || !cloudSyncStatus) return;
-            const hasAccount = Boolean(state.email)
-                && ['syncing', 'synced', 'offline', 'error'].includes(state.status);
-            cloudAuthForm.hidden = hasAccount;
-            cloudAccountActions.hidden = !hasAccount;
-            cloudAccountEmail.textContent = hasAccount ? state.email : '';
-            cloudSyncStatus.textContent = state.message || '';
-            cloudSyncStatus.dataset.status = state.status || 'guest';
-            const isSyncing = state.status === 'syncing';
-            if (cloudSyncNow) cloudSyncNow.disabled = isSyncing;
-            if (cloudSignOut) cloudSignOut.disabled = isSyncing;
-            cloudAuthButtons.forEach(button => {
-                button.disabled = isSyncing;
-            });
-        };
-
-        if (window.LernraumCloud) {
-            updateCloudPanel(window.LernraumCloud.getState());
-            window.addEventListener('lernraum:cloud-state', event => updateCloudPanel(event.detail));
+    const updateCloudPanel = state => {
+        if (!cloudAuthForm || !cloudSyncStatus) return;
+        const hasAccount = Boolean(state.email)
+            && ['syncing', 'synced', 'offline', 'error'].includes(state.status);
+        cloudAuthForm.hidden = hasAccount;
+        cloudAccountActions.hidden = !hasAccount;
+        cloudAccountEmail.textContent = hasAccount ? state.email : '';
+        cloudSyncStatus.textContent = state.message || '';
+        cloudSyncStatus.dataset.status = state.status || 'guest';
+        if (cloudMenuLabel) {
+            cloudMenuLabel.textContent = hasAccount ? 'Mein Lernkonto' : 'Anmelden & Lernstand synchronisieren';
         }
+        const isSyncing = state.status === 'syncing';
+        if (cloudSyncNow) cloudSyncNow.disabled = isSyncing;
+        if (cloudSignOut) cloudSignOut.disabled = isSyncing;
+        cloudAuthButtons.forEach(button => {
+            button.disabled = isSyncing;
+        });
+    };
 
-        if (cloudAuthForm && window.LernraumCloud) {
-            cloudAuthForm.addEventListener('submit', async event => {
-                event.preventDefault();
-                const submitter = event.submitter;
-                const email = cloudAuthForm.elements.email.value.trim();
-                const password = cloudAuthForm.elements.password.value;
-                cloudAuthButtons.forEach(button => {
-                    button.disabled = true;
-                });
-                cloudSyncStatus.textContent = 'Anmeldung wird geprüft …';
-                try {
-                    if (submitter?.dataset.cloudAuth === 'signup') {
-                        const result = await window.LernraumCloud.signUp(email, password);
-                        if (result.confirmationRequired) {
-                            cloudSyncStatus.textContent = 'Konto angelegt. Bitte bestätige deine E-Mail-Adresse und melde dich danach an.';
-                        }
-                    } else {
-                        await window.LernraumCloud.signIn(email, password);
-                    }
-                } catch (error) {
-                    cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
-                } finally {
-                    cloudAuthButtons.forEach(button => {
-                        button.disabled = false;
-                    });
-                    updateCloudPanel(window.LernraumCloud.getState());
-                }
-            });
-        }
+    if (window.LernraumCloud) {
+        updateCloudPanel(window.LernraumCloud.getState());
+        window.addEventListener('lernraum:cloud-state', event => updateCloudPanel(event.detail));
+    }
 
-        cloudResendConfirmation?.addEventListener('click', async () => {
+    if (cloudAuthForm && window.LernraumCloud) {
+        cloudAuthForm.addEventListener('submit', async event => {
+            event.preventDefault();
+            const submitter = event.submitter;
             const email = cloudAuthForm.elements.email.value.trim();
-            if (!email) {
-                cloudSyncStatus.textContent = 'Bitte gib zuerst deine E-Mail-Adresse ein.';
-                cloudAuthForm.elements.email.focus();
-                return;
-            }
-
-            cloudResendConfirmation.disabled = true;
-            cloudSyncStatus.textContent = 'Bestätigungs-E-Mail wird erneut angefordert …';
+            const password = cloudAuthForm.elements.password.value;
+            cloudAuthButtons.forEach(button => {
+                button.disabled = true;
+            });
+            cloudSyncStatus.textContent = 'Anmeldung wird geprüft …';
             try {
-                await window.LernraumCloud.resendConfirmation(email);
+                if (submitter?.dataset.cloudAuth === 'signup') {
+                    const result = await window.LernraumCloud.signUp(email, password);
+                    if (result.confirmationRequired) {
+                        cloudSyncStatus.textContent = 'Konto angelegt. Bitte bestätige deine E-Mail-Adresse und melde dich danach an.';
+                    }
+                } else {
+                    await window.LernraumCloud.signIn(email, password);
+                }
             } catch (error) {
                 cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
             } finally {
-                cloudResendConfirmation.disabled = false;
+                cloudAuthButtons.forEach(button => {
+                    button.disabled = false;
+                });
                 updateCloudPanel(window.LernraumCloud.getState());
             }
         });
+    }
 
-        cloudSyncNow?.addEventListener('click', () => {
-            window.LernraumCloud.syncNow().catch(error => {
-                console.error('Die manuelle Lernstand-Synchronisierung ist fehlgeschlagen:', error);
-            });
-        });
-        cloudSignOut?.addEventListener('click', () => {
-            window.LernraumCloud.signOut().catch(error => {
-                console.error('Das Lernkonto konnte nicht vollständig abgemeldet werden:', error);
-                cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
-            });
-        });
+    cloudResendConfirmation?.addEventListener('click', async () => {
+        const email = cloudAuthForm.elements.email.value.trim();
+        if (!email) {
+            cloudSyncStatus.textContent = 'Bitte gib zuerst deine E-Mail-Adresse ein.';
+            cloudAuthForm.elements.email.focus();
+            return;
+        }
 
+        cloudResendConfirmation.disabled = true;
+        cloudSyncStatus.textContent = 'Bestätigungs-E-Mail wird erneut angefordert …';
+        try {
+            await window.LernraumCloud.resendConfirmation(email);
+        } catch (error) {
+            cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
+        } finally {
+            cloudResendConfirmation.disabled = false;
+            updateCloudPanel(window.LernraumCloud.getState());
+        }
+    });
+
+    cloudSyncNow?.addEventListener('click', () => {
+        window.LernraumCloud.syncNow().catch(error => {
+            console.error('Die manuelle Lernstand-Synchronisierung ist fehlgeschlagen:', error);
+        });
+    });
+    cloudSignOut?.addEventListener('click', () => {
+        window.LernraumCloud.signOut().catch(error => {
+            console.error('Das Lernkonto konnte nicht vollständig abgemeldet werden:', error);
+            cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
+        });
+    });
+
+    if (page === 'home') {
         const subjectSearchInput = document.getElementById('subjectSearch');
         if (subjectSearchInput) {
             const filterCards = () => {
