@@ -135,6 +135,13 @@ function renderSubjectPage(subject) {
                         <p>135 Minuten · Pflichtteile A1 und A2 · zwei von drei Aufgaben im Wahlteil B.</p>
                         <span class="portal-card-link">Prüfung starten →</span>
                     </a>
+                    <a class="subject-card portal-subject-card" href="./mathematik-lernen.html?view=mental">
+                        <span class="subject-icon" aria-hidden="true">🧠</span>
+                        <span class="subject-status available">Kurze Rechenübungen</span>
+                        <h3>Kopfrechnen</h3>
+                        <p>Trainiere Rechenfertigkeiten mit zufälligen Aufgaben in drei Schwierigkeitsstufen.</p>
+                        <span class="portal-card-link">Jetzt üben →</span>
+                    </a>
                 </div>
                 <p class="portal-curriculum-note">Die Simulation ist ein Lernangebot und keine Originalprüfung. Prüfungsinhalte und Vorgaben können sich ändern.</p>
             </section>
@@ -391,10 +398,12 @@ function renderMathLearningPage() {
             <nav class="math-tabs" aria-label="Mathematik-Lernwerkzeuge">
                 <button class="math-tab active" type="button" data-math-view="topics">Themen &amp; Erklärungen</button>
                 <button class="math-tab" type="button" data-math-view="practice">Übungsdatenbank</button>
+                <button class="math-tab" type="button" data-math-view="mental">Kopfrechnen</button>
                 <button class="math-tab" type="button" data-math-view="exam">Prüfungssimulator</button>
             </nav>
             <div id="mathViewTopics" class="math-view"></div>
             <div id="mathViewPractice" class="math-view hidden"></div>
+            <div id="mathViewMental" class="math-view hidden"></div>
             <div id="mathViewExam" class="math-view hidden"></div>
             <div id="mathLiveRegion" class="math-sr-only" aria-live="polite"></div>
         </section>

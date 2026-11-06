@@ -548,6 +548,7 @@
     }
     let examState = { phase: 'intro', bChoices: [], answers: {}, remainingSeconds: 135 * 60, deadline: null, interval: null };
     let feedbackState = {};
+    let mentalMathState = { difficulty: 'easy', question: null, answer: '', feedback: '', score: 0, scored: false };
 
     function escapeHtml(value) {
         return String(value).replace(/[&<>"']/g, character => ({
@@ -650,6 +651,80 @@
                     <ol class="math-solution" data-solution="${task.id}" ${state.solution ? '' : 'hidden'}>${task.steps.map(step => `<li>${step}</li>`).join('')}</ol>
                 </article>`;
             }).join('')}</div>`;
+    }
+
+    function randomInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function createMentalMathQuestion() {
+        const settings = {
+            easy: { min: 10, max: 100, factorMin: 2, factorMax: 12, quotientMin: 2, quotientMax: 12, divisorMax: 10, percentValues: [10, 25, 50], baseMax: 25 },
+            medium: { min: 100, max: 999, factorMin: 6, factorMax: 25, quotientMin: 10, quotientMax: 50, divisorMax: 20, percentValues: [10, 15, 20, 25], baseMax: 50 },
+            hard: { min: 500, max: 9999, factorMin: 12, factorMax: 50, quotientMin: 20, quotientMax: 200, divisorMax: 25, percentValues: [15, 20, 25, 30], baseMax: 100 }
+        }[mentalMathState.difficulty];
+        const operation = ['addition', 'subtraction', 'multiplication', 'division', 'percent'][randomInteger(0, 4)];
+
+        if (operation === 'addition') {
+            const first = randomInteger(settings.min, settings.max);
+            const second = randomInteger(settings.min, settings.max);
+            return { prompt: `Berechne: ${first} + ${second}`, answer: first + second };
+        }
+        if (operation === 'subtraction') {
+            const first = randomInteger(settings.min, settings.max);
+            const second = randomInteger(1, first);
+            return { prompt: `Berechne: ${first} − ${second}`, answer: first - second };
+        }
+        if (operation === 'multiplication') {
+            const first = randomInteger(settings.factorMin, settings.factorMax);
+            const second = randomInteger(settings.factorMin, settings.factorMax);
+            return { prompt: `Berechne: ${first} · ${second}`, answer: first * second };
+        }
+        if (operation === 'division') {
+            const divisor = randomInteger(2, settings.divisorMax);
+            const quotient = randomInteger(settings.quotientMin, settings.quotientMax);
+            return { prompt: `Berechne: ${divisor * quotient} : ${divisor}`, answer: quotient };
+        }
+
+        const percent = settings.percentValues[randomInteger(0, settings.percentValues.length - 1)];
+        const base = randomInteger(1, settings.baseMax) * 20;
+        return { prompt: `Wie viel sind ${percent} % von ${base}?`, answer: percent * base / 100 };
+    }
+
+    function nextMentalMathQuestion() {
+        mentalMathState.question = createMentalMathQuestion();
+        mentalMathState.answer = '';
+        mentalMathState.feedback = '';
+        mentalMathState.scored = false;
+        renderMentalMath();
+    }
+
+    function renderMentalMath() {
+        if (!mentalMathState.question) mentalMathState.question = createMentalMathQuestion();
+        const difficultyLabels = { easy: 'Leicht', medium: 'Mittel', hard: 'Schwer' };
+        document.getElementById('mathViewMental').innerHTML = `
+            <div class="math-section-heading">
+                <div><span class="math-eyebrow">KOPFRECHNEN</span><h2>Rechne ohne Taschenrechner</h2></div>
+                <p>${mentalMathState.score} ${mentalMathState.score === 1 ? 'Aufgabe' : 'Aufgaben'} richtig gelöst</p>
+            </div>
+            <label class="math-filter-label" for="mentalDifficulty">Schwierigkeitsstufe
+                <select id="mentalDifficulty" class="math-select">
+                    ${Object.entries(difficultyLabels).map(([value, label]) => `<option value="${value}" ${mentalMathState.difficulty === value ? 'selected' : ''}>${label}</option>`).join('')}
+                </select>
+            </label>
+            <article class="math-panel">
+                <div class="math-exercise-meta">${difficultyLabels[mentalMathState.difficulty]} · Addition, Subtraktion, Multiplikation, Division und Prozentrechnung</div>
+                <h3>${mentalMathState.question.prompt}</h3>
+                <div class="math-answer-row">
+                    <label class="math-answer-label">
+                        <span class="math-sr-only">Deine Antwort</span>
+                        <input id="mentalMathAnswer" class="math-answer" type="text" inputmode="decimal" autocomplete="off" placeholder="Dein Ergebnis" aria-label="Dein Ergebnis" value="${escapeHtml(mentalMathState.answer)}">
+                    </label>
+                    <button type="button" class="math-button math-button-primary" data-mental-check>Prüfen</button>
+                    <button type="button" class="math-button" data-mental-new>Neue Aufgabe</button>
+                </div>
+                <p class="math-feedback ${mentalMathState.feedback.startsWith('Richtig') ? 'is-correct' : 'is-incorrect'}" aria-live="polite" ${mentalMathState.feedback ? '' : 'hidden'}>${escapeHtml(mentalMathState.feedback)}</p>
+            </article>`;
     }
 
     function formatTime(seconds) {
@@ -833,6 +908,7 @@
         document.querySelectorAll('.math-view').forEach(section => section.classList.toggle('hidden', section.id !== `mathView${view[0].toUpperCase()}${view.slice(1)}`));
         root.closest('#portalApp')?.classList.toggle('math-subtopic-focus', view === 'topics' && Boolean(activeSubtopic));
         if (view === 'practice') renderPractice();
+        if (view === 'mental') renderMentalMath();
         if (view === 'exam') renderExam();
     }
 
@@ -841,6 +917,22 @@
         if (!target) return;
 
         if (target.dataset.mathView) switchView(target.dataset.mathView);
+        if (target.hasAttribute('data-mental-new')) nextMentalMathQuestion();
+        if (target.hasAttribute('data-mental-check')) {
+            const input = document.getElementById('mentalMathAnswer');
+            const value = numericValue(input.value);
+            if (value === null) {
+                mentalMathState.answer = input.value;
+                mentalMathState.feedback = 'Gib zuerst eine gültige Zahl ein.';
+            } else if (Math.abs(value - mentalMathState.question.answer) < 0.000001) {
+                if (!mentalMathState.scored) mentalMathState.score += 1;
+                mentalMathState.scored = true;
+                mentalMathState.feedback = 'Richtig! Gut gerechnet.';
+            } else {
+                mentalMathState.feedback = 'Noch nicht richtig. Versuche es noch einmal.';
+            }
+            renderMentalMath();
+        }
         if (target.dataset.topic) {
             activeTopic = target.dataset.topic;
             activeSubtopic = null;
@@ -914,6 +1006,10 @@
     });
 
     root.addEventListener('change', event => {
+        if (event.target.id === 'mentalDifficulty') {
+            mentalMathState.difficulty = event.target.value;
+            nextMentalMathQuestion();
+        }
         if (event.target.id === 'mathTopicFilter') {
             activeFilter = event.target.value;
             activeSubtopicFilter = null;
@@ -938,6 +1034,10 @@
     });
 
     root.addEventListener('input', event => {
+        if (event.target.id === 'mentalMathAnswer') {
+            mentalMathState.answer = event.target.value;
+            return;
+        }
         if (!event.target.matches('[data-task-answer]')) return;
         const taskId = event.target.dataset.taskAnswer;
         if (examState.phase === 'a1' || examState.phase === 'a2b') {
@@ -953,7 +1053,7 @@
         renderTopics();
         renderPractice();
         renderExam();
-        if (['practice', 'exam'].includes(requestedView)) {
+        if (['practice', 'mental', 'exam'].includes(requestedView)) {
             switchView(requestedView);
         } else {
             root.closest('#portalApp')?.classList.toggle('math-subtopic-focus', Boolean(activeSubtopic));
