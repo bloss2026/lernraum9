@@ -8,7 +8,25 @@
     let updateRequested = false;
     let updateNotice;
     let updateButton;
+    let reloadScheduled = false;
     const hadController = Boolean(navigator.serviceWorker?.controller);
+
+    function scheduleReload() {
+        if (reloadScheduled) return;
+        reloadScheduled = true;
+        window.setTimeout(() => {
+            if (!document.hidden) {
+                window.location.reload();
+                return;
+            }
+
+            const onVisible = () => {
+                window.location.reload();
+                document.removeEventListener('visibilitychange', onVisible);
+            };
+            document.addEventListener('visibilitychange', onVisible, { once: true });
+        }, 1200);
+    }
 
     function showUpdateNotice(message, buttonLabel, onClick) {
         if (!updateNotice) {
@@ -31,21 +49,24 @@
     function requestUpdate() {
         waitingWorker = registration?.waiting || waitingWorker;
         if (!waitingWorker) {
-            window.location.reload();
+            scheduleReload();
             return;
         }
 
         updateRequested = true;
-        updateButton.disabled = true;
-        updateButton.textContent = 'Wird aktualisiert …';
+        if (updateButton) {
+            updateButton.disabled = true;
+            updateButton.textContent = 'Wird aktualisiert …';
+        }
         waitingWorker.postMessage({ type: 'SKIP_WAITING' });
+        scheduleReload();
     }
 
     function handleControllerChange() {
         if (!hadController) return;
 
-        if (updateRequested) {
-            window.location.reload();
+        if (updateRequested || waitingWorker) {
+            scheduleReload();
             return;
         }
 
@@ -72,7 +93,7 @@
 
             if (registration.waiting && navigator.serviceWorker.controller) {
                 waitingWorker = registration.waiting;
-                showUpdateNotice('Eine neue Version ist bereit.', 'Jetzt aktualisieren', requestUpdate);
+                requestUpdate();
             }
 
             registration.addEventListener('updatefound', () => {
@@ -84,7 +105,7 @@
                         && registration.waiting
                         && navigator.serviceWorker.controller) {
                         waitingWorker = registration.waiting;
-                        showUpdateNotice('Eine neue Version ist bereit.', 'Jetzt aktualisieren', requestUpdate);
+                        requestUpdate();
                     }
                 });
             });

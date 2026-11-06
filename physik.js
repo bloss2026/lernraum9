@@ -59,11 +59,11 @@
             topic: 'electricity', topicTitle: 'Elektrizität', topicIcon: '⚡',
             id: 'current-voltage', title: 'Stromstärke und Spannung', summary: 'Stromstärke beschreibt den Ladungsfluss; Spannung ist der Antrieb für diesen Fluss.',
             paragraphs: [
-                'Elektrischer Strom ist die gerichtete Bewegung elektrischer Ladungen. Die Stromstärke I gibt an, wie viel Ladung Q pro Zeit durch einen Leiterquerschnitt fließt: I = Q / t. Ihre Einheit ist Ampere (A); Ladung wird in Coulomb (C) gemessen.',
-                'Die Spannung U beschreibt, wie viel Energie je Ladungsmenge übertragen wird. Sie wird in Volt (V) gemessen. Eine Spannungsquelle kann Ladungen antreiben, aber nur in einem geschlossenen Stromkreis fließt dauerhaft Strom. Ein Amperemeter wird in Reihe, ein Voltmeter parallel zum Bauteil geschaltet.'
+                'Elektrischer Strom ist die gerichtete Bewegung elektrischer Ladungen. Die Stromstärke I gibt an, wie viel Ladung Q pro Zeit durch einen Leiterquerschnitt fließt: I = Q / t. Ihre Einheit ist Ampere (A); Ladung wird in Coulomb (C) gemessen. Eine einfache Vorstellung: Stell dir Wasser in einem Rohr vor. Die Menge des Wassers pro Sekunde entspricht der Stromstärke, also dem Strom, der durch den Draht fließt.',
+                'Die Spannung U beschreibt, wie stark die Quelle die Ladungen antreibt. Man kann sie mit dem „Druck“ im Wasserrohr vergleichen: Je höher der Druck, desto stärker fließt das Wasser. In der Elektrik ist die Spannung in Volt (V) angegeben. Ohne geschlossenen Kreis kann die Spannung zwar vorhanden sein, aber es fließt kein dauerhafter Strom. Ein Amperemeter wird in Reihe, ein Voltmeter parallel zum Bauteil geschaltet.'
             ],
             steps: ['Prüfen, ob Ladung, Zeit, Stromstärke oder Spannung gesucht ist.', 'Für Stromstärke I = Q / t beziehungsweise Q = I · t verwenden.', 'Einheiten kontrollieren: C/s = A. Spannung immer parallel messen.'],
-            example: { title: 'Ladung im Stromkreis', lines: ['In 5 s fließen 10 C durch einen Leiter.', 'I = Q / t = 10 C / 5 s.', 'I = 2 A.'] },
+            example: { title: 'Ladung im Stromkreis', lines: ['In 5 s fließen 10 C durch einen Leiter.', 'I = Q / t = 10 C / 5 s.', 'I = 2 A.', 'Merke: 2 Ampere bedeutet 2 Coulomb pro Sekunde.'] },
             exercises: [
                 { prompt: 'In 4 s fließen 12 C durch einen Leiter. Wie groß ist I?', answer: 3, unit: 'A', steps: ['I = Q / t.', 'I = 12 C / 4 s.', 'I = 3 A.'] },
                 { prompt: 'Bei 2 A fließt eine Ladung 15 s lang. Wie groß ist Q?', answer: 30, unit: 'C', steps: ['Q = I · t.', 'Q = 2 A · 15 s.', 'Q = 30 C.'] },
@@ -74,11 +74,11 @@
             topic: 'electricity', topicTitle: 'Elektrizität', topicIcon: '⚡',
             id: 'resistance', title: 'Elektrischer Widerstand', summary: 'Der elektrische Widerstand gibt an, wie stark ein Bauteil den Stromfluss hemmt.',
             paragraphs: [
-                'Für einen ohmschen Widerstand gilt das Ohmsche Gesetz U = R · I. R ist der Widerstand in Ohm (Ω), U die Spannung in Volt und I die Stromstärke in Ampere. Bei gleichbleibender Temperatur sind Spannung und Stromstärke proportional.',
-                'Wird die Spannung verdoppelt, verdoppelt sich bei gleichem Widerstand die Stromstärke. Ein größerer Widerstand lässt bei gleicher Spannung weniger Strom fließen. Das Gesetz gilt für ohmsche Bauteile; bei einer Glühlampe kann sich der Widerstand durch Erwärmung verändern.'
+                'Ein Widerstand ist wie eine Engstelle im Wasserrohr: Er macht den Stromfluss schwerer. Der elektrische Widerstand R gibt an, wie stark ein Bauteil den Strom hemmt. Für einen ohmschen Widerstand gilt das Ohmsche Gesetz U = R · I. R ist der Widerstand in Ohm (Ω), U die Spannung in Volt und I die Stromstärke in Ampere. Bei gleichbleibender Temperatur sind Spannung und Stromstärke proportional.',
+                'Wenn die Spannung größer wird, steigt bei gleichem Widerstand auch die Stromstärke. Wenn der Widerstand größer wird, fließt bei gleicher Spannung weniger Strom. Das ist einfach zu merken: Mehr Widerstand = weniger Strom. Glühlampen und Heizelemente sind Beispiele, bei denen sich der Widerstand mit der Temperatur ändern kann, weil der Draht sich erwärmt.'
             ],
             steps: ['Gegebene Größen und gesuchte Größe markieren.', 'U = R · I passend umstellen: R = U / I oder I = U / R.', 'Mit Volt und Ampere rechnen; R wird in Ohm angegeben.'],
-            example: { title: 'Widerstand bestimmen', lines: ['An einem Bauteil liegen 12 V an; es fließen 3 A.', 'R = U / I = 12 V / 3 A.', 'R = 4 Ω.'] },
+            example: { title: 'Widerstand bestimmen', lines: ['An einem Bauteil liegen 12 V an; es fließen 3 A.', 'R = U / I = 12 V / 3 A.', 'R = 4 Ω.', 'Ein Widerstand von 4 Ω hemmt den Strom stärker als 1 Ω.'] },
             exercises: [
                 { prompt: 'An einem Widerstand liegen 18 V an. Es fließen 3 A. Berechne R.', answer: 6, unit: 'Ω', steps: ['R = U / I.', 'R = 18 V / 3 A.', 'R = 6 Ω.'] },
                 { prompt: 'Ein Widerstand von 8 Ω liegt an 24 V. Berechne I.', answer: 3, unit: 'A', steps: ['I = U / R.', 'I = 24 V / 8 Ω.', 'I = 3 A.'] },
@@ -89,11 +89,11 @@
             topic: 'electricity', topicTitle: 'Elektrizität', topicIcon: '⚡',
             id: 'circuits', title: 'Reihen- und Parallelschaltung', summary: 'Die Anordnung der Bauteile bestimmt, wie sich Stromstärke und Spannung verteilen.',
             paragraphs: [
-                'In einer Reihenschaltung gibt es nur einen Weg für den Strom. Durch alle Bauteile fließt dieselbe Stromstärke. Die Teilspannungen addieren sich zur Gesamtspannung; bei Widerständen gilt Rges = R1 + R2 + … . Wird ein Bauteil unterbrochen, ist der gesamte Stromkreis offen.',
-                'In einer Parallelschaltung liegen alle Zweige an denselben beiden Knoten. Die Spannung ist in jedem Zweig gleich groß, während sich die Teilströme zur Gesamtstromstärke addieren. Fällt ein Zweig aus, können die anderen weiter funktionieren. Die Wahl der Schaltung beeinflusst daher Messung, Sicherheit und Funktion.'
+                'In einer Reihenschaltung gibt es nur einen Weg für den Strom. Das heißt: Alle Teile liegen hintereinander und der gleiche Strom muss durch jedes Bauteil fließen. Die Teilspannungen addieren sich zur Gesamtspannung; bei Widerständen gilt Rges = R1 + R2 + … . Wenn ein Bauteil kaputtgeht oder unterbrochen wird, ist der ganze Stromkreis unterbrochen. Das ist der Grund, warum bei vielen Serienlampen eine defekte Lampe den ganzen Stromfluss stoppt.',
+                'In einer Parallelschaltung gibt es mehrere Wege. Jeder Zweig ist mit derselben Spannung verbunden, aber die Teilströme können unterschiedlich groß sein. Sie addieren sich zur Gesamtstromstärke. Wenn ein Zweig ausfällt, funktionieren die anderen weiter. Das ist bei Hausstromkreisen wichtig: Wenn ein Gerät ausfällt, bleiben die anderen Geräte weiter eingeschaltet.'
             ],
             steps: ['Schaltungsart erkennen: ein Stromweg bedeutet Reihe, mehrere Zweige bedeuten parallel.', 'Reihe: gleiche Stromstärke, Spannungen addieren, Widerstände addieren.', 'Parallel: gleiche Spannung an den Zweigen, Teilströme addieren.'],
-            example: { title: 'Zwei Widerstände in Reihe', lines: ['R1 = 4 Ω und R2 = 6 Ω.', 'Rges = R1 + R2 = 4 Ω + 6 Ω.', 'Rges = 10 Ω.'] },
+            example: { title: 'Zwei Widerstände in Reihe', lines: ['R1 = 4 Ω und R2 = 6 Ω.', 'Rges = R1 + R2 = 4 Ω + 6 Ω.', 'Rges = 10 Ω.', 'Ein einzelnes Problem im Kreis schließt die ganze Kette.'] },
             exercises: [
                 { prompt: 'Zwei Widerstände von 3 Ω und 7 Ω sind in Reihe geschaltet. Berechne Rges.', answer: 10, unit: 'Ω', steps: ['In Reihe addieren sich die Widerstände.', 'Rges = 3 Ω + 7 Ω.', 'Rges = 10 Ω.'] },
                 { prompt: 'In zwei parallelen Zweigen fließen 0,4 A und 0,6 A. Wie groß ist der Gesamtstrom?', answer: 1, unit: 'A', steps: ['In der Parallelschaltung addieren sich die Teilströme.', 'Iges = 0,4 A + 0,6 A.', 'Iges = 1 A.'] },
@@ -104,11 +104,11 @@
             topic: 'electricity', topicTitle: 'Elektrizität', topicIcon: '⚡',
             id: 'electric-power', title: 'Elektrische Leistung und Energie', summary: 'Leistung beschreibt die pro Zeit umgesetzte Energie; elektrische Energie wird häufig in Kilowattstunden abgerechnet.',
             paragraphs: [
-                'Die elektrische Leistung berechnet sich mit P = U · I und wird in Watt (W) angegeben. Ein Gerät mit großer Leistung setzt bei gleicher Betriebszeit mehr Energie um. Für elektrische Energie gilt E = P · t.',
-                'Bei der Rechnung müssen Einheiten zusammenpassen. Watt mal Sekunde ergibt Joule. Im Alltag nutzt man oft Kilowatt und Stunden: 1 kWh = 1000 W · 1 h = 3 600 000 J. Die auf einem Gerät angegebene Leistung ist meist die maximale oder typische Leistung im Betrieb.'
+                'Die elektrische Leistung beschreibt, wie schnell Energie benutzt oder umgesetzt wird. Sie berechnet sich mit P = U · I und wird in Watt (W) angegeben. Ein Gerät mit großer Leistung verwendet in derselben Zeit mehr Energie. Für elektrische Energie gilt E = P · t. Das bedeutet: Je länger ein Gerät läuft und je höher seine Leistung ist, desto mehr Energie wird verbraucht.',
+                'Im Alltag rechnet man oft mit Kilowattstunden (kWh): 1 kWh entspricht 1000 W, die 1 Stunde lang genutzt werden. Das ist die Einheit, die auf der Stromrechnung steht. Beispiel: Eine 60-W-Lampe leuchtet 5 Stunden lang. Dann verbraucht sie 300 Wh = 0,3 kWh. Das ist eine kleine, leicht verständliche Form der Rechnung.'
             ],
             steps: ['Für Leistung P = U · I verwenden.', 'Für Energie E = P · t verwenden und Leistung und Zeit in passenden Einheiten einsetzen.', 'Einheit kontrollieren: W·s = J oder kW·h = kWh.'],
-            example: { title: 'Energie einer Lampe', lines: ['Eine 60-W-Lampe leuchtet 5 h.', 'E = P · t = 60 W · 5 h = 300 Wh.', 'Das sind 0,3 kWh.'] },
+            example: { title: 'Energie einer Lampe', lines: ['Eine 60-W-Lampe leuchtet 5 h.', 'E = P · t = 60 W · 5 h = 300 Wh.', 'Das sind 0,3 kWh.', 'Mehr Leistung oder längere Zeit bedeutet mehr verbrauchte Energie.'] },
             exercises: [
                 { prompt: 'Ein Gerät arbeitet bei 230 V mit 2 A. Wie groß ist seine Leistung?', answer: 460, unit: 'W', steps: ['P = U · I.', 'P = 230 V · 2 A.', 'P = 460 W.'] },
                 { prompt: 'Eine 100-W-Lampe leuchtet 3 h. Wie viel Energie verbraucht sie in Wh?', answer: 300, unit: 'Wh', steps: ['E = P · t.', 'E = 100 W · 3 h.', 'E = 300 Wh.'] },

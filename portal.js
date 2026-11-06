@@ -96,6 +96,77 @@ const physicsTopics = [
 
 const currentSubject = subjects.find(subject => subject.id === document.documentElement.dataset.subject);
 const app = document.getElementById('portalApp');
+const subjectProgressTotals = {
+    mathematik: 10,
+    physik: 9,
+    chemie: 10
+};
+
+async function readSubjectProgressState() {
+    if (!window.LernraumDB) return { subjects: {} };
+    const state = await window.LernraumDB.get('lernraumFachFortschritte');
+    return state && typeof state === 'object' ? state : { subjects: {} };
+}
+
+async function updateSubjectProgress(subjectId, topicId) {
+    if (!subjectId || !window.LernraumDB) return;
+
+    const state = await readSubjectProgressState();
+    state.subjects = state.subjects || {};
+    const entry = state.subjects[subjectId] || { topics: [] };
+    const topics = Array.isArray(entry.topics) ? entry.topics : [];
+    if (topicId && !topics.includes(topicId)) {
+        topics.push(topicId);
+    }
+
+    state.subjects[subjectId] = {
+        ...entry,
+        topics,
+        lastUpdated: Date.now()
+    };
+
+    await window.LernraumDB.set('lernraumFachFortschritte', state);
+    refreshSubjectProgressCards();
+}
+
+async function currentSubjectProgress(subjectId) {
+    const state = await readSubjectProgressState();
+    const entry = state.subjects && state.subjects[subjectId] ? state.subjects[subjectId] : { topics: [] };
+    const topics = Array.isArray(entry.topics) ? entry.topics : [];
+    const total = subjectProgressTotals[subjectId] || Math.max(topics.length, 1);
+    const completed = Math.min(topics.length, total);
+    return {
+        completed,
+        total,
+        percent: total ? Math.round((completed / total) * 100) : 0
+    };
+}
+
+function refreshSubjectProgressCards() {
+    if (!document.querySelector('[data-progress-subject]')) return;
+
+    Object.keys(subjectProgressTotals).forEach(async subjectId => {
+        const nodes = document.querySelectorAll(`[data-progress-subject="${subjectId}"]`);
+        const progress = await currentSubjectProgress(subjectId);
+        nodes.forEach(node => {
+            node.textContent = `Fortschritt: ${progress.completed}/${progress.total}`;
+        });
+    });
+
+    if (window.LernraumDB) {
+        window.LernraumDB.get('chemieLernState').then(state => {
+            const completed = Array.isArray(state?.completedModules) ? state.completedModules.length : 0;
+            const total = subjectProgressTotals.chemie || 10;
+            document.querySelectorAll('[data-progress-subject="chemie"]').forEach(node => {
+                node.textContent = `Fortschritt: ${Math.min(completed, total)}/${total}`;
+            });
+        }).catch(() => {
+            document.querySelectorAll('[data-progress-subject="chemie"]').forEach(node => {
+                node.textContent = 'Fortschritt: 0/10';
+            });
+        });
+    }
+}
 
 function renderNavigation(activeSubjectId = '') {
     return `
@@ -124,11 +195,12 @@ function renderNavigation(activeSubjectId = '') {
 
 function renderSubjectCards() {
     return subjects.map(subject => `
-        <a class="subject-card portal-subject-card ${subject.available ? '' : 'placeholder-card'}" href="./${subject.file}">
+        <a class="subject-card portal-subject-card ${subject.available ? '' : 'placeholder-card'}" href="./${subject.file}" data-subject-card data-subject-name="${subject.name.toLowerCase()}">
             <span class="subject-icon" aria-hidden="true">${subject.icon}</span>
             <span class="subject-status ${subject.available ? 'available' : ''}">
                 ${subject.available ? 'Themen verfügbar' : 'Platzhalter · Inhalte folgen'}
             </span>
+            <div class="subject-progress" data-progress-subject="${subject.id}">Fortschritt: --</div>
             <h3>${subject.name}</h3>
             <p>${subject.available
                 ? 'Themenübersicht und Lernmodule'
@@ -162,6 +234,18 @@ function renderDashboard() {
                 <p>Chemie mit Lerninhalten, weitere Fächer als Platzhalter</p>
             </article>
         </section>
+        <section class="portal-content-section">
+            <div class="portal-section-heading">
+                <div><span class="pill">FÄCHERÜBERSICHT</span><h2>Fach wählen</h2></div>
+            </div>
+            <div class="portal-search" role="search">
+                <label class="portal-search-label" for="subjectSearch">Fach suchen</label>
+                <input id="subjectSearch" type="search" placeholder="z. B. Mathematik, Physik, Chemie" aria-label="Fächer suchen" autocomplete="off">
+            </div>
+            <div class="subject-grid" id="subjectGrid">
+                ${renderSubjectCards()}
+            </div>
+        </section>
     `;
 }
 
@@ -190,7 +274,6 @@ function renderSubjectPage(subject) {
                     <div><span class="pill">THEMENÜBERSICHT</span><h2>Physik-Themen</h2></div>
                     <p>Thema auswählen → Unterthema öffnen → lernen und üben</p>
                 </div>
-                <a class="physics-formula-jump" href="#physicsFormulaCollection">📑 Zur Formelsammlung mit Übungen ↓</a>
                 <div class="subject-grid">
                     ${physicsTopics.map(topic => `
                         <a class="subject-card portal-subject-card" href="./physik-themen.html?topic=${topic.id}">
@@ -201,14 +284,14 @@ function renderSubjectPage(subject) {
                             <span class="portal-card-link">Thema öffnen →</span>
                         </a>
                     `).join('')}
+                    <a class="subject-card portal-subject-card" href="./physik-formelsammlung.html">
+                        <span class="subject-icon" aria-hidden="true">📑</span>
+                        <span class="subject-status available">25 Formeln · 22 Rechenaufgaben</span>
+                        <h3>Physik-Formelsammlung</h3>
+                        <p>Wichtige Formeln, Größen und Einheiten nach Themen geordnet – mit Übungen und nachvollziehbaren Lösungswegen.</p>
+                        <span class="portal-card-link">Thema öffnen →</span>
+                    </a>
                 </div>
-                <section id="physicsFormulaCollection" class="physics-formula-section" aria-labelledby="physicsFormulaHeading">
-                    <div class="portal-section-heading">
-                        <div><span class="pill">LERNEN &amp; ÜBEN</span><h2 id="physicsFormulaHeading">Physik-Formelsammlung</h2></div>
-                        <p>Wichtige Formeln, Größen und Einheiten für Klasse 9 – mit Rechenübungen und Lösungswegen.</p>
-                    </div>
-                    <div id="physicsFormulaContent"></div>
-                </section>
             </section>
         `;
     }
@@ -593,6 +676,20 @@ function renderPhysicsLearningPage() {
     `;
 }
 
+function renderPhysicsFormulaPage() {
+    return `
+        <section class="portal-hero portal-subject-hero">
+            <a class="portal-back-link" href="./physik.html">← Zurück zu Physik</a>
+            <span class="pill">📑 PHYSIK · KLASSE 9</span>
+            <h1>Physik-Formelsammlung</h1>
+            <p>Wichtige Formeln, Größen und Einheiten – nach Themen geordnet, mit Rechenübungen und nachvollziehbaren Lösungswegen.</p>
+        </section>
+        <section class="portal-content-section physics-formula-section" aria-label="Formeln und Rechenübungen">
+            <div id="physicsFormulaContent"></div>
+        </section>
+    `;
+}
+
 if (app) {
     const page = document.documentElement.dataset.page;
     const subject = currentSubject;
@@ -622,6 +719,21 @@ if (app) {
                 <header class="portal-topbar"><span>Lernplattform · Klasse 9</span><a href="./index.html">Startseite</a></header>
                 ${renderMathLearningPage()}
                 <footer class="portal-footer">Lernraum 9 · Mathematik · Klasse 9.</footer>
+            </main>
+        `;
+    } else if (page === 'physics-formulas') {
+        app.innerHTML = `
+            ${renderNavigation('physik')}
+            <main class="portal-main">
+                <header class="portal-topbar">
+                    <button class="portal-menu-toggle" type="button" aria-controls="portalSidebar" aria-expanded="false">
+                        <span aria-hidden="true">☰</span><span>Fächer</span>
+                    </button>
+                    <span>Lernplattform · Klasse 9</span>
+                    <a href="./index.html">Startseite</a>
+                </header>
+                ${renderPhysicsFormulaPage()}
+                <footer class="portal-footer">Lernraum 9 · Physik · Klasse 9.</footer>
             </main>
         `;
     } else if (page === 'physics-topic') {
@@ -677,11 +789,12 @@ if (app) {
     const menuToggle = document.querySelector('.portal-menu-toggle');
     const menuOverlay = document.querySelector('.portal-nav-overlay');
     if (navigation && menuToggle && menuOverlay) {
-        const mobileNavigation = window.matchMedia('(max-width: 600px)');
+        const mobileNavigation = typeof window.matchMedia === 'function' ? window.matchMedia('(max-width: 600px)') : null;
         const setMenuOpen = open => {
-            const isOpen = mobileNavigation.matches && open;
+            const isMobile = Boolean(mobileNavigation && mobileNavigation.matches);
+            const isOpen = isMobile && open;
             app.classList.toggle('portal-nav-open', isOpen);
-            navigation.setAttribute('aria-hidden', String(mobileNavigation.matches && !isOpen));
+            navigation.setAttribute('aria-hidden', String(isMobile && !isOpen));
             menuToggle.setAttribute('aria-expanded', String(isOpen));
             menuOverlay.hidden = !isOpen;
             document.body.classList.toggle('portal-nav-open', isOpen);
@@ -695,7 +808,11 @@ if (app) {
         });
         menuOverlay.addEventListener('click', () => setMenuOpen(false));
         navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuOpen(false)));
-        mobileNavigation.addEventListener('change', () => setMenuOpen(false));
+        if (mobileNavigation && typeof mobileNavigation.addEventListener === 'function') {
+            mobileNavigation.addEventListener('change', () => setMenuOpen(false));
+        } else if (mobileNavigation && typeof mobileNavigation.addListener === 'function') {
+            mobileNavigation.addListener(() => setMenuOpen(false));
+        }
         document.addEventListener('keydown', event => {
             if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
                 setMenuOpen(false);
@@ -704,5 +821,22 @@ if (app) {
         });
     }
 
-    if (page === 'home') loadDashboardState();
+    refreshSubjectProgressCards();
+
+    if (page === 'home') {
+        if (window.LernraumDB) loadDashboardState();
+
+        const subjectSearchInput = document.getElementById('subjectSearch');
+        if (subjectSearchInput) {
+            const filterCards = () => {
+                const query = subjectSearchInput.value.trim().toLowerCase();
+                document.querySelectorAll('[data-subject-card]').forEach(card => {
+                    const matches = !query || card.dataset.subjectName.includes(query);
+                    card.classList.toggle('hidden', !matches);
+                });
+            };
+            subjectSearchInput.addEventListener('input', filterCards);
+            filterCards();
+        }
+    }
 }

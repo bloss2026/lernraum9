@@ -5,9 +5,39 @@
     const storeName = 'keyValue';
     const legacyKeys = ['chemieLernState', 'mathematikLearningState'];
 
+    function safeLocalStorage() {
+        if (!('localStorage' in window)) {
+            return {
+                getItem() { return null; },
+                setItem() {},
+                removeItem() {}
+            };
+        }
+
+        try {
+            const storage = window.localStorage;
+            const testKey = '__lernraum9_test__';
+            storage.setItem(testKey, testKey);
+            storage.removeItem(testKey);
+            return storage;
+        } catch (error) {
+            return {
+                getItem() { return null; },
+                setItem() {},
+                removeItem() {}
+            };
+        }
+    }
+
+    const localStorageAdapter = safeLocalStorage();
+
     function openDatabase() {
+        if (!('indexedDB' in window)) {
+            return Promise.resolve(null);
+        }
+
         return new Promise((resolve, reject) => {
-            const request = indexedDB.open(databaseName, 1);
+            const request = window.indexedDB.open(databaseName, 1);
             request.onupgradeneeded = () => {
                 request.result.createObjectStore(storeName, { keyPath: 'key' });
             };
@@ -17,10 +47,12 @@
     }
 
     const databaseReady = openDatabase().then(async database => {
+        if (!database) return database;
+
         for (const key of legacyKeys) {
             let rawValue;
             try {
-                rawValue = localStorage.getItem(key);
+                rawValue = localStorageAdapter.getItem(key);
             } catch (error) {
                 console.warn('Der bisherige Lernstand konnte nicht aus dem LocalStorage gelesen werden:', error);
                 continue;
@@ -48,7 +80,7 @@
             });
 
             try {
-                localStorage.removeItem(key);
+                localStorageAdapter.removeItem(key);
             } catch (error) {
                 console.warn(`Der alte Lernstand "${key}" konnte nach der Übernahme nicht aus dem LocalStorage entfernt werden:`, error);
             }
@@ -57,6 +89,10 @@
     });
 
     function transactionRequest(database, mode, action) {
+        if (!database) {
+            return Promise.resolve(null);
+        }
+
         return new Promise((resolve, reject) => {
             const transaction = database.transaction(storeName, mode);
             let result;
@@ -75,6 +111,10 @@
     window.LernraumDB = {
         async get(key) {
             const database = await databaseReady;
+            if (!database) {
+                return JSON.parse(localStorageAdapter.getItem(key) || 'null');
+            }
+
             return new Promise((resolve, reject) => {
                 const request = database.transaction(storeName, 'readonly').objectStore(storeName).get(key);
                 request.onsuccess = () => resolve(request.result ? request.result.value : null);
@@ -83,10 +123,38 @@
         },
         async set(key, value) {
             const database = await databaseReady;
+            if (!database) {
+                try {
+                    localStorageAdapter.setItem(key, JSON.stringify(value));
+                } catch (error) {
+                    console.warn(`Der Lernstand "${key}" konnte im LocalStorage nicht gespeichert werden:`, error);
+                }
+                return;
+            }
+
             await transactionRequest(database, 'readwrite', store => store.put({ key, value }));
         },
         async update(key, updater) {
             const database = await databaseReady;
+            if (!database) {
+                const currentValue = (() => {
+                    const value = localStorageAdapter.getItem(key);
+                    if (value === null) return {};
+                    try {
+                        return JSON.parse(value);
+                    } catch (error) {
+                        return {};
+                    }
+                })();
+                const updatedValue = updater(currentValue);
+                try {
+                    localStorageAdapter.setItem(key, JSON.stringify(updatedValue));
+                } catch (error) {
+                    console.warn(`Der Lernstand "${key}" konnte im LocalStorage nicht aktualisiert werden:`, error);
+                }
+                return updatedValue;
+            }
+
             let updatedValue;
             await new Promise((resolve, reject) => {
                 const transaction = database.transaction(storeName, 'readwrite');
