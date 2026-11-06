@@ -898,6 +898,124 @@
             color: var(--primary-dark);
             font-weight: 700;
         }
+        .physics-formula-jump {
+            display: inline-flex;
+            margin: 0 0 1rem;
+            padding: 0.7rem 0.9rem;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 10px;
+            background: #e0f2fe;
+            color: #075985;
+            font-weight: 750;
+            text-decoration: none;
+        }
+        .physics-formula-section { scroll-margin-top: 1rem; }
+        .physics-formula-grid { display: grid; gap: 1.25rem; }
+        .physics-formula-group > h3,
+        .physics-formula-exercises h3 {
+            margin: 0 0 0.75rem;
+            color: #10243b;
+            font-size: 1.2rem;
+        }
+        .physics-formula-cards {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+        .physics-formula-card {
+            padding: 1rem;
+            border: 1px solid rgba(148, 163, 184, 0.22);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.96);
+            box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+        }
+        .physics-formula-card h4,
+        .physics-formula-exercise h4 { color: #10243b; }
+        .physics-formula-card h4 { margin-bottom: 0.55rem; }
+        .physics-formula-card p,
+        .physics-formula-exercise details p {
+            margin: 0.35rem 0 0;
+            color: #475569;
+            line-height: 1.55;
+        }
+        .physics-formula-equation {
+            padding: 0.55rem 0.7rem;
+            border-radius: 8px;
+            background: #eff8ff;
+            color: #075985 !important;
+            font-size: 1.05rem;
+            font-weight: 800;
+        }
+        .physics-formula-equation code {
+            font: inherit;
+            overflow-wrap: anywhere;
+        }
+        .physics-formula-variants { font-weight: 700; }
+        .physics-formula-exercises { margin-top: 2rem; }
+        .physics-formula-exercises > .portal-section-heading { margin-top: 1.5rem; }
+        .physics-formula-exercises > .portal-section-heading h3 { margin: 0.3rem 0 0; }
+        .physics-formula-exercises > .portal-section-heading p { max-width: 620px; color: #475569; }
+        .physics-formula-score {
+            margin: 0 0 0.8rem;
+            color: #075985;
+            font-weight: 750;
+        }
+        .physics-exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+        }
+        .card.physics-formula-exercise {
+            padding: 1rem;
+            color: #10243b;
+            background: #fff;
+            border-color: #cbd5e1;
+        }
+        .physics-formula-exercise-number {
+            margin-bottom: 0.55rem;
+            color: #0369a1;
+            font-size: 0.8rem;
+            font-weight: 800;
+        }
+        .physics-formula-exercise h4 { min-height: 3em; line-height: 1.45; }
+        .physics-formula-answer {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin: 0.75rem 0;
+            color: #475569;
+            font-weight: 700;
+        }
+        .physics-formula-answer input {
+            width: 100%;
+            min-width: 0;
+            min-height: 44px;
+            padding: 0.55rem 0.7rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            background: #fff;
+            color: #10243b;
+            font: inherit;
+        }
+        .physics-formula-answer input:focus-visible {
+            outline: 3px solid rgba(14, 165, 233, 0.45);
+            outline-offset: 2px;
+        }
+        .physics-formula-answer > span:last-child { white-space: nowrap; }
+        .physics-formula-check { width: 100%; }
+        .physics-formula-feedback { margin: 0.55rem 0; font-weight: 750; }
+        .physics-formula-feedback.is-correct { color: #047857; }
+        .physics-formula-feedback.is-incorrect { color: #b91c1c; }
+        .physics-formula-exercise details { margin-top: 0.65rem; color: #0369a1; }
+        .physics-formula-exercise summary { cursor: pointer; font-weight: 750; }
+        .physics-formula-exercise details ol {
+            margin: 0.55rem 0 0;
+            padding-inline-start: 1.4rem;
+            color: #475569;
+            line-height: 1.55;
+            list-style: decimal;
+        }
+        .physics-formula-exercise details li + li { margin-top: 0.35rem; }
         .portal-curriculum-note,
         .portal-footer {
             margin-top: 1.5rem;
@@ -914,6 +1032,10 @@
                 margin-left: 260px;
                 padding: 1rem;
             }
+        }
+        @media (max-width: 760px) {
+            .physics-formula-cards,
+            .physics-exercise-grid { grid-template-columns: 1fr; }
         }
 
         /* Shared visual system across the dashboard, subject pages, and learning tools. */

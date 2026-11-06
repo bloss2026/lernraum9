@@ -190,6 +190,7 @@ function renderSubjectPage(subject) {
                     <div><span class="pill">THEMENÜBERSICHT</span><h2>Physik-Themen</h2></div>
                     <p>Thema auswählen → Unterthema öffnen → lernen und üben</p>
                 </div>
+                <a class="physics-formula-jump" href="#physicsFormulaCollection">📑 Zur Formelsammlung mit Übungen ↓</a>
                 <div class="subject-grid">
                     ${physicsTopics.map(topic => `
                         <a class="subject-card portal-subject-card" href="./physik-themen.html?topic=${topic.id}">
@@ -201,6 +202,13 @@ function renderSubjectPage(subject) {
                         </a>
                     `).join('')}
                 </div>
+                <section id="physicsFormulaCollection" class="physics-formula-section" aria-labelledby="physicsFormulaHeading">
+                    <div class="portal-section-heading">
+                        <div><span class="pill">LERNEN &amp; ÜBEN</span><h2 id="physicsFormulaHeading">Physik-Formelsammlung</h2></div>
+                        <p>Wichtige Formeln, Größen und Einheiten für Klasse 9 – mit Rechenübungen und Lösungswegen.</p>
+                    </div>
+                    <div id="physicsFormulaContent"></div>
+                </section>
             </section>
         `;
     }
