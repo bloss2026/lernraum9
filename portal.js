@@ -250,6 +250,7 @@ function renderDashboard() {
                         <button class="btn" type="submit" data-cloud-auth="signin">Anmelden</button>
                         <button class="btn cloud-signup-button" type="submit" data-cloud-auth="signup">Konto erstellen</button>
                     </div>
+                    <button id="cloudResendConfirmation" class="btn cloud-secondary-button" type="button">Bestätigungs-E-Mail erneut senden</button>
                 </form>
                 <div id="cloudAccountActions" class="cloud-account-actions" hidden>
                     <p>Angemeldet als <strong id="cloudAccountEmail"></strong></p>
@@ -860,6 +861,7 @@ if (app) {
         const cloudAccountEmail = document.getElementById('cloudAccountEmail');
         const cloudSyncNow = document.getElementById('cloudSyncNow');
         const cloudSignOut = document.getElementById('cloudSignOut');
+        const cloudResendConfirmation = document.getElementById('cloudResendConfirmation');
         const cloudAuthButtons = cloudAuthForm ? cloudAuthForm.querySelectorAll('button[type="submit"]') : [];
 
         const updateCloudPanel = state => {
@@ -913,6 +915,26 @@ if (app) {
                 }
             });
         }
+
+        cloudResendConfirmation?.addEventListener('click', async () => {
+            const email = cloudAuthForm.elements.email.value.trim();
+            if (!email) {
+                cloudSyncStatus.textContent = 'Bitte gib zuerst deine E-Mail-Adresse ein.';
+                cloudAuthForm.elements.email.focus();
+                return;
+            }
+
+            cloudResendConfirmation.disabled = true;
+            cloudSyncStatus.textContent = 'Bestätigungs-E-Mail wird erneut angefordert …';
+            try {
+                await window.LernraumCloud.resendConfirmation(email);
+            } catch (error) {
+                cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
+            } finally {
+                cloudResendConfirmation.disabled = false;
+                updateCloudPanel(window.LernraumCloud.getState());
+            }
+        });
 
         cloudSyncNow?.addEventListener('click', () => {
             window.LernraumCloud.syncNow().catch(error => {

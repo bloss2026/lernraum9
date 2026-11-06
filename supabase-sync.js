@@ -3,6 +3,7 @@
 
     const projectUrl = 'https://hileygwqwkubltzdpvys.supabase.co';
     const publishableKey = 'sb_publishable_TVWX6K3FCW0oOL-ix9eoRg_bmsLV9jz';
+    const appUrl = 'https://bloss2026.github.io/lernraum9/';
     const sessionKey = 'lernraum9.supabase.session';
     const activeUserKey = 'lernraum9.supabase.active-user';
     const syncedKeys = ['chemieLernState', 'mathematikLearningState', 'lernraumFachFortschritte'];
@@ -271,8 +272,7 @@
     }
 
     async function signUp(email, password) {
-        const redirectUrl = new URL('./', window.location.href).href;
-        const result = await request(`/auth/v1/signup?redirect_to=${encodeURIComponent(redirectUrl)}`, {
+        const result = await request(`/auth/v1/signup?redirect_to=${encodeURIComponent(appUrl)}`, {
             method: 'POST',
             body: JSON.stringify({ email, password })
         });
@@ -290,6 +290,18 @@
         });
         await syncNow();
         return { confirmationRequired: false };
+    }
+
+    async function resendConfirmation(email) {
+        await request(`/auth/v1/resend?redirect_to=${encodeURIComponent(appUrl)}`, {
+            method: 'POST',
+            body: JSON.stringify({ type: 'signup', email })
+        });
+        publishState({
+            status: 'confirmation',
+            email,
+            message: 'Eine neue Bestätigungs-E-Mail wurde angefordert. Bitte verwende den neuesten Link.'
+        });
     }
 
     async function signIn(email, password) {
@@ -359,6 +371,7 @@
         },
         getErrorMessage,
         signUp,
+        resendConfirmation,
         signIn,
         signOut,
         syncNow,
