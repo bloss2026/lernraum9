@@ -1,6 +1,6 @@
 const subjects = [
     { id: 'deutsch', name: 'Deutsch', icon: '📖', file: 'deutsch.html', group: 'Sprachen' },
-    { id: 'mathematik', name: 'Mathematik', icon: '📐', file: 'mathematik.html', group: 'Mathematik', available: true, note: 'Grundlagen, Übungen und Prüfungstraining für den Hauptschulabschluss.' },
+    { id: 'mathematik', name: 'Mathematik', icon: '📐', file: 'mathematik.html', group: 'Mathematik', available: true, note: 'Zehn Themengebiete mit Erklärungen und Übungen.' },
     { id: 'biologie', name: 'Biologie', icon: '🧬', file: 'biologie.html', group: 'Naturwissenschaften' },
     { id: 'chemie', name: 'Chemie', icon: '⚗️', file: 'chemie.html', group: 'Naturwissenschaften', available: true },
     { id: 'physik', name: 'Physik', icon: '⚡', file: 'physik.html', group: 'Naturwissenschaften' },
@@ -93,17 +93,23 @@ function loadDashboardState() {
 function renderSubjectPage(subject) {
     if (subject.id === 'mathematik') {
         const mathTopics = [
-            { id: 'algebra', icon: '➗', title: 'Arithmetik & Algebra', description: 'Terme, lineare und quadratische Gleichungen, Brüche, Potenzen, Wurzeln, Prozent- und Zinsrechnung.' },
-            { id: 'functions', icon: '📈', title: 'Funktionen', description: 'Lineare und quadratische Funktionen, Steigung und Funktionsgraphen.' },
-            { id: 'geometry', icon: '📐', title: 'Geometrie', description: 'Dreiecksflächen, Pythagoras sowie Prisma, Zylinder und Pyramide.' },
-            { id: 'probability', icon: '🎲', title: 'Stochastik', description: 'Baumdiagramme, Pfadregeln und Statistik.' }
+            { id: 'powers-roots', icon: '√', title: 'Potenzen und Wurzeln', description: 'Potenzen berechnen, Potenzgesetze anwenden und Quadratwurzeln ziehen.' },
+            { id: 'functions', icon: '📈', title: 'Funktionen', description: 'Vor allem lineare Funktionen: Gleichungen, Steigung, Wertetabellen und Graphen.' },
+            { id: 'percent-interest', icon: '%', title: 'Prozent- und Zinsrechnung', description: 'Prozentwert, Grundwert, Prozentsatz, Zinsen und Preisänderungen berechnen.' },
+            { id: 'geometry', icon: '📐', title: 'Flächen und Körperberechnungen', description: 'Flächeninhalte, Pythagoras, Volumen und Oberflächen berechnen.' },
+            { id: 'data-chance', icon: '🎲', title: 'Daten und Zufall', description: 'Daten auswerten, Wahrscheinlichkeiten und Pfadregeln bestimmen.' },
+            { id: 'quadratics', icon: '∿', title: 'Quadratische Funktionen und Gleichungen', description: 'Parabeln, Scheitelpunkte, Funktionswerte und quadratische Gleichungen.' },
+            { id: 'units', icon: '↔️', title: 'Einheiten umrechnen', description: 'Längen, Flächen, Volumen, Gewichte und Zeiten umwandeln.' },
+            { id: 'mental', icon: '🧠', title: 'Kopfrechnen', description: 'Zufällige Aufgaben in drei Schwierigkeitsstufen lösen.', href: './mathematik-lernen.html?view=mental' },
+            { id: 'fractions', icon: '½', title: 'Bruchrechnen', description: 'Brüche kürzen, erweitern und mit ihnen rechnen.' },
+            { id: 'terms', icon: '🔤', title: 'Terme', description: 'Terme vereinfachen, Gleichungen lösen und Sachaufgaben aufstellen.' }
         ];
         return `
             <section class="portal-hero portal-subject-hero">
                 <a class="portal-back-link" href="./index.html">← Dashboard</a>
                 <span class="pill">${subject.icon} MATHEMATIK · KLASSE 9 · WERKREALSCHULE</span>
                 <h1>Mathematik</h1>
-                <p>Wähle ein Themengebiet und öffne dort Erklärungen und Übungen. Zusätzlich kannst du eine Prüfungssimulation starten.</p>
+                <p>Wähle eines der zehn Themengebiete. Dort findest du ausführliche Erklärungen, Beispiele und passende Übungen.</p>
             </section>
             <section class="portal-content-section">
                 <div class="portal-section-heading">
@@ -112,30 +118,15 @@ function renderSubjectPage(subject) {
                 </div>
                 <div class="subject-grid">
                     ${mathTopics.map(topic => `
-                        <a class="subject-card portal-subject-card" href="./mathematik-themen.html?topic=${topic.id}">
+                        <a class="subject-card portal-subject-card" href="${topic.href || `./mathematik-themen.html?topic=${topic.id}`}">
                             <span class="subject-icon" aria-hidden="true">${topic.icon}</span>
-                            <span class="subject-status available">Erklärungen &amp; Übungen</span>
+                            <span class="subject-status available">${topic.id === 'mental' ? 'Zufällige Übungen' : 'Erklärungen &amp; Übungen'}</span>
                             <h3>${topic.title}</h3>
                             <p>${topic.description}</p>
                             <span class="portal-card-link">Thema öffnen →</span>
                         </a>
                     `).join('')}
-                    <a class="subject-card portal-subject-card math-exam-subject-card" href="./mathematik-lernen.html?view=exam">
-                        <span class="subject-icon" aria-hidden="true">📝</span>
-                        <span class="subject-status available">Prüfungstraining</span>
-                        <h3>Prüfungssimulator</h3>
-                        <p>135 Minuten · Pflichtteile A1 und A2 · zwei von drei Aufgaben im Wahlteil B.</p>
-                        <span class="portal-card-link">Prüfung starten →</span>
-                    </a>
-                    <a class="subject-card portal-subject-card" href="./mathematik-lernen.html?view=mental">
-                        <span class="subject-icon" aria-hidden="true">🧠</span>
-                        <span class="subject-status available">Kurze Rechenübungen</span>
-                        <h3>Kopfrechnen</h3>
-                        <p>Trainiere Rechenfertigkeiten mit zufälligen Aufgaben in drei Schwierigkeitsstufen.</p>
-                        <span class="portal-card-link">Jetzt üben →</span>
-                    </a>
                 </div>
-                <p class="portal-curriculum-note">Die Simulation ist ein Lernangebot und keine Originalprüfung. Prüfungsinhalte und Vorgaben können sich ändern.</p>
             </section>
         `;
     }
@@ -267,51 +258,80 @@ function renderAtomTopicPage() {
 
 function renderMathTopicPage() {
     const topics = {
-        algebra: {
-            icon: '➗', title: 'Arithmetik & Algebra', description: 'Terme, lineare und quadratische Gleichungen, Brüche, Formeln, Potenz- und Wurzelrechnung sowie Prozent- und Zinsrechnung.',
+        'powers-roots': {
+            icon: '√', title: 'Potenzen und Wurzeln', description: 'Potenzen berechnen, Potenzgesetze anwenden und Quadratwurzeln ziehen.',
             subtopics: [
-                { id: 'terms', icon: '🔤', title: 'Terme', description: 'Terme ordnen, zusammenfassen und Klammern auflösen.' },
-                { id: 'equations', icon: '⚖️', title: 'Gleichungen', description: 'Gleichungen schrittweise lösen und die Lösung prüfen.' },
-                { id: 'quadratic-equations', icon: '📐', title: 'Quadratische Gleichungen', description: 'Quadratische Gleichungen faktorisieren und Nullstellen bestimmen.' },
-                { id: 'fractions', icon: '½', title: 'Brüche & rationale Zahlen', description: 'Brüche kürzen, erweitern und mit Vorzeichen rechnen.' },
-                { id: 'rearranging-formulas', icon: '🔄', title: 'Formeln umstellen', description: 'Formeln nach der gesuchten Variablen umstellen.' },
-                { id: 'word-equations', icon: '📝', title: 'Textaufgaben mit Gleichungen', description: 'Text in Gleichungen übersetzen und Ergebnisse prüfen.' },
-                { id: 'powers', icon: '²', title: 'Potenzrechnung', description: 'Potenzen berechnen und Potenzgesetze anwenden.' },
-                { id: 'roots', icon: '√', title: 'Wurzelrechnung', description: 'Quadratwurzeln bestimmen und mit Wurzeln rechnen.' },
-                { id: 'percent', icon: '%', title: 'Prozentrechnung', description: 'Grundwert, Prozentwert und Prozentsatz berechnen.' },
-                { id: 'interest', icon: '€', title: 'Zinsrechnung', description: 'Jahreszinsen und einfache Zinsaufgaben berechnen.' }
+                { id: 'powers', icon: '²', title: 'Potenzen', description: 'Potenzen verstehen und Potenzgesetze sicher anwenden.' },
+                { id: 'roots', icon: '√', title: 'Wurzeln', description: 'Quadratwurzeln berechnen und Wurzelterme vereinfachen.' }
             ]
         },
         functions: {
-            icon: '📈', title: 'Funktionen', description: 'Lineare und quadratische Funktionen, Steigung und Funktionsgraphen.',
+            icon: '📈', title: 'Funktionen', description: 'Der Schwerpunkt liegt auf linearen Funktionen: Gleichungen, Steigung, Tabellen und Graphen.',
             subtopics: [
-                { id: 'linear-functions', icon: '📉', title: 'Lineare Funktionen', description: 'Funktionsgleichungen der Form y = mx + b verstehen.' },
-                { id: 'slope', icon: '↗️', title: 'Steigung', description: 'Die Steigung aus einer Gleichung oder zwei Punkten bestimmen.' },
-                { id: 'graphs', icon: '📊', title: 'Funktionsgraphen', description: 'Geraden zeichnen und Graphen ablesen.' },
-                { id: 'quadratic-functions', icon: '∿', title: 'Quadratische Funktionen', description: 'Parabeln, Funktionswerte und Scheitelpunkte untersuchen.' }
+                { id: 'linear-functions', icon: '📉', title: 'Lineare Funktionen', description: 'Funktionswerte aus y = mx + b berechnen.' },
+                { id: 'slope', icon: '↗️', title: 'Steigung', description: 'Steigungen aus Gleichungen und Punkten ermitteln.' },
+                { id: 'graphs', icon: '📊', title: 'Wertetabellen und Graphen', description: 'Wertetabellen erstellen, Geraden zeichnen und ablesen.' }
+            ]
+        },
+        'percent-interest': {
+            icon: '%', title: 'Prozent- und Zinsrechnung', description: 'Prozentwert, Prozentsatz, Grundwert, Zinsen und Preisänderungen berechnen.',
+            subtopics: [
+                { id: 'percent', icon: '%', title: 'Prozentrechnung', description: 'Prozentwert, Grundwert und Prozentsatz bestimmen.' },
+                { id: 'interest', icon: '€', title: 'Zinsrechnung', description: 'Kapital, Zinssatz und Laufzeit bei Zinsaufgaben berechnen.' }
             ]
         },
         geometry: {
-            icon: '📐', title: 'Geometrie', description: 'Dreiecksflächen, Satz des Pythagoras und Berechnungen an Körpern.',
+            icon: '📐', title: 'Flächen und Körperberechnungen', description: 'Flächeninhalte, Pythagoras, Volumen und Oberflächen berechnen.',
             subtopics: [
+                { id: 'plane-areas', icon: '▱', title: 'Flächen ebener Figuren', description: 'Rechteck-, Dreiecks- und Kreisflächen berechnen.' },
                 { id: 'triangle-area', icon: '🔺', title: 'Dreiecksfläche', description: 'Den Flächeninhalt eines Dreiecks mit Grundseite und Höhe berechnen.' },
                 { id: 'pythagoras', icon: '📐', title: 'Satz des Pythagoras', description: 'Fehlende Seiten im rechtwinkligen Dreieck berechnen.' },
                 { id: 'prism', icon: '📦', title: 'Prisma', description: 'Volumen und Oberfläche eines Prismas berechnen.' },
                 { id: 'cylinder', icon: '🥫', title: 'Zylinder', description: 'Grundfläche, Volumen und Oberfläche bestimmen.' },
-                { id: 'pyramid', icon: '🔺', title: 'Pyramide', description: 'Volumen einer Pyramide aus Grundfläche und Höhe berechnen.' }
+                { id: 'pyramid', icon: '🔺', title: 'Pyramide', description: 'Volumen und Oberfläche einer Pyramide berechnen.' }
             ]
         },
-        probability: {
-            icon: '🎲', title: 'Stochastik', description: 'Baumdiagramme, Pfadregeln und Statistik.',
+        'data-chance': {
+            icon: '🎲', title: 'Daten und Zufall', description: 'Daten auswerten, Wahrscheinlichkeiten bestimmen und Baumdiagramme verwenden.',
             subtopics: [
+                { id: 'statistics', icon: '📊', title: 'Daten und Statistik', description: 'Mittelwert, Median, Modalwert und Spannweite berechnen.' },
                 { id: 'tree-diagrams', icon: '🌳', title: 'Baumdiagramme', description: 'Mehrstufige Zufallsversuche übersichtlich darstellen.' },
-                { id: 'path-rules', icon: '🧮', title: 'Pfadregeln', description: 'Wahrscheinlichkeiten entlang von Pfaden berechnen.' },
-                { id: 'statistics', icon: '📊', title: 'Statistik', description: 'Mittelwert und Median aus Daten bestimmen.' }
+                { id: 'path-rules', icon: '🧮', title: 'Pfadregeln', description: 'Wahrscheinlichkeiten entlang von Pfaden berechnen.' }
+            ]
+        },
+        quadratics: {
+            icon: '∿', title: 'Quadratische Funktionen und Gleichungen', description: 'Parabeln und quadratische Gleichungen verstehen und berechnen.',
+            subtopics: [
+                { id: 'quadratic-functions', icon: '∿', title: 'Quadratische Funktionen', description: 'Funktionswerte, Scheitelpunkt und Parabeln untersuchen.' },
+                { id: 'quadratic-equations', icon: '📐', title: 'Quadratische Gleichungen', description: 'Quadratische Gleichungen faktorisieren und Nullstellen bestimmen.' }
+            ]
+        },
+        units: {
+            icon: '↔️', title: 'Einheiten umrechnen', description: 'Längen-, Flächen-, Volumen-, Gewichts- und Zeiteinheiten passend umwandeln.',
+            subtopics: [
+                { id: 'units', icon: '📏', title: 'Einheiten umrechnen', description: 'Umrechnungen von Längen, Flächen, Volumen, Gewichten und Zeit üben.' }
+            ]
+        },
+        fractions: {
+            icon: '½', title: 'Bruchrechnen', description: 'Brüche kürzen, erweitern, vergleichen und die vier Grundrechenarten anwenden.',
+            subtopics: [
+                { id: 'fractions', icon: '½', title: 'Brüche und rationale Zahlen', description: 'Brüche kürzen, erweitern und mit Vorzeichen rechnen.' }
+            ]
+        },
+        terms: {
+            icon: '🔤', title: 'Terme', description: 'Terme vereinfachen, lineare Gleichungen lösen und Sachaufgaben mathematisch beschreiben.',
+            subtopics: [
+                { id: 'terms', icon: '🔤', title: 'Terme', description: 'Terme ordnen, zusammenfassen und Klammern auflösen.' },
+                { id: 'equations', icon: '⚖️', title: 'Gleichungen', description: 'Gleichungen schrittweise lösen und die Lösung prüfen.' },
+                { id: 'rearranging-formulas', icon: '🔄', title: 'Formeln umstellen', description: 'Formeln nach der gesuchten Variablen umstellen.' },
+                { id: 'word-equations', icon: '📝', title: 'Textaufgaben mit Gleichungen', description: 'Text in Gleichungen übersetzen und Ergebnisse prüfen.' }
             ]
         }
     };
     const requestedTopic = new URLSearchParams(window.location.search).get('topic');
-    const topicId = topics[requestedTopic] ? requestedTopic : 'algebra';
+    const legacyTopicIds = { algebra: 'terms', probability: 'data-chance' };
+    const resolvedTopicId = topics[requestedTopic] ? requestedTopic : legacyTopicIds[requestedTopic];
+    const topicId = resolvedTopicId && topics[resolvedTopicId] ? resolvedTopicId : 'terms';
     const topic = topics[topicId];
 
     return `
@@ -335,13 +355,6 @@ function renderMathTopicPage() {
                         <span class="portal-card-link">Öffnen →</span>
                     </a>
                 `).join('')}
-                <a class="subject-card portal-subject-card math-exam-subject-card" href="./mathematik-lernen.html?view=exam&amp;topic=${topicId}">
-                        <span class="subject-icon" aria-hidden="true">📝</span>
-                        <span class="subject-status available">Prüfungstraining</span>
-                        <h3>Prüfungssimulator</h3>
-                        <p>135 Minuten · A1 und A2 verpflichtend · zwei von drei Aufgaben in Teil B.</p>
-                        <span class="portal-card-link">Prüfung starten →</span>
-                </a>
             </div>
         </section>
     `;
@@ -349,13 +362,19 @@ function renderMathTopicPage() {
 
 function renderMathLearningNavigation() {
     const topicTitles = {
-        algebra: 'Arithmetik & Algebra',
+        'powers-roots': 'Potenzen und Wurzeln',
         functions: 'Funktionen',
-        geometry: 'Geometrie',
-        probability: 'Stochastik'
+        'percent-interest': 'Prozent- und Zinsrechnung',
+        geometry: 'Flächen und Körperberechnungen',
+        'data-chance': 'Daten und Zufall',
+        quadratics: 'Quadratische Funktionen und Gleichungen',
+        units: 'Einheiten umrechnen',
+        fractions: 'Bruchrechnen',
+        terms: 'Terme'
     };
     const requestedTopic = new URLSearchParams(window.location.search).get('topic');
-    const topicId = topicTitles[requestedTopic] ? requestedTopic : 'algebra';
+    const legacyTopicIds = { algebra: 'terms', probability: 'data-chance' };
+    const topicId = topicTitles[requestedTopic] ? requestedTopic : legacyTopicIds[requestedTopic] || 'terms';
 
     return `
         <aside class="portal-sidebar">
@@ -375,7 +394,7 @@ function renderMathLearningNavigation() {
 
 function renderMathLearningPage() {
     const topicId = new URLSearchParams(window.location.search).get('topic');
-    const topicIds = ['algebra', 'functions', 'geometry', 'probability'];
+    const topicIds = ['powers-roots', 'functions', 'percent-interest', 'geometry', 'data-chance', 'quadratics', 'units', 'fractions', 'terms'];
     const returnUrl = topicIds.includes(topicId)
         ? `./mathematik-themen.html?topic=${topicId}`
         : './mathematik.html';
@@ -388,18 +407,16 @@ function renderMathLearningPage() {
                     <button class="math-button math-theme-toggle" type="button" id="mathThemeToggle" aria-label="Farbschema umschalten">☀️ Hellmodus</button>
                 </div>
                 <h1>Mathematik für deinen Abschluss</h1>
-                <p>Erklärungen, Übungen und Prüfungstraining für den Hauptschulabschluss in Baden-Württemberg.</p>
+                <p>Ausführliche Erklärungen, Beispiele und Übungen zum Mathematikunterricht in Klasse 9.</p>
             </section>
             <nav class="math-tabs" aria-label="Mathematik-Lernwerkzeuge">
                 <button class="math-tab active" type="button" data-math-view="topics">Themen &amp; Erklärungen</button>
                 <button class="math-tab" type="button" data-math-view="practice">Übungsdatenbank</button>
                 <button class="math-tab" type="button" data-math-view="mental">Kopfrechnen</button>
-                <button class="math-tab" type="button" data-math-view="exam">Prüfungssimulator</button>
             </nav>
             <div id="mathViewTopics" class="math-view"></div>
             <div id="mathViewPractice" class="math-view hidden"></div>
             <div id="mathViewMental" class="math-view hidden"></div>
-            <div id="mathViewExam" class="math-view hidden"></div>
             <div id="mathLiveRegion" class="math-sr-only" aria-live="polite"></div>
         </section>
     `;

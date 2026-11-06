@@ -6,57 +6,99 @@
 
     const topics = [
         {
-            id: 'algebra',
-            title: 'Arithmetik & Algebra',
-            icon: '➗',
-            summary: 'Terme, lineare und quadratische Gleichungen, Brüche, Formeln, Potenzen, Wurzeln sowie Prozent- und Zinsaufgaben sicher bearbeiten.',
+            id: 'powers-roots',
+            title: 'Potenzen und Wurzeln',
+            icon: '√',
+            summary: 'Potenzen verstehen, Potenzgesetze sicher anwenden und Quadratwurzeln berechnen.',
             lessons: [
-                { id: 'terms', title: 'Terme', text: 'Fasse gleichartige Glieder zusammen. Klammern löst du mit dem Distributivgesetz auf: a(b + c) = ab + ac.', example: '3x + 2x − 4 = 5x − 4; 2(x + 3) = 2x + 6.' },
-                { id: 'equations', title: 'Gleichungen', text: 'Führe auf beiden Seiten dieselbe Rechenoperation aus. Ziel ist, x allein stehen zu lassen.', example: '3x + 5 = 20 → 3x = 15 → x = 5. Probe: 3 · 5 + 5 = 20.' },
-                { id: 'quadratic-equations', title: 'Quadratische Gleichungen', text: 'Faktorisiere eine quadratische Gleichung und nutze die Nullproduktregel, um ihre Lösungen zu finden.', example: 'x² − 5x + 6 = 0 → (x − 2)(x − 3) = 0 → x = 2 oder x = 3.' },
-                { id: 'fractions', title: 'Brüche & rationale Zahlen', text: 'Brüche kürzen und erweitern, gleichnamig machen und sicher mit Vorzeichen rechnen.', example: '3/4 + 1/8 = 6/8 + 1/8 = 7/8.' },
-                { id: 'rearranging-formulas', title: 'Formeln umstellen', text: 'Stelle eine Formel nach einer gesuchten Variablen um, indem du auf beiden Seiten Umkehroperationen ausführst.', example: 's = v · t wird nach t umgestellt zu t = s / v.' },
-                { id: 'word-equations', title: 'Textaufgaben mit Gleichungen', text: 'Übersetze Angaben in eine Gleichung, löse sie und prüfe, ob das Ergebnis zur Situation passt.', example: 'Das Dreifache einer Zahl plus 4 ist 19: 3x + 4 = 19, also x = 5.' },
-                { id: 'powers', title: 'Potenzrechnung', text: 'Eine Potenz fasst gleiche Faktoren zusammen: aⁿ bedeutet, dass a n-mal mit sich selbst multipliziert wird. Bei gleicher Basis gilt aᵐ · aⁿ = aᵐ⁺ⁿ und aᵐ : aⁿ = aᵐ⁻ⁿ (a ≠ 0).', example: '2⁴ = 2 · 2 · 2 · 2 = 16; 3² · 3³ = 3⁵ = 243.' },
-                { id: 'roots', title: 'Wurzelrechnung', text: 'Die Quadratwurzel √a ist die nichtnegative Zahl, deren Quadrat a ergibt. Quadrieren und Quadratwurzelziehen sind Umkehroperationen.', example: '√49 = 7, denn 7² = 49. Bei √(3² + 4²) rechnest du zuerst unter der Wurzel: √25 = 5.' },
-                { id: 'percent', title: 'Prozentrechnung', text: 'Prozentwert W = Grundwert G · p / 100. Der Prozentsatz beschreibt einen Anteil von 100.', example: '20 % von 80 €: W = 80 · 20 / 100 = 16 €.' },
-                { id: 'interest', title: 'Zinsrechnung', text: 'Für ein Jahr gilt: Zinsen = Kapital · Zinssatz / 100. Für Monate wird der Jahreszins anteilig berechnet.', example: '500 € zu 4 % für ein Jahr: 500 · 4 / 100 = 20 € Zinsen.' }
+                { id: 'powers', title: 'Potenzen', text: 'Eine Potenz fasst gleiche Faktoren zusammen: aⁿ bedeutet, dass a n-mal mit sich selbst multipliziert wird. Bei gleicher Basis gilt aᵐ · aⁿ = aᵐ⁺ⁿ und aᵐ : aⁿ = aᵐ⁻ⁿ (a ≠ 0).', example: '2⁴ = 2 · 2 · 2 · 2 = 16; 3² · 3³ = 3⁵ = 243.' },
+                { id: 'roots', title: 'Wurzeln', text: 'Die Quadratwurzel √a ist die nichtnegative Zahl, deren Quadrat a ergibt. Quadrieren und Quadratwurzelziehen sind Umkehroperationen.', example: '√49 = 7, denn 7² = 49. Bei √(3² + 4²) rechnest du zuerst unter der Wurzel: √25 = 5.' }
             ]
         },
         {
             id: 'functions',
             title: 'Funktionen',
             icon: '📈',
-            summary: 'Lineare und quadratische Funktionen, Steigungen und Graphen verstehen.',
+            summary: 'Der Schwerpunkt liegt auf linearen Funktionen: Gleichungen, Steigung, Achsenabschnitt, Tabellen und Graphen.',
             lessons: [
-                { id: 'linear-functions', title: 'Lineare Funktion', text: 'Eine Gerade hat die Form y = m · x + b. m ist die Steigung; b ist der Schnittpunkt mit der y-Achse.', example: 'y = 2x + 1: Bei x = 0 ist y = 1; bei x = 2 ist y = 5.' },
-                { id: 'slope', title: 'Steigung', text: 'Die Steigung m = Änderung in y / Änderung in x. Positive Steigung bedeutet, die Gerade steigt nach rechts.', example: 'Von (1|2) nach (3|6): m = (6 − 2) / (3 − 1) = 2.' },
-                { id: 'graphs', title: 'Graph zeichnen', text: 'Markiere zuerst den y-Achsenabschnitt b. Nutze dann die Steigung als Schritt nach rechts und nach oben oder unten.', example: 'Bei y = 2x + 1 startest du bei (0|1). Zwei nach rechts und vier nach oben ergibt (2|5).' },
-                { id: 'quadratic-functions', title: 'Quadratische Funktionen', text: 'Der Graph einer quadratischen Funktion ist eine Parabel. In der Scheitelpunktform f(x) = a(x − h)² + k liegt der Scheitelpunkt bei (h|k).', example: 'f(x) = (x − 4)² + 2 hat den Scheitelpunkt (4|2).' }
+                { id: 'linear-functions', title: 'Lineare Funktionen', text: 'Eine lineare Funktion hat die Form y = m · x + b. m ist die Steigung und b der y-Achsenabschnitt. Setze einen x-Wert ein, um den zugehörigen y-Wert zu berechnen.', example: 'y = 2x + 1: Für x = 3 gilt y = 2 · 3 + 1 = 7.' },
+                { id: 'slope', title: 'Steigung', text: 'Die Steigung m beschreibt die Änderung der y-Werte im Verhältnis zur Änderung der x-Werte: m = (y₂ − y₁)/(x₂ − x₁).', example: 'Zwischen (1|2) und (3|6): m = (6 − 2)/(3 − 1) = 2.' },
+                { id: 'graphs', title: 'Tabellen und Funktionsgraphen', text: 'Eine Wertetabelle ordnet x-Werte den berechneten y-Werten zu. Trage die Punkte (x|y) ins Koordinatensystem ein; zwei Punkte bestimmen eine Gerade.', example: 'Für y = x + 2 ergeben x = 0 und x = 2 die Punkte (0|2) und (2|4).' }
+            ]
+        },
+        {
+            id: 'percent-interest',
+            title: 'Prozent- und Zinsrechnung',
+            icon: '%',
+            summary: 'Prozentwert, Prozentsatz und Grundwert berechnen sowie Zinsen und Preisänderungen verstehen.',
+            lessons: [
+                { id: 'percent', title: 'Prozentrechnung', text: 'Prozent bedeutet „von hundert“. Mit W = G · p / 100 berechnest du den Prozentwert; G ist der Grundwert, p der Prozentsatz und W der Anteil.', example: '20 % von 80 €: W = 80 · 20 / 100 = 16 €.' },
+                { id: 'interest', title: 'Zinsrechnung', text: 'Zinsen sind Prozentrechnung mit Geld und Zeit. Für ein Jahr gilt Z = K · p / 100; bei einer einfachen anteiligen Verzinsung berechnest du für m Monate Z = K · p / 100 · m / 12.', example: '500 € zu 4 % für ein Jahr: Z = 500 · 4 / 100 = 20 €.' }
             ]
         },
         {
             id: 'geometry',
-            title: 'Geometrie',
+            title: 'Flächen und Körperberechnungen',
             icon: '📐',
-            summary: 'Flächen, rechtwinklige Dreiecke und Volumen sowie Oberflächen von Körpern berechnen.',
+            summary: 'Flächeninhalte ebener Figuren, Seitenlängen rechtwinkliger Dreiecke sowie Volumen und Oberflächen von Körpern berechnen.',
             lessons: [
-                { id: 'triangle-area', title: 'Dreiecksfläche', text: 'Der Flächeninhalt eines Dreiecks ist halb so groß wie Grundseite mal zugehörige Höhe: A = g · h / 2.', example: 'g = 12 cm, h = 7 cm: A = 12 · 7 / 2 = 42 cm².' },
+                { id: 'plane-areas', title: 'Flächen ebener Figuren', text: 'Flächeninhalte werden in Quadrateinheiten angegeben. Rechteck: A = a · b; Dreieck: A = g · h / 2; Kreis: A = πr².', example: 'Ein Rechteck mit 8 cm und 5 cm hat A = 8 · 5 = 40 cm².' },
+                { id: 'triangle-area', title: 'Dreiecksfläche', text: 'Der Flächeninhalt eines Dreiecks ist halb so groß wie Grundseite mal zugehörige senkrechte Höhe: A = g · h / 2.', example: 'g = 12 cm, h = 7 cm: A = 12 · 7 / 2 = 42 cm².' },
                 { id: 'pythagoras', title: 'Satz des Pythagoras', text: 'Im rechtwinkligen Dreieck gilt a² + b² = c². c ist immer die längste Seite gegenüber dem rechten Winkel.', example: 'a = 3 cm, b = 4 cm: c = √(3² + 4²) = √25 = 5 cm.' },
-                { id: 'prism', title: 'Prisma', text: 'Volumen: V = Grundfläche · Länge. Bei einem geraden Prisma gilt für die Oberfläche: O = 2G + Umfang der Grundfläche · Länge.', example: 'Rechteckige Grundfläche 3 cm · 4 cm, Länge 5 cm: V = 12 · 5 = 60 cm³.' },
-                { id: 'cylinder', title: 'Zylinder', text: 'Grundfläche G = πr². Volumen V = πr²h; Oberfläche O = 2πr² + 2πrh.', example: 'r = 2 cm, h = 5 cm: V = π · 2² · 5 = 20π ≈ 62,8 cm³.' },
-                { id: 'pyramid', title: 'Pyramide', text: 'Das Volumen ist ein Drittel aus Grundfläche mal Höhe: V = (G · h) / 3.', example: 'G = 36 cm², h = 9 cm: V = 36 · 9 / 3 = 108 cm³.' }
+                { id: 'prism', title: 'Prisma', text: 'Volumen: V = Grundfläche · Länge. Bei einem geraden Prisma gilt für die Oberfläche: O = 2G + Umfang der Grundfläche · Länge.', example: 'Grundfläche 12 cm² und Länge 5 cm: V = 12 · 5 = 60 cm³.' },
+                { id: 'cylinder', title: 'Zylinder', text: 'Grundfläche G = πr². Volumen V = πr²h; Oberfläche O = 2πr² + 2πrh.', example: 'r = 2 cm, h = 5 cm: V = π · 2² · 5 ≈ 62,8 cm³.' },
+                { id: 'pyramid', title: 'Pyramide', text: 'Das Volumen ist ein Drittel aus Grundfläche mal senkrechter Höhe: V = G · h / 3.', example: 'G = 36 cm², h = 9 cm: V = 36 · 9 / 3 = 108 cm³.' }
             ]
         },
         {
-            id: 'probability',
-            title: 'Stochastik',
+            id: 'data-chance',
+            title: 'Daten und Zufall',
             icon: '🎲',
-            summary: 'Wahrscheinlichkeiten in Baumdiagrammen berechnen und Daten statistisch beschreiben.',
+            summary: 'Daten sortieren und auswerten, Wahrscheinlichkeiten bestimmen sowie Baumdiagramme und Pfadregeln nutzen.',
             lessons: [
-                { id: 'tree-diagrams', title: 'Baumdiagramm', text: 'Jede Stufe steht für einen Versuchsschritt. An jedem Ast steht die Wahrscheinlichkeit des Ergebnisses.', example: 'Eine faire Münze hat die Äste Kopf (1/2) und Zahl (1/2).' },
-                { id: 'path-rules', title: 'Pfadregeln', text: '1. Pfadregel: Entlang eines Pfades multiplizieren. 2. Pfadregel: Wahrscheinlichkeiten passender Pfade addieren.', example: 'Zweimal Kopf: 1/2 · 1/2 = 1/4. Genau einmal Kopf: 1/4 + 1/4 = 1/2.' },
-                { id: 'statistics', title: 'Statistik', text: 'Der Mittelwert ist Summe der Werte geteilt durch ihre Anzahl. Der Median ist der mittlere Wert der sortierten Liste.', example: '2, 4, 4, 10: Mittelwert = 20/4 = 5; Median = (4 + 4)/2 = 4.' }
+                { id: 'statistics', title: 'Daten und Statistik', text: 'Der Mittelwert ist die Summe aller Werte geteilt durch ihre Anzahl. Der Median ist der mittlere Wert der sortierten Liste; der häufigste Wert heißt Modalwert.', example: '2, 4, 4, 10: Mittelwert = 20/4 = 5; Median = 4; Modalwert = 4.' },
+                { id: 'tree-diagrams', title: 'Baumdiagramme', text: 'Jede Stufe eines Baumdiagramms steht für einen Versuchsschritt. An den Ästen stehen die Wahrscheinlichkeiten der möglichen Ergebnisse.', example: 'Bei einer fairen Münze haben Kopf und Zahl jeweils die Wahrscheinlichkeit 1/2.' },
+                { id: 'path-rules', title: 'Pfadregeln', text: 'Entlang eines Pfades multiplizierst du die Astwahrscheinlichkeiten. Passen mehrere Pfade zum Ereignis, addierst du deren Wahrscheinlichkeiten.', example: 'Genau einmal Kopf bei zwei Würfen: 1/4 + 1/4 = 1/2.' }
+            ]
+        },
+        {
+            id: 'quadratics',
+            title: 'Quadratische Funktionen und Gleichungen',
+            icon: '∿',
+            summary: 'Parabeln untersuchen, Funktionswerte und Scheitelpunkte bestimmen und quadratische Gleichungen lösen.',
+            lessons: [
+                { id: 'quadratic-functions', title: 'Quadratische Funktionen', text: 'Der Graph einer quadratischen Funktion ist eine Parabel. In der Scheitelpunktform f(x) = a(x − h)² + k liegt der Scheitelpunkt bei (h|k).', example: 'f(x) = (x − 4)² + 2 hat den Scheitelpunkt (4|2).' },
+                { id: 'quadratic-equations', title: 'Quadratische Gleichungen', text: 'Bringe die Gleichung auf die Form … = 0. Lässt sich die linke Seite faktorisieren, kannst du mit der Nullproduktregel die Lösungen bestimmen.', example: 'x² − 5x + 6 = 0 → (x − 2)(x − 3) = 0 → x = 2 oder x = 3.' }
+            ]
+        },
+        {
+            id: 'units',
+            title: 'Einheiten umrechnen',
+            icon: '↔️',
+            summary: 'Längen-, Flächen-, Volumen-, Gewichts- und Zeiteinheiten passend umwandeln.',
+            lessons: [
+                { id: 'units', title: 'Einheiten umrechnen', text: 'Bei benachbarten Längeneinheiten ist jeder Schritt zehnfach. Bei Flächeneinheiten ist es hundertfach und bei Volumeneinheiten tausendfach. Schreibe die Einheit immer mit um.', example: '2,5 m = 250 cm; 3 m² = 30.000 cm²; 1,2 l = 1.200 ml.' }
+            ]
+        },
+        {
+            id: 'fractions',
+            title: 'Bruchrechnen',
+            icon: '½',
+            summary: 'Brüche kürzen und erweitern, vergleichen sowie addieren, subtrahieren, multiplizieren und dividieren.',
+            lessons: [
+                { id: 'fractions', title: 'Brüche und rationale Zahlen', text: 'Ein Bruch besteht aus Zähler und Nenner; der Nenner darf nie 0 sein. Zum Addieren brauchst du einen gemeinsamen Nenner, beim Dividieren multiplizierst du mit dem Kehrwert.', example: '3/4 + 1/8 = 6/8 + 1/8 = 7/8.' }
+            ]
+        },
+        {
+            id: 'terms',
+            title: 'Terme',
+            icon: '🔤',
+            summary: 'Terme vereinfachen, Klammern auflösen, lineare Gleichungen lösen und Textaufgaben mathematisch beschreiben.',
+            lessons: [
+                { id: 'terms', title: 'Terme vereinfachen', text: 'Fasse nur gleichartige Glieder zusammen. Klammern löst du mit dem Distributivgesetz auf: a(b + c) = ab + ac.', example: '3x + 2x − 4 = 5x − 4; 2(x + 3) = 2x + 6.' },
+                { id: 'equations', title: 'Lineare Gleichungen', text: 'Führe auf beiden Seiten dieselbe Rechenoperation aus, bis die Variable allein steht. Prüfe die Lösung durch Einsetzen.', example: '3x + 5 = 20 → 3x = 15 → x = 5.' },
+                { id: 'rearranging-formulas', title: 'Formeln umstellen', text: 'Stelle eine Formel nach einer gesuchten Variablen um, indem du auf beiden Seiten Umkehroperationen ausführst.', example: 's = v · t wird nach t umgestellt zu t = s / v.' },
+                { id: 'word-equations', title: 'Textaufgaben mit Gleichungen', text: 'Übersetze Angaben in eine Gleichung, löse sie und prüfe, ob das Ergebnis zur Situation passt.', example: 'Das Dreifache einer Zahl plus 4 ist 19: 3x + 4 = 19, also x = 5.' }
             ]
         }
     ];
@@ -92,7 +134,7 @@
         'quadratic-equations': {
             paragraphs: [
                 'Eine quadratische Gleichung enthält eine Variable mit dem Exponenten 2. Eine wichtige Form ist x² + bx + c = 0. Wenn sich der Term in zwei Faktoren zerlegen lässt, kannst du die Nullproduktregel verwenden: Ein Produkt ist genau dann null, wenn mindestens ein Faktor null ist.',
-                'Setze beide Faktoren einzeln gleich null und löse die entstehenden einfachen Gleichungen. So erhältst du die Lösungen der quadratischen Gleichung. Bei einer Parabel sind diese Lösungen zugleich die Nullstellen, also die x-Werte, an denen der Graph die x-Achse schneidet.'
+                'Setze beide Faktoren einzeln gleich null und löse die entstehenden einfachen Gleichungen. So erhältst du die Lösungen der quadratischen Gleichung. Bei einer Parabel sind diese Lösungen zugleich die Nullstellen, also die x-Werte, an denen der Graph die x-Achse schneidet. Nicht jede quadratische Gleichung lässt sich auf diese Weise faktorisieren; hier üben wir zunächst Gleichungen, die sich in Faktoren zerlegen lassen.'
             ],
             steps: ['Alle Terme auf eine Seite bringen, sodass auf der anderen Seite 0 steht.', 'Den quadratischen Term faktorisieren.', 'Jeden Faktor einzeln gleich 0 setzen.', 'Beide Gleichungen lösen und die Lösungen durch Einsetzen prüfen.'],
             examples: [
@@ -251,6 +293,20 @@
             commonMistake: 'In f(x) = (x − h)² + k ist die x-Koordinate des Scheitelpunkts h. Achte auf das Vorzeichen in der Klammer: (x − 4)² hat h = 4.',
             sources: []
         },
+        'plane-areas': {
+            paragraphs: [
+                'Ein Flächeninhalt gibt an, wie viel Platz eine ebene Figur bedeckt. Er wird in Quadrateinheiten wie cm² oder m² angegeben. Wähle die Formel passend zur Figur und setze alle Längen in derselben Einheit ein.',
+                'Für ein Rechteck gilt A = a · b. Beim Dreieck wird das Produkt aus Grundseite und zugehöriger senkrechter Höhe halbiert: A = g · h / 2. Für einen Kreis gilt A = πr²; r ist der Abstand vom Mittelpunkt zum Rand. Mit π ≈ 3,14 erhältst du einen Näherungswert.'
+            ],
+            steps: ['Figur erkennen und passende Formel notieren.', 'Gegebene Seitenlängen und die zugehörige Höhe markieren.', 'Vor dem Rechnen alle Längen in dieselbe Einheit umwandeln.', 'Werte einsetzen und mit Quadrateinheit angeben.', 'Bei einem Kreis den Radius quadrieren, nicht den Durchmesser.'],
+            examples: [
+                { title: 'Rechteck', lines: ['a = 8 cm, b = 5 cm', 'A = a · b = 8 · 5', 'A = 40 cm².'] },
+                { title: 'Dreieck', lines: ['g = 12 cm, h = 7 cm', 'A = g · h / 2 = 12 · 7 / 2', 'A = 42 cm².'] },
+                { title: 'Kreis', lines: ['r = 3 cm, π ≈ 3,14', 'A = πr² = 3,14 · 3²', 'A ≈ 28,26 cm².'] }
+            ],
+            commonMistake: 'Flächeninhalte haben eine quadratische Einheit. Beim Dreieck muss durch 2 geteilt werden; beim Kreis wird der Radius quadriert.',
+            sources: []
+        },
         pythagoras: {
             paragraphs: [
                 'Der Satz des Pythagoras gilt ausschließlich in rechtwinkligen Dreiecken. Die beiden Seiten, die den rechten Winkel bilden, heißen Katheten. Die gegenüberliegende und längste Seite heißt Hypotenuse. Bezeichne die Katheten mit a und b und die Hypotenuse mit c.',
@@ -275,6 +331,20 @@
                 { title: 'Höhe berechnen', lines: ['A = 30 cm², g = 10 cm', 'h = 2A / g = 60 / 10', 'h = 6 cm.'] }
             ],
             commonMistake: 'Die Höhe muss zur gewählten Grundseite senkrecht sein. Vergiss beim Flächeninhalt außerdem nicht, das Produkt aus Grundseite und Höhe durch 2 zu teilen.',
+            sources: []
+        },
+        units: {
+            paragraphs: [
+                'Beim Umrechnen von Einheiten wird dieselbe Größe nur anders ausgedrückt. In der Längentabelle ist jeder Schritt zur kleineren Einheit zehnmal so groß: 1 m = 10 dm = 100 cm = 1.000 mm. Zur größeren Einheit teilst du entsprechend.',
+                'Bei Flächen wird der Umrechnungsfaktor quadriert: ein Schritt in der Flächentabelle entspricht dem Faktor 100. Bei Volumen wird er hoch drei genommen: ein Schritt entspricht dem Faktor 1.000. Merke außerdem: 1 l = 1 dm³ und 1 ml = 1 cm³. Rechne Geld- und Zeiteinheiten mit ihren eigenen Beziehungen um, zum Beispiel 1 € = 100 ct und 1 h = 60 min.'
+            ],
+            steps: ['Größe und Ausgangseinheit erkennen.', 'Ziel- und Ausgangseinheit in der Umrechnungstabelle finden.', 'Bei Länge pro Schritt mit 10, bei Fläche mit 100 und bei Volumen mit 1.000 umrechnen.', 'In die richtige Richtung multiplizieren oder teilen.', 'Einheit dazuschreiben und prüfen, ob der Zahlenwert plausibel ist.'],
+            examples: [
+                { title: 'Längeneinheiten', lines: ['2,5 m in cm umrechnen.', '1 m = 100 cm, also mit 100 multiplizieren.', '2,5 m = 250 cm.'] },
+                { title: 'Flächeneinheiten', lines: ['3 m² in cm² umrechnen.', '1 m² = 100 cm · 100 cm = 10.000 cm².', '3 m² = 30.000 cm².'] },
+                { title: 'Volumen und Liter', lines: ['1,2 l in ml umrechnen.', '1 l = 1.000 ml.', '1,2 l = 1.200 ml.'] }
+            ],
+            commonMistake: 'Bei Flächen und Volumen reicht es nicht, den Längenfaktor zu verwenden: 1 m² sind 10.000 cm² und 1 m³ sind 1.000.000 cm³.',
             sources: []
         },
         prism: {
@@ -388,12 +458,18 @@
         { id: 's5', topic: 'probability', subtopic: 'path-rules', kind: 'choice', prompt: 'Welche Regel verwendest du, um die Wahrscheinlichkeit eines einzelnen Pfades zu berechnen?', options: ['Wahrscheinlichkeiten entlang des Pfades multiplizieren', 'Alle Zahlen des Diagramms addieren', 'Nur die letzte Wahrscheinlichkeit verwenden', 'Durch die Anzahl aller Pfade teilen'], answer: 'Wahrscheinlichkeiten entlang des Pfades multiplizieren', steps: ['Ein Pfad besteht aus mehreren aufeinanderfolgenden Ereignissen.', 'Für die Wahrscheinlichkeit dieses Pfades multiplizierst du die Astwahrscheinlichkeiten.', 'Das ist die 1. Pfadregel.'] }
     ];
 
+    exercises.forEach(exercise => {
+        const topic = topics.find(item => item.lessons.some(lesson => lesson.id === exercise.subtopic));
+        if (!topic) throw new Error(`Für das Unterthema "${exercise.subtopic}" fehlt ein Themengebiet.`);
+        exercise.topic = topic.id;
+    });
+
     function addPracticeSet(subtopic, items) {
         const topic = topics.find(item => item.lessons.some(lesson => lesson.id === subtopic));
         if (!topic) throw new Error(`Für das Unterthema "${subtopic}" fehlt ein Themengebiet.`);
-        items.forEach(([prompt, answer, unit, steps, tolerance], index) => {
+        items.forEach(([prompt, answer, unit, steps, tolerance]) => {
             exercises.push({
-                id: `extra-${subtopic}-${index + 1}`,
+                id: `extra-${subtopic}-${exercises.filter(task => task.id.startsWith(`extra-${subtopic}-`)).length + 1}`,
                 topic: topic.id,
                 subtopic,
                 kind: 'number',
@@ -524,8 +600,142 @@
         ['Bestimme den Median: 2, 4, 8, 10.', 6, '', ['Bei 4 Werten werden die beiden mittleren Werte gemittelt.', '(4 + 8)/2 = 6.', 'Der Median ist 6.']],
         ['Bestimme die Spannweite der Werte 4, 7, 9 und 15.', 11, '', ['Größter Wert: 15; kleinster Wert: 4.', 'Spannweite = größter Wert − kleinster Wert.', '15 − 4 = 11.']]
     ]);
+    addPracticeSet('powers', [
+        ['Vereinfache: 4³ · 4². Gib das Ergebnis als Zahl an.', 1024, '', ['Bei gleicher Basis die Exponenten addieren: 4³ · 4² = 4⁵.', '4⁵ = 4 · 4 · 4 · 4 · 4.', 'Das Ergebnis ist 1.024.']],
+        ['Berechne: 10⁴.', 10000, '', ['10⁴ bedeutet vier Faktoren 10.', '10 · 10 · 10 · 10 = 10.000.', 'Das Ergebnis ist 10.000.']],
+        ['Berechne: (−2)³.', -8, '', ['Bei einer ungeraden Anzahl negativer Faktoren ist das Ergebnis negativ.', '(−2)³ = (−2) · (−2) · (−2).', 'Das Ergebnis ist −8.']],
+        ['Vereinfache: 7⁵ : 7³. Gib das Ergebnis als Zahl an.', 49, '', ['Bei gleicher Basis die Exponenten subtrahieren: 7⁵ : 7³ = 7².', '7² = 7 · 7.', 'Das Ergebnis ist 49.']]
+    ]);
+    addPracticeSet('roots', [
+        ['Berechne √289.', 17, '', ['Gesucht ist die nichtnegative Zahl, deren Quadrat 289 ist.', '17 · 17 = 289.', '√289 = 17.']],
+        ['Berechne √324.', 18, '', ['18² = 18 · 18 = 324.', 'Die Quadratwurzel ist nichtnegativ.', '√324 = 18.']],
+        ['Berechne √100 + √36.', 16, '', ['Zuerst die Wurzeln berechnen: √100 = 10 und √36 = 6.', 'Dann addieren: 10 + 6.', 'Das Ergebnis ist 16.']],
+        ['Zwischen welchen ganzen Zahlen liegt √70? Gib die kleinere Zahl an.', 8, '', ['8² = 64 und 9² = 81.', '70 liegt zwischen 64 und 81.', '√70 liegt zwischen 8 und 9; die kleinere Zahl ist 8.']]
+    ]);
+    addPracticeSet('linear-functions', [
+        ['Bei y = 3x − 5: Berechne y für x = 4.', 7, 'y =', ['x = 4 einsetzen: y = 3 · 4 − 5.', 'Zuerst multiplizieren: 12 − 5.', 'y = 7.']],
+        ['Bei y = −4x + 6: Berechne y für x = 2.', -2, 'y =', ['x = 2 einsetzen: y = −4 · 2 + 6.', '−8 + 6 = −2.', 'y = −2.']],
+        ['Bei y = 7x − 3: Gib die Steigung m an.', 7, 'm =', ['Mit y = mx + b vergleichen.', 'Der Koeffizient vor x ist die Steigung m.', 'm = 7.']],
+        ['Bei y = −2x + 8: Gib den y-Achsenabschnitt b an.', 8, 'b =', ['Mit y = mx + b vergleichen.', 'Der konstante Term ist der y-Achsenabschnitt.', 'b = 8.']]
+    ]);
+    addPracticeSet('slope', [
+        ['Berechne die Steigung zwischen (2|3) und (5|12).', 3, 'm =', ['Änderung y: 12 − 3 = 9.', 'Änderung x: 5 − 2 = 3.', 'm = 9/3 = 3.']],
+        ['Berechne die Steigung zwischen (1|8) und (3|2).', -3, 'm =', ['Änderung y: 2 − 8 = −6.', 'Änderung x: 3 − 1 = 2.', 'm = −6/2 = −3.']],
+        ['Eine Gerade steigt 6 Einheiten bei 3 Schritten nach rechts. Wie groß ist m?', 2, 'm =', ['Steigung = Änderung y / Änderung x.', 'm = 6/3.', 'm = 2.']],
+        ['Eine Gerade ist waagerecht. Wie groß ist ihre Steigung?', 0, 'm =', ['Bei einer waagerechten Geraden ändert sich y nicht.', 'Die Änderung in y ist 0.', 'Die Steigung m = 0.']]
+    ]);
+    addPracticeSet('graphs', [
+        ['Ergänze den Funktionswert: y = 2x + 3 für x = 0.', 3, 'y =', ['x = 0 einsetzen: y = 2 · 0 + 3.', '2 · 0 = 0.', 'y = 3.']],
+        ['Für y = x − 2: Berechne y für x = 5.', 3, 'y =', ['x = 5 einsetzen: y = 5 − 2.', 'Ausrechnen: 5 − 2 = 3.', 'y = 3.']],
+        ['Eine Gerade verläuft durch (0|−3). Wie groß ist ihr y-Achsenabschnitt?', -3, 'b =', ['Der y-Achsenabschnitt ist der y-Wert bei x = 0.', 'Der Punkt (0|−3) liegt auf der y-Achse.', 'b = −3.']],
+        ['Für y = 3x + 1: Berechne x, wenn y = 10 ist.', 3, 'x =', ['10 = 3x + 1.', '9 = 3x.', 'x = 3.']]
+    ]);
+    addPracticeSet('percent', [
+        ['Berechne 12 % von 300.', 36, '€', ['W = G · p / 100.', 'W = 300 · 12 / 100 = 36.', '12 % von 300 sind 36.']],
+        ['40 € sind wie viel Prozent von 160 €?', 25, '%', ['p = W / G · 100.', 'p = 40 / 160 · 100.', 'p = 25 %.']],
+        ['Ein Preis von 150 € wird um 20 % gesenkt. Wie hoch ist der neue Preis?', 120, '€', ['20 % von 150 € sind 30 €.', 'Den Rabatt abziehen: 150 € − 30 €.', 'Der neue Preis beträgt 120 €.']],
+        ['Ein Preis steigt von 80 € auf 100 €. Um wie viel Prozent ist er gestiegen?', 25, '%', ['Die Erhöhung beträgt 100 € − 80 € = 20 €.', 'Bezogen auf den Grundwert 80 €: 20 / 80 · 100.', 'Der Preis ist um 25 % gestiegen.']]
+    ]);
+    addPracticeSet('interest', [
+        ['Berechne die Jahreszinsen für 1.500 € bei 2 %.', 30, '€', ['Z = K · p / 100.', 'Z = 1.500 · 2 / 100.', 'Z = 30 €.']],
+        ['Wie viele Zinsen bringen 800 € bei 5 % für ein halbes Jahr?', 20, '€', ['Jahreszinsen: 800 · 5 / 100 = 40 €.', 'Ein halbes Jahr ist die Hälfte eines Jahreszinses.', '40 / 2 = 20 €.']],
+        ['Bei 1.000 € Kapital entstehen in einem Jahr 40 € Zinsen. Wie hoch ist der Zinssatz?', 4, '%', ['p = Z / K · 100.', 'p = 40 / 1.000 · 100.', 'Der Zinssatz beträgt 4 %.']],
+        ['Wie hoch ist das Kapital, wenn 3 % Jahreszinsen 45 € betragen?', 1500, '€', ['K = Z · 100 / p.', 'K = 45 · 100 / 3.', 'Das Kapital beträgt 1.500 €.']]
+    ]);
+    addPracticeSet('plane-areas', [
+        ['Ein Rechteck ist 9 cm lang und 4 cm breit. Berechne den Flächeninhalt.', 36, 'cm²', ['A = a · b.', 'A = 9 · 4.', 'A = 36 cm².']],
+        ['Ein Quadrat hat eine Seitenlänge von 7 cm. Berechne seinen Flächeninhalt.', 49, 'cm²', ['Für ein Quadrat gilt A = a · a.', 'A = 7 · 7.', 'A = 49 cm².']],
+        ['Ein Kreis hat den Radius 5 cm. Berechne den Flächeninhalt mit π ≈ 3,14.', 78.5, 'cm²', ['A = πr².', 'A = 3,14 · 5² = 3,14 · 25.', 'A = 78,5 cm².'], 0.1],
+        ['Ein Rechteck hat A = 54 cm² und a = 9 cm. Wie breit ist es?', 6, 'cm', ['A = a · b, also b = A/a.', 'b = 54/9.', 'b = 6 cm.']]
+    ]);
+    addPracticeSet('triangle-area', [
+        ['Ein Dreieck hat g = 10 cm und h = 8 cm. Berechne A.', 40, 'cm²', ['A = g · h / 2.', 'A = 10 · 8 / 2 = 80/2.', 'A = 40 cm².']],
+        ['Ein Dreieck hat g = 15 cm und h = 6 cm. Berechne A.', 45, 'cm²', ['A = g · h / 2.', 'A = 15 · 6 / 2 = 90/2.', 'A = 45 cm².']],
+        ['Ein Dreieck hat A = 36 cm² und g = 12 cm. Wie hoch ist es?', 6, 'cm', ['h = 2A/g.', 'h = 2 · 36 / 12 = 72/12.', 'h = 6 cm.']],
+        ['Ein Dreieck hat A = 24 cm² und h = 8 cm. Wie lang ist g?', 6, 'cm', ['g = 2A/h.', 'g = 2 · 24 / 8 = 48/8.', 'g = 6 cm.']]
+    ]);
+    addPracticeSet('pythagoras', [
+        ['Die Katheten sind 7 cm und 24 cm lang. Berechne die Hypotenuse.', 25, 'cm', ['c² = 7² + 24² = 49 + 576 = 625.', 'c = √625.', 'c = 25 cm.']],
+        ['Die Hypotenuse ist 10 cm und eine Kathete 8 cm lang. Berechne die andere Kathete.', 6, 'cm', ['a² = 10² − 8² = 100 − 64 = 36.', 'a = √36.', 'a = 6 cm.']],
+        ['Die Katheten sind 5 cm und 12 cm lang. Berechne die Hypotenuse.', 13, 'cm', ['c² = 5² + 12² = 25 + 144 = 169.', 'c = √169.', 'c = 13 cm.']],
+        ['Die Hypotenuse ist 17 cm und eine Kathete 8 cm lang. Berechne die andere Kathete.', 15, 'cm', ['a² = 17² − 8² = 289 − 64 = 225.', 'a = √225.', 'a = 15 cm.']]
+    ]);
+    addPracticeSet('prism', [
+        ['Ein Prisma hat G = 16 cm² und eine Länge von 8 cm. Berechne V.', 128, 'cm³', ['V = G · Länge.', 'V = 16 · 8.', 'V = 128 cm³.']],
+        ['Ein Prisma hat G = 21 cm² und eine Länge von 5 cm. Berechne V.', 105, 'cm³', ['V = G · Länge.', 'V = 21 · 5.', 'V = 105 cm³.']],
+        ['Ein Prisma hat V = 180 cm³ und eine Länge von 9 cm. Berechne G.', 20, 'cm²', ['G = V / Länge.', 'G = 180 / 9.', 'G = 20 cm².']],
+        ['Ein gerades Prisma hat G = 10 cm², Umfang u = 14 cm und Länge 5 cm. Berechne O.', 90, 'cm²', ['O = 2G + u · Länge.', 'O = 2 · 10 + 14 · 5 = 20 + 70.', 'O = 90 cm².']]
+    ]);
+    addPracticeSet('cylinder', [
+        ['Ein Zylinder hat r = 2 cm und h = 5 cm. Berechne V mit π ≈ 3,14.', 62.8, 'cm³', ['V = πr²h.', 'V = 3,14 · 2² · 5 = 3,14 · 4 · 5.', 'V = 62,8 cm³.'], 0.1],
+        ['Ein Zylinder hat r = 4 cm und h = 2 cm. Berechne V mit π ≈ 3,14.', 100.48, 'cm³', ['V = πr²h.', 'V = 3,14 · 4² · 2 = 3,14 · 16 · 2.', 'V = 100,48 cm³.'], 0.1],
+        ['Ein Zylinder hat Radius 3 cm und Höhe 4 cm. Berechne O mit π ≈ 3,14.', 131.88, 'cm²', ['O = 2πr² + 2πrh.', 'O = 2 · 3,14 · 9 + 2 · 3,14 · 3 · 4.', 'O = 56,52 + 75,36 = 131,88 cm².'], 0.2],
+        ['Ein Zylinder hat V = 314 cm³ und r = 5 cm. Berechne h mit π ≈ 3,14.', 4, 'cm', ['h = V/(πr²).', 'h = 314/(3,14 · 25) = 314/78,5.', 'h = 4 cm.']]
+    ]);
+    addPracticeSet('pyramid', [
+        ['Eine Pyramide hat G = 30 cm² und h = 12 cm. Berechne V.', 120, 'cm³', ['V = G · h / 3.', 'V = 30 · 12 / 3 = 360/3.', 'V = 120 cm³.']],
+        ['Eine Pyramide hat G = 18 cm² und h = 15 cm. Berechne V.', 90, 'cm³', ['V = G · h / 3.', 'V = 18 · 15 / 3 = 270/3.', 'V = 90 cm³.']],
+        ['Eine Pyramide hat V = 84 cm³ und G = 21 cm². Berechne h.', 12, 'cm', ['h = 3V/G.', 'h = 3 · 84 / 21 = 252/21.', 'h = 12 cm.']],
+        ['Eine quadratische Pyramide hat Grundkante 6 cm und Höhe 9 cm. Berechne V.', 108, 'cm³', ['Grundfläche G = 6 · 6 = 36 cm².', 'V = G · h / 3 = 36 · 9 / 3.', 'V = 108 cm³.']]
+    ]);
+    addPracticeSet('tree-diagrams', [
+        ['Ein fairer Würfel wird einmal geworfen. Wie groß ist die Wahrscheinlichkeit für eine gerade Zahl in Prozent?', 50, '%', ['Gerade Ergebnisse sind 2, 4 und 6: drei von sechs.', 'P = 3/6 = 1/2.', '1/2 = 50 %.']],
+        ['Eine Münze wird dreimal geworfen. Wie viele vollständige Endpfade gibt es?', 8, 'Pfade', ['Bei jedem Wurf gibt es 2 Möglichkeiten.', 'Drei Stufen ergeben 2 · 2 · 2 Pfade.', 'Es gibt 8 Endpfade.']],
+        ['In einem Beutel liegen 5 rote und 5 blaue Kugeln. Wie groß ist P(Rot) in Prozent?', 50, '%', ['Insgesamt gibt es 10 Kugeln, davon 5 rot.', 'P(Rot) = 5/10 = 1/2.', 'P(Rot) = 50 %.']],
+        ['Ein Glücksrad hat 10 gleich große Felder, davon 4 gelbe. Wie groß ist P(Gelb) in Prozent?', 40, '%', ['P(Gelb) = 4/10.', '4/10 = 0,4.', 'Die Wahrscheinlichkeit beträgt 40 %.']]
+    ]);
+    addPracticeSet('path-rules', [
+        ['Eine faire Münze wird dreimal geworfen. Wie groß ist P(Kopf-Zahl-Kopf) in Prozent?', 12.5, '%', ['Entlang des Pfades multiplizieren: 1/2 · 1/2 · 1/2 = 1/8.', '1/8 = 0,125.', '0,125 · 100 = 12,5 %.']],
+        ['Zwei passende Pfade haben Wahrscheinlichkeiten 15 % und 25 %. Wie groß ist die Gesamtwahrscheinlichkeit?', 40, '%', ['Passende Pfade addieren.', '15 % + 25 % = 40 %.', 'Die Gesamtwahrscheinlichkeit beträgt 40 %.']],
+        ['Zwei unabhängige Ereignisse haben P(A) = 40 % und P(B) = 25 %. Berechne P(A und B).', 10, '%', ['Für unabhängige Ereignisse multiplizieren.', '0,4 · 0,25 = 0,1.', 'P(A und B) = 10 %.']],
+        ['Eine faire Münze wird zweimal geworfen. Wie groß ist P(kein Kopf) in Prozent?', 25, '%', ['Kein Kopf bedeutet Zahl-Zahl.', 'P = 1/2 · 1/2 = 1/4.', '1/4 = 25 %.']]
+    ]);
+    addPracticeSet('statistics', [
+        ['Bestimme den Modalwert: 2, 3, 3, 4, 5.', 3, '', ['Der Modalwert ist der am häufigsten vorkommende Wert.', 'Die 3 kommt zweimal vor; alle anderen Werte nur einmal.', 'Der Modalwert ist 3.']],
+        ['Eine Klasse hat 20 Kinder, 5 davon fahren mit dem Rad. Wie viel Prozent sind das?', 25, '%', ['Anteil = 5/20 = 1/4.', '1/4 · 100 = 25.', 'Das sind 25 %.']],
+        ['Bestimme die Spannweite: 12, 4, 9, 7, 15.', 11, '', ['Größter Wert: 15; kleinster Wert: 4.', 'Spannweite = 15 − 4.', 'Die Spannweite ist 11.']],
+        ['Berechne den Mittelwert von 5, 7, 8 und 12.', 8, '', ['Summe: 5 + 7 + 8 + 12 = 32.', 'Es gibt 4 Werte.', 'Mittelwert = 32/4 = 8.']]
+    ]);
+    addPracticeSet('quadratic-functions', [
+        ['Berechne f(2) für f(x) = x² + 3x + 1.', 11, '', ['x = 2 einsetzen: f(2) = 2² + 3 · 2 + 1.', 'f(2) = 4 + 6 + 1.', 'f(2) = 11.']],
+        ['Die Funktion f(x) = (x + 3)² − 1 hat ihren Scheitelpunkt bei (−3|−1). Gib die x-Koordinate an.', -3, 'x =', ['Mit f(x) = (x − h)² + k vergleichen.', 'x + 3 = x − (−3), daher h = −3.', 'Die x-Koordinate ist −3.']],
+        ['Berechne f(−1) für f(x) = x² − 2x + 3.', 6, '', ['x = −1 einsetzen: f(−1) = (−1)² − 2 · (−1) + 3.', 'f(−1) = 1 + 2 + 3.', 'f(−1) = 6.']],
+        ['Der Scheitelpunkt einer Parabel ist S(2|−4). Wie groß ist seine y-Koordinate?', -4, 'y =', ['Beim Punkt S(x|y) ist die zweite Koordinate der y-Wert.', 'S(2|−4) einsetzen.', 'Die y-Koordinate ist −4.']]
+    ]);
+    addPracticeSet('quadratic-equations', [
+        ['Löse x² − 9 = 0. Gib die kleinere Lösung an.', -3, 'x =', ['Als Differenz zweier Quadrate faktorisieren: (x − 3)(x + 3) = 0.', 'Daraus folgen x = 3 oder x = −3.', 'Die kleinere Lösung ist −3.']],
+        ['Löse x² − 6x + 8 = 0. Gib die kleinere Lösung an.', 2, 'x =', ['Faktorisieren: (x − 2)(x − 4) = 0.', 'Nullprodukt: x = 2 oder x = 4.', 'Die kleinere Lösung ist 2.']],
+        ['Löse x² + x − 6 = 0. Gib die kleinere Lösung an.', -3, 'x =', ['Faktorisieren: (x + 3)(x − 2) = 0.', 'Nullprodukt: x = −3 oder x = 2.', 'Die kleinere Lösung ist −3.']],
+        ['Löse x² − 10x + 25 = 0.', 5, 'x =', ['Faktorisieren: (x − 5)² = 0.', 'Der Faktor ist null, wenn x − 5 = 0.', 'Die Lösung ist x = 5.']]
+    ]);
+    addPracticeSet('units', [
+        ['Wandle 3,4 m in Zentimeter um.', 340, 'cm', ['1 m = 100 cm.', '3,4 · 100 = 340.', '3,4 m = 340 cm.']],
+        ['Wandle 2,5 km in Meter um.', 2500, 'm', ['1 km = 1.000 m.', '2,5 · 1.000 = 2.500.', '2,5 km = 2.500 m.']],
+        ['Wandle 4 m² in Quadratzentimeter um.', 40000, 'cm²', ['1 m² = 10.000 cm².', '4 · 10.000 = 40.000.', '4 m² = 40.000 cm².']],
+        ['Wandle 0,003 m³ in Liter um.', 3, 'l', ['1 m³ = 1.000 l.', '0,003 · 1.000 = 3.', '0,003 m³ = 3 l.']],
+        ['Wandle 2,4 kg in Gramm um.', 2400, 'g', ['1 kg = 1.000 g.', '2,4 · 1.000 = 2.400.', '2,4 kg = 2.400 g.']],
+        ['Wandle 150 Minuten in Stunden um.', 2.5, 'h', ['1 h = 60 min.', '150 / 60 = 2,5.', '150 min = 2,5 h.']],
+        ['Wandle 750 ml in Liter um.', 0.75, 'l', ['1 l = 1.000 ml.', '750 / 1.000 = 0,75.', '750 ml = 0,75 l.']],
+        ['Wandle 3,2 ha in Quadratmeter um.', 32000, 'm²', ['1 ha = 10.000 m².', '3,2 · 10.000 = 32.000.', '3,2 ha = 32.000 m².']]
+    ]);
+    addPracticeSet('fractions', [
+        ['Berechne 2/5 + 1/10. Gib den Zähler des gekürzten Ergebnisses an.', 1, 'Zähler', ['2/5 auf Zehntel erweitern: 2/5 = 4/10.', '4/10 + 1/10 = 5/10 = 1/2.', 'Der Zähler ist 1.']],
+        ['Berechne 7/8 − 1/4. Gib den Zähler des gekürzten Ergebnisses an.', 5, 'Zähler', ['1/4 auf Achtel erweitern: 1/4 = 2/8.', '7/8 − 2/8 = 5/8.', 'Der Zähler ist 5.']],
+        ['Berechne 3/7 · 14/9. Gib den Zähler des gekürzten Ergebnisses an.', 2, 'Zähler', ['Zähler mal Zähler und Nenner mal Nenner: 42/63.', '42/63 durch 21 kürzen: 2/3.', 'Der Zähler ist 2.']],
+        ['Berechne 5/6 : 10/9. Gib den Zähler des gekürzten Ergebnisses an.', 3, 'Zähler', ['Mit dem Kehrwert multiplizieren: 5/6 · 9/10 = 45/60.', '45/60 durch 15 kürzen: 3/4.', 'Der Zähler ist 3.']]
+    ]);
+    addPracticeSet('terms', [
+        ['Fasse zusammen: 8x + 5 − 3x + 2.', 5, 'Koeffizient vor x', ['x-Glieder zusammenfassen: 8x − 3x = 5x.', 'Zahlen zusammenfassen: 5 + 2 = 7.', 'Der Koeffizient vor x ist 5.']],
+        ['Löse die Klammer auf und fasse zusammen: 4(2x − 3) − 5x. Gib den Koeffizienten von x an.', 3, 'Koeffizient vor x', ['Ausmultiplizieren: 8x − 12 − 5x.', 'Gleichartige Glieder zusammenfassen: 3x − 12.', 'Der Koeffizient von x ist 3.']],
+        ['Berechne 2a² − 3 für a = 4.', 29, '', ['a = 4 einsetzen: 2 · 4² − 3.', 'Zuerst quadrieren: 2 · 16 − 3 = 32 − 3.', 'Der Termwert ist 29.']],
+        ['Löse: 7x + 4 = 25.', 3, 'x =', ['Auf beiden Seiten 4 abziehen: 7x = 21.', 'Beide Seiten durch 7 teilen.', 'x = 3.']],
+        ['Löse: 4x − 3 = 2x + 9.', 6, 'x =', ['Auf beiden Seiten 2x abziehen: 2x − 3 = 9.', 'Auf beiden Seiten 3 addieren: 2x = 12.', 'x = 6.']],
+        ['Das Doppelte einer Zahl plus 7 ist 23. Wie groß ist die Zahl?', 8, '', ['Gleichung aufstellen: 2x + 7 = 23.', '7 abziehen und durch 2 teilen: 2x = 16.', 'x = 8.']],
+        ['Stelle s = v · t nach v um. Für s = 36 m und t = 4 s: Wie groß ist v?', 9, 'm/s', ['Nach v umstellen: v = s/t.', 'Einsetzen: v = 36/4.', 'v = 9 m/s.']],
+        ['Löse: 3(x + 2) = 21.', 5, 'x =', ['Beide Seiten durch 3 teilen: x + 2 = 7.', 'Auf beiden Seiten 2 abziehen.', 'x = 5.']]
+    ]);
 
-    const exam = {
+    const practiceQuestionBank = {
         a1: [
             { id: 'exam-a1-1', prompt: 'Berechne 3⁴.', answer: 81, points: 2, steps: ['3⁴ = 3 · 3 · 3 · 3.', '3 · 3 · 3 · 3 = 81.'], error: 'Der Exponent gibt an, wie oft die Basis als Faktor vorkommt.' },
             { id: 'exam-a1-2', prompt: 'Berechne √169.', answer: 13, points: 2, steps: ['Gesucht ist die nichtnegative Zahl, deren Quadrat 169 ergibt.', '13² = 169.', 'Also ist √169 = 13.'], error: 'Prüfe den Wurzelwert, indem du ihn quadrierst.' },
@@ -586,7 +796,7 @@
         'exam-b3-2': 'quadratic-equations',
         'exam-b3-3': 'quadratic-functions'
     };
-    const examQuestions = [...exam.a1, ...exam.a2, ...Object.values(exam.b).flat()];
+    const examQuestions = [...practiceQuestionBank.a1, ...practiceQuestionBank.a2, ...Object.values(practiceQuestionBank.b).flat()];
     examQuestions.forEach(question => {
         const subtopic = examPracticeSubtopics[question.id];
         if (!subtopic) throw new Error(`Für die Prüfungsaufgabe "${question.id}" fehlt ein Unterthema.`);
@@ -606,14 +816,6 @@
         });
     });
 
-    const gradeScale = [
-        { min: 92, grade: '1', label: 'sehr gut' },
-        { min: 81, grade: '2', label: 'gut' },
-        { min: 67, grade: '3', label: 'befriedigend' },
-        { min: 50, grade: '4', label: 'ausreichend' },
-        { min: 30, grade: '5', label: 'mangelhaft' },
-        { min: 0, grade: '6', label: 'ungenügend' }
-    ];
     let activeTopic = topics[0].id;
     let activeFilter = 'all';
     const pageParams = new URLSearchParams(window.location.search);
@@ -623,16 +825,17 @@
     let activeSubtopic = null;
     let activeSubtopicFilter = null;
     let learningState = {};
-    if (topics.some(topic => topic.id === requestedTopic)) {
-        activeTopic = requestedTopic;
-        activeFilter = requestedTopic;
-        const lesson = topicById(requestedTopic).lessons.find(item => item.id === requestedSubtopic);
-        if (lesson) {
-            activeSubtopic = lesson.id;
-            activeSubtopicFilter = lesson.id;
+    const legacyTopicIds = { algebra: 'terms', probability: 'data-chance' };
+    const requestedLessonTopic = topics.find(topic => topic.lessons.some(lesson => lesson.id === requestedSubtopic));
+    const initialTopic = requestedLessonTopic?.id || legacyTopicIds[requestedTopic] || requestedTopic;
+    if (topics.some(topic => topic.id === initialTopic)) {
+        activeTopic = initialTopic;
+        activeFilter = initialTopic;
+        if (requestedLessonTopic) {
+            activeSubtopic = requestedSubtopic;
+            activeSubtopicFilter = requestedSubtopic;
         }
     }
-    let examState = { phase: 'intro', bChoices: [], answers: {}, remainingSeconds: 135 * 60, deadline: null, interval: null };
     let feedbackState = {};
     let mentalMathState = { difficulty: 'easy', question: null, answer: '', feedback: '', score: 0, scored: false };
 
@@ -853,79 +1056,6 @@
         formatFractions(document.getElementById('mathViewMental'));
     }
 
-    function formatTime(seconds) {
-        const minutes = Math.floor(seconds / 60);
-        const remainder = seconds % 60;
-        return `${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
-    }
-
-    function renderExam() {
-        const host = document.getElementById('mathViewExam');
-        if (examState.phase === 'intro') {
-            host.innerHTML = `
-                <div class="math-section-heading"><div><span class="math-eyebrow">PRÜFUNGSSIMULATOR</span><h2>Trainiere den Prüfungsablauf</h2></div></div>
-                <div class="math-exam-intro-grid">
-                    <article class="math-panel"><span class="math-exam-number">A1</span><h3>Pflichtteil A1</h3><p>Alle Aufgaben in A1 bearbeiten.</p></article>
-                    <article class="math-panel"><span class="math-exam-number">A2</span><h3>Pflichtteil A2</h3><p>Alle Aufgaben in A2 bearbeiten.</p></article>
-                    <article class="math-panel"><span class="math-exam-number">B</span><h3>Wahlteil</h3><p>Drei Aufgabenangebote. Wähle genau zwei davon.</p></article>
-                </div>
-                <div class="math-notice"><strong>Bearbeitungszeit: 135 Minuten.</strong> Die Zeit läuft für die gesamte Prüfung. A1 und A2 sind Pflichtteile; im Wahlteil B bearbeitest du genau zwei von drei Aufgabenangeboten.</div>
-                <div class="math-notice">Dies ist eine selbst erstellte Übungssimulation, keine Originalprüfung. Die Notenanzeige ist eine Orientierung und kein amtlicher Notenschlüssel.</div>
-                <button type="button" class="math-button math-button-primary" data-exam-start>Prüfung starten</button>`;
-            formatFractions(host);
-            return;
-        }
-        if (examState.phase === 'a1') {
-            host.innerHTML = `
-                <div class="math-exam-topline"><div><span class="math-eyebrow">PFLICHTTEIL A1</span><h2>Bearbeite alle Aufgaben aus A1</h2></div><div class="math-timer" role="timer" aria-live="off">${formatTime(examState.remainingSeconds)}</div></div>
-                ${renderExamQuestions(exam.a1)}
-                <button type="button" class="math-button math-button-primary" data-exam-next>Weiter zu Pflichtteil A2</button>`;
-            formatFractions(host);
-            return;
-        }
-        if (examState.phase === 'a2b') {
-            host.innerHTML = `
-                <div class="math-exam-topline"><div><span class="math-eyebrow">PFLICHTTEIL A2</span><h2>Bearbeite alle Aufgaben aus A2</h2></div><div class="math-timer" role="timer" aria-live="off">${formatTime(examState.remainingSeconds)}</div></div>
-                ${renderExamQuestions(exam.a2)}
-                <section class="math-panel math-exam-choice">
-                    <h2>Wahlteil B: Wähle genau zwei von drei Aufgaben</h2>
-                    <p>${examState.bChoices.length} von 2 ausgewählt</p>
-                    <div class="math-exam-choice-grid">
-                        ${[
-                            ['B1', 'Geometrie', 'Pythagoras sowie Flächen- und Körperberechnungen.'],
-                            ['B2', 'Daten und Zufall', 'Statistik und Wahrscheinlichkeiten.'],
-                            ['B3', 'Quadratische Funktionen', 'Funktionswerte, Nullstellen und Scheitelpunkt.']
-                        ].map(([id, title, description]) => `
-                            <label class="math-exam-choice-option">
-                                <input type="checkbox" data-b-choice="${id}" ${examState.bChoices.includes(id) ? 'checked' : ''}>
-                                <span><strong>${id} · ${title}</strong><br>${description}</span>
-                            </label>
-                        `).join('')}
-                    </div>
-                </section>
-                ${examState.bChoices.length ? examState.bChoices.map((choice, index) => `
-                    <section class="math-exam-choice-questions">
-                        <h3>Wahlaufgabe ${choice}</h3>
-                        ${renderExamQuestions(exam.b[choice], exam.a2.length + index * exam.b[choice].length)}
-                    </section>
-                `).join('') : ''}
-                <p class="math-notice" aria-live="polite">${examState.bChoices.length === 2 ? 'Beide Wahlaufgaben ausgewählt. Du kannst die Prüfung abgeben.' : 'Wähle genau zwei Wahlaufgaben, um die Prüfung abzugeben.'}</p>
-                <button type="button" class="math-button math-button-primary" data-exam-submit ${examState.bChoices.length === 2 ? '' : 'disabled'}>Prüfung auswerten</button>`;
-            formatFractions(host);
-            return;
-        }
-        renderExamResults();
-    }
-
-    function renderExamQuestions(questions, startIndex = 0) {
-        return `<div class="math-exercise-grid">${questions.map((task, index) => `
-            <article class="math-panel math-exercise">
-                <div class="math-exercise-meta"><span>${task.id.toUpperCase().replaceAll('-', ' · ')}</span><span>${task.points} Punkte</span></div>
-                <h3>${startIndex + index + 1}. ${task.prompt}</h3>
-                ${taskInput(task, examState.answers[task.id] || '')}
-            </article>`).join('')}</div>`;
-    }
-
     function numericValue(value) {
         const normalized = String(value).trim().replace(/\s/g, '').replace(',', '.');
         if (!normalized || !/^-?(?:\d+\.?\d*|\.\d+)$/.test(normalized)) return null;
@@ -967,79 +1097,12 @@
         if (button) button.textContent = root.dataset.theme === 'dark' ? '☀️ Hellmodus' : '🌙 Dunkelmodus';
     }
 
-    function saveExamAnswer(taskId, value) {
-        examState.answers[taskId] = value;
-    }
-
-    function stopExamTimer() {
-        if (examState.interval) {
-            window.clearInterval(examState.interval);
-            examState.interval = null;
-        }
-    }
-
-    function beginExamTimer() {
-        examState.remainingSeconds = 135 * 60;
-        examState.deadline = Date.now() + examState.remainingSeconds * 1000;
-        examState.interval = window.setInterval(() => {
-            examState.remainingSeconds = Math.max(0, Math.ceil((examState.deadline - Date.now()) / 1000));
-            const timer = document.querySelector('.math-timer');
-            if (timer) timer.textContent = formatTime(examState.remainingSeconds);
-            if (examState.remainingSeconds <= 0) {
-                stopExamTimer();
-                examState.phase = 'results';
-                document.getElementById('mathLiveRegion').textContent = 'Die Bearbeitungszeit von 135 Minuten ist abgelaufen. Deine bisher bearbeiteten Aufgaben werden ausgewertet.';
-                renderExam();
-            }
-        }, 1000);
-    }
-
-    function gradeQuestions(questions) {
-        return questions.map(task => ({
-            ...task,
-            response: examState.answers[task.id] || '',
-            correct: isCorrect(task, examState.answers[task.id] || '')
-        }));
-    }
-
-    function renderExamResults() {
-        stopExamTimer();
-        const questions = [...exam.a1, ...exam.a2, ...examState.bChoices.flatMap(choice => exam.b[choice])];
-        const graded = gradeQuestions(questions);
-        const score = graded.reduce((sum, task) => sum + (task.correct ? task.points : 0), 0);
-        const max = graded.reduce((sum, task) => sum + task.points, 0);
-        const percent = max ? Math.round(score / max * 100) : 0;
-        const grade = gradeScale.find(item => percent >= item.min) || gradeScale[gradeScale.length - 1];
-        window.LernraumDB.update('mathematikLearningState', state => ({
-            ...state,
-            bestExamPercent: Math.max(Number(state.bestExamPercent) || 0, percent),
-            lastExam: { score, max, percent, grade: grade.grade, date: new Date().toISOString() }
-        })).catch(error => {
-            console.error('Das Prüfungsergebnis konnte nicht in IndexedDB gespeichert werden:', error);
-        });
-        document.getElementById('mathViewExam').innerHTML = `
-            <div class="math-section-heading"><div><span class="math-eyebrow">AUSWERTUNG</span><h2>Dein Ergebnis</h2></div></div>
-            <div class="math-result-card"><div class="math-result-percent">${percent}%</div><div><strong>${score} von ${max} Punkten</strong><p>Orientierungsnote: ${grade.grade} · ${grade.label}</p></div></div>
-            ${examState.bChoices.length < 2 ? '<div class="math-notice">Unvollständige Prüfung: Die Zeit endete, bevor zwei Wahlaufgaben ausgewählt und bearbeitet wurden. Die Anzeige ist nur ein Zwischenstand für die angezeigten Aufgaben.</div>' : ''}
-            <div class="math-notice">Die Note ist eine Übungsorientierung, kein offizielles Prüfungsergebnis. Den verwendeten Notenschlüssel kannst du im Array <code>gradeScale</code> in <code>mathematik.js</code> anpassen.</div>
-            <h3 class="math-analysis-heading">Fehleranalyse und Lösungswege</h3>
-            <div class="math-exercise-grid">${graded.map(task => `<article class="math-panel math-result-question ${task.correct ? 'is-correct' : 'is-incorrect'}">
-                <div class="math-exercise-meta"><span>${task.correct ? '✓ Richtig' : '✗ Noch üben'}</span><span>${task.correct ? task.points : 0}/${task.points} Punkte</span></div>
-                <h3>${task.prompt}</h3><p><strong>Deine Antwort:</strong> ${task.response ? escapeHtml(task.response) : 'Keine Antwort'}</p>
-                ${task.correct ? '' : `<p><strong>Hinweis:</strong> ${task.error}</p>`}
-                <details><summary>Lösungsweg anzeigen</summary><ol>${task.steps.map(step => `<li>${step}</li>`).join('')}</ol></details>
-            </article>`).join('')}</div>
-            <button type="button" class="math-button math-button-primary" data-exam-reset>Nochmal üben</button>`;
-        formatFractions(document.getElementById('mathViewExam'));
-    }
-
     function switchView(view) {
         document.querySelectorAll('.math-tab').forEach(button => button.classList.toggle('active', button.dataset.mathView === view));
         document.querySelectorAll('.math-view').forEach(section => section.classList.toggle('hidden', section.id !== `mathView${view[0].toUpperCase()}${view.slice(1)}`));
         root.closest('#portalApp')?.classList.toggle('math-subtopic-focus', view === 'topics' && Boolean(activeSubtopic));
         if (view === 'practice') renderPractice();
         if (view === 'mental') renderMentalMath();
-        if (view === 'exam') renderExam();
     }
 
     root.addEventListener('click', event => {
@@ -1107,25 +1170,6 @@
             persistPractice();
             updateThemeButton();
         }
-        if (target.hasAttribute('data-exam-start')) {
-            examState = { phase: 'a1', bChoices: [], answers: {}, remainingSeconds: 135 * 60, deadline: null, interval: null };
-            renderExam();
-            beginExamTimer();
-        }
-        if (target.hasAttribute('data-exam-next')) {
-            examState.phase = 'a2b';
-            renderExam();
-        }
-        if (target.hasAttribute('data-exam-submit')) {
-            if (examState.bChoices.length !== 2) return;
-            examState.phase = 'results';
-            renderExam();
-        }
-        if (target.hasAttribute('data-exam-reset')) {
-            stopExamTimer();
-            examState = { phase: 'intro', bChoices: [], answers: {}, remainingSeconds: 135 * 60, deadline: null, interval: null };
-            renderExam();
-        }
         if (target.hasAttribute('data-calculate')) {
             const first = numericValue(document.getElementById('mathCalcA').value);
             const second = numericValue(document.getElementById('mathCalcB').value);
@@ -1145,16 +1189,6 @@
             activeSubtopicFilter = null;
             renderPractice();
         }
-        if (event.target.matches('[data-b-choice]')) {
-            const selectedChoices = [...root.querySelectorAll('[data-b-choice]:checked')].map(input => input.dataset.bChoice);
-            if (selectedChoices.length > 2) {
-                event.target.checked = false;
-                document.getElementById('mathLiveRegion').textContent = 'Du kannst genau zwei Wahlaufgaben auswählen.';
-                return;
-            }
-            examState.bChoices = selectedChoices;
-            renderExam();
-        }
         if (event.target.matches('[data-task-answer]')) {
             const taskId = event.target.dataset.taskAnswer;
             const task = exercises.find(item => item.id === taskId);
@@ -1170,20 +1204,15 @@
         }
         if (!event.target.matches('[data-task-answer]')) return;
         const taskId = event.target.dataset.taskAnswer;
-        if (examState.phase === 'a1' || examState.phase === 'a2b') {
-            saveExamAnswer(taskId, event.target.value);
-        } else {
-            feedbackState[taskId] = { ...(feedbackState[taskId] || {}), value: event.target.value };
-            persistPractice();
-        }
+        feedbackState[taskId] = { ...(feedbackState[taskId] || {}), value: event.target.value };
+        persistPractice();
     });
 
     root.setAttribute('aria-busy', 'true');
     loadState().then(() => {
         renderTopics();
         renderPractice();
-        renderExam();
-        if (['practice', 'mental', 'exam'].includes(requestedView)) {
+        if (['practice', 'mental'].includes(requestedView)) {
             switchView(requestedView);
         } else {
             root.closest('#portalApp')?.classList.toggle('math-subtopic-focus', Boolean(activeSubtopic));
