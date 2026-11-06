@@ -239,7 +239,7 @@ function renderDashboard() {
                 <div>
                     <span class="pill">DEIN LERNSTAND</span>
                     <h2 id="cloudSyncTitle">Auf mehreren Geräten weiterlernen</h2>
-                    <p>Erstelle ein Lernkonto, damit dein Chemie- und Mathematik-Lernstand auf deinen Geräten verfügbar ist.</p>
+                    <p>Erstelle ein Lernkonto, damit dein Chemie- und Mathematik-Lernstand auf deinen Geräten verfügbar ist. Hast du schon ein Konto, aber noch keine Bestätigung? Gib deine E-Mail-Adresse ein und sende die Bestätigung erneut.</p>
                 </div>
                 <form id="cloudAuthForm" class="cloud-auth-form">
                     <label for="cloudEmail">E-Mail-Adresse</label>
