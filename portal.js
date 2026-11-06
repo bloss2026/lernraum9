@@ -3,9 +3,95 @@ const subjects = [
     { id: 'mathematik', name: 'Mathematik', icon: '📐', file: 'mathematik.html', group: 'Mathematik', available: true, note: 'Zehn Themengebiete mit Erklärungen und Übungen.' },
     { id: 'biologie', name: 'Biologie', icon: '🧬', file: 'biologie.html', group: 'Naturwissenschaften' },
     { id: 'chemie', name: 'Chemie', icon: '⚗️', file: 'chemie.html', group: 'Naturwissenschaften', available: true },
-    { id: 'physik', name: 'Physik', icon: '⚡', file: 'physik.html', group: 'Naturwissenschaften' },
+    { id: 'physik', name: 'Physik', icon: '⚡', file: 'physik.html', group: 'Naturwissenschaften', available: true, note: 'Erklärungen und Übungen zu wichtigen Physik-Themen der 9. Klasse.' },
     { id: 'geschichte', name: 'Geschichte', icon: '🏛️', file: 'geschichte.html', group: 'Gesellschaft' },
     { id: 'erdkunde', name: 'Geographie / Erdkunde', icon: '🌍', file: 'geographie.html', group: 'Gesellschaft' }
+];
+
+const physicsTopics = [
+    {
+        id: 'mechanics', icon: '🏃', title: 'Bewegung und Kräfte',
+        description: 'Geschwindigkeit, Beschleunigung und Kräfte beschreiben und berechnen.',
+        subtopics: [
+            { id: 'speed', icon: '⏱️', title: 'Geschwindigkeit', description: 'Strecke, Zeit und Geschwindigkeit mit v = s/t berechnen.' },
+            { id: 'acceleration', icon: '🚀', title: 'Beschleunigung', description: 'Änderungen der Geschwindigkeit pro Zeit untersuchen.' },
+            { id: 'forces', icon: '🧲', title: 'Kräfte', description: 'Kraftwirkungen, Gewichtskraft und Newtons Grundgesetz kennenlernen.' }
+        ]
+    },
+    {
+        id: 'electricity', icon: '⚡', title: 'Elektrizität',
+        description: 'Stromstärke, Spannung, Widerstand und elektrische Leistung verstehen.',
+        subtopics: [
+            { id: 'current-voltage', icon: '🔋', title: 'Stromstärke und Spannung', description: 'Ladung, Stromstärke und Spannung im Stromkreis erklären.' },
+            { id: 'resistance', icon: 'Ω', title: 'Elektrischer Widerstand', description: 'Das Ohmsche Gesetz anwenden und Widerstände berechnen.' },
+            { id: 'circuits', icon: '🔌', title: 'Reihen- und Parallelschaltung', description: 'Strom und Spannung in verschiedenen Schaltungen vergleichen.' },
+            { id: 'electric-power', icon: '💡', title: 'Elektrische Leistung und Energie', description: 'Leistung und verbrauchte elektrische Energie bestimmen.' }
+        ]
+    },
+    {
+        id: 'optics', icon: '🔦', title: 'Optik und Licht',
+        description: 'Lichtausbreitung, Spiegelung, Brechung und Linsen untersuchen.',
+        subtopics: [
+            { id: 'light-reflection', icon: '🪞', title: 'Licht und Spiegelung', description: 'Lichtstrahlen und das Reflexionsgesetz verstehen.' },
+            { id: 'refraction', icon: '💧', title: 'Lichtbrechung', description: 'Erklären, warum Licht beim Medienwechsel seine Richtung ändert.' },
+            { id: 'lenses', icon: '🔍', title: 'Linsen und Bilder', description: 'Bilder an Sammellinsen konstruieren und berechnen.' }
+        ]
+    },
+    {
+        id: 'thermal', icon: '🌡️', title: 'Wärme und Temperatur',
+        description: 'Temperatur, Wärmeübertragung und Ausdehnung von Stoffen erklären.',
+        subtopics: [
+            { id: 'temperature-heat', icon: '🌡️', title: 'Temperatur und Wärme', description: 'Temperatur von übertragener Wärme unterscheiden.' },
+            { id: 'heat-capacity', icon: '🔥', title: 'Wärmemenge berechnen', description: 'Wärmeenergie mit Masse, Stoff und Temperaturänderung bestimmen.' },
+            { id: 'thermal-expansion', icon: '↔️', title: 'Wärmeausdehnung', description: 'Ausdehnung von Festkörpern, Flüssigkeiten und Gasen erklären.' },
+            { id: 'heat-transfer', icon: '♨️', title: 'Wärmeübertragung', description: 'Wärmeleitung, Strömung und Wärmestrahlung unterscheiden.' }
+        ]
+    },
+    {
+        id: 'magnetism', icon: '🧲', title: 'Magnetismus',
+        description: 'Magnetfelder, Elektromagnete und elektromagnetische Induktion erforschen.',
+        subtopics: [
+            { id: 'magnetic-fields', icon: '🧭', title: 'Magnetische Felder', description: 'Feldlinien und Kräfte zwischen Magnetpolen deuten.' },
+            { id: 'electromagnets', icon: '🌀', title: 'Elektromagnete', description: 'Einfluss von Strom, Windungszahl und Eisenkern untersuchen.' },
+            { id: 'induction', icon: '⚙️', title: 'Elektromagnetische Induktion', description: 'Spannung durch Änderung eines Magnetfelds erzeugen.' }
+        ]
+    },
+    {
+        id: 'waves-sound', icon: '🔊', title: 'Schall und Wellen',
+        description: 'Schwingungen, Frequenz, Wellenlänge und Schallausbreitung beschreiben.',
+        subtopics: [
+            { id: 'vibrations-waves', icon: '〰️', title: 'Schwingungen und Wellen', description: 'Frequenz, Periodendauer und Wellenlänge verknüpfen.' },
+            { id: 'sound', icon: '🎵', title: 'Schall', description: 'Entstehung, Ausbreitung und Wahrnehmung von Schall erklären.' },
+            { id: 'echo', icon: '⛰️', title: 'Echo und Entfernung', description: 'Mit der Schalllaufzeit Entfernungen bestimmen.' }
+        ]
+    },
+    {
+        id: 'energy', icon: '♻️', title: 'Energie und Leistung',
+        description: 'Energieformen, Energieumwandlung, Arbeit und Wirkungsgrad anwenden.',
+        subtopics: [
+            { id: 'energy-forms', icon: '🔄', title: 'Energieformen und Umwandlung', description: 'Energieformen in Alltag und Technik erkennen.' },
+            { id: 'work-power', icon: '🏋️', title: 'Arbeit und Leistung', description: 'Mechanische Arbeit und Leistung berechnen.' },
+            { id: 'efficiency', icon: '📊', title: 'Wirkungsgrad', description: 'Nutzenergie und zugeführte Energie vergleichen.' }
+        ]
+    },
+    {
+        id: 'fluids', icon: '🌊', title: 'Druck und Auftrieb',
+        description: 'Druck, Dichte und Auftrieb in Flüssigkeiten und Gasen untersuchen.',
+        subtopics: [
+            { id: 'pressure', icon: '⬇️', title: 'Druck', description: 'Druck als Kraft pro Fläche berechnen.' },
+            { id: 'density', icon: '⚖️', title: 'Dichte', description: 'Masse, Volumen und Dichte verknüpfen.' },
+            { id: 'buoyancy', icon: '🛟', title: 'Auftrieb', description: 'Erklären und berechnen, warum Körper in Flüssigkeiten aufsteigen oder sinken.' }
+        ]
+    },
+    {
+        id: 'atomic-physics', icon: '☢️', title: 'Atome und Radioaktivität',
+        description: 'Atomkerne, Strahlungsarten und den radioaktiven Zerfall kennenlernen.',
+        subtopics: [
+            { id: 'atoms-nuclei', icon: '⚛️', title: 'Atome und Atomkerne', description: 'Protonen, Neutronen, Elektronen und Isotope unterscheiden.' },
+            { id: 'radiation', icon: '☢️', title: 'Radioaktive Strahlung', description: 'Alpha-, Beta- und Gammastrahlung vergleichen.' },
+            { id: 'half-life', icon: '⌛', title: 'Halbwertszeit', description: 'Die Abnahme radioaktiver Stoffe schrittweise berechnen.' }
+        ]
+    }
 ];
 
 const currentSubject = subjects.find(subject => subject.id === document.documentElement.dataset.subject);
@@ -91,6 +177,33 @@ function loadDashboardState() {
 }
 
 function renderSubjectPage(subject) {
+    if (subject.id === 'physik') {
+        return `
+            <section class="portal-hero portal-subject-hero">
+                <a class="portal-back-link" href="./index.html">← Dashboard</a>
+                <span class="pill">${subject.icon} PHYSIK · KLASSE 9</span>
+                <h1>Physik</h1>
+                <p>Entdecke wichtige Themen der Physik mit ausführlichen Erklärungen, Beispielen und passenden Übungen.</p>
+            </section>
+            <section class="portal-content-section">
+                <div class="portal-section-heading">
+                    <div><span class="pill">THEMENÜBERSICHT</span><h2>Physik-Themen</h2></div>
+                    <p>Thema auswählen → Unterthema öffnen → lernen und üben</p>
+                </div>
+                <div class="subject-grid">
+                    ${physicsTopics.map(topic => `
+                        <a class="subject-card portal-subject-card" href="./physik-themen.html?topic=${topic.id}">
+                            <span class="subject-icon" aria-hidden="true">${topic.icon}</span>
+                            <span class="subject-status available">${topic.subtopics.length} Unterthemen · Erklärungen &amp; Übungen</span>
+                            <h3>${topic.title}</h3>
+                            <p>${topic.description}</p>
+                            <span class="portal-card-link">Thema öffnen →</span>
+                        </a>
+                    `).join('')}
+                </div>
+            </section>
+        `;
+    }
     if (subject.id === 'mathematik') {
         const mathTopics = [
             { id: 'powers-roots', icon: '√', title: 'Potenzen und Wurzeln', description: 'Potenzen berechnen, Potenzgesetze anwenden und Quadratwurzeln ziehen.' },
@@ -422,6 +535,56 @@ function renderMathLearningPage() {
     `;
 }
 
+function renderPhysicsTopicPage() {
+    const requestedTopic = new URLSearchParams(window.location.search).get('topic');
+    const topic = physicsTopics.find(item => item.id === requestedTopic);
+    if (!topic) {
+        return `<section class="portal-hero"><h1>Thema nicht gefunden</h1><p>Dieses Physik-Thema ist nicht verfügbar.</p><a class="portal-back-link" href="./physik.html">Zur Physik-Themenübersicht</a></section>`;
+    }
+    return `
+        <section class="portal-hero portal-subject-hero">
+            <a class="portal-back-link" href="./physik.html">← Physik-Themen</a>
+            <span class="pill">${topic.icon} PHYSIK · KLASSE 9</span>
+            <h1>${topic.title}</h1>
+            <p>${topic.description} Wähle ein Unterthema für eine ausführliche Erklärung und passende Übungen.</p>
+        </section>
+        <section class="portal-content-section">
+            <div class="portal-section-heading">
+                <div><span class="pill">UNTERTHEMEN</span><h2>Womit möchtest du lernen?</h2></div>
+            </div>
+            <div class="subject-grid">
+                ${topic.subtopics.map(subtopic => `
+                    <a class="subject-card portal-subject-card" href="./physik-lernen.html?subtopic=${subtopic.id}">
+                        <span class="subject-icon" aria-hidden="true">${subtopic.icon}</span>
+                        <span class="subject-status available">Erklärung &amp; Übungen</span>
+                        <h3>${subtopic.title}</h3>
+                        <p>${subtopic.description}</p>
+                        <span class="portal-card-link">Öffnen →</span>
+                    </a>
+                `).join('')}
+            </div>
+        </section>
+    `;
+}
+
+function renderPhysicsLearningPage() {
+    const subtopic = new URLSearchParams(window.location.search).get('subtopic') || '';
+    return `
+        <section id="physicsLearningApp" class="math-learning-app physics-learning-app" data-subtopic="${subtopic}">
+            <section class="portal-hero portal-subject-hero math-hero">
+                <a class="portal-back-link" href="./physik.html">← Zurück zu Physik</a>
+                <div class="math-hero-actions">
+                    <span class="pill">⚡ PHYSIK · KLASSE 9</span>
+                    <button class="math-button math-theme-toggle" type="button" id="physicsThemeToggle" aria-label="Farbschema umschalten">☀️ Hellmodus</button>
+                </div>
+                <h1>Physik verstehen</h1>
+                <p>Erklärung, Beispiele und Übungen zum ausgewählten Unterthema.</p>
+            </section>
+            <div id="physicsLessonView" class="physics-lesson-view"></div>
+        </section>
+    `;
+}
+
 if (app) {
     const page = document.documentElement.dataset.page;
     const subject = currentSubject;
@@ -451,6 +614,36 @@ if (app) {
                 <header class="portal-topbar"><span>Lernplattform · Klasse 9</span><a href="./index.html">Startseite</a></header>
                 ${renderMathLearningPage()}
                 <footer class="portal-footer">Lernraum 9 · Mathematik · Klasse 9.</footer>
+            </main>
+        `;
+    } else if (page === 'physics-topic') {
+        app.innerHTML = `
+            ${renderNavigation('physik')}
+            <main class="portal-main">
+                <header class="portal-topbar">
+                    <button class="portal-menu-toggle" type="button" aria-controls="portalSidebar" aria-expanded="false">
+                        <span aria-hidden="true">☰</span><span>Fächer</span>
+                    </button>
+                    <span>Lernplattform · Klasse 9</span>
+                    <a href="./index.html">Startseite</a>
+                </header>
+                ${renderPhysicsTopicPage()}
+                <footer class="portal-footer">Lernraum 9 · Physik · Klasse 9.</footer>
+            </main>
+        `;
+    } else if (page === 'physics-learning') {
+        app.innerHTML = `
+            ${renderNavigation('physik')}
+            <main class="portal-main">
+                <header class="portal-topbar">
+                    <button class="portal-menu-toggle" type="button" aria-controls="portalSidebar" aria-expanded="false">
+                        <span aria-hidden="true">☰</span><span>Fächer</span>
+                    </button>
+                    <span>Lernplattform · Klasse 9</span>
+                    <a href="./index.html">Startseite</a>
+                </header>
+                ${renderPhysicsLearningPage()}
+                <footer class="portal-footer">Lernraum 9 · Physik · Klasse 9.</footer>
             </main>
         `;
     } else if (page === 'subject' && !subject) {
