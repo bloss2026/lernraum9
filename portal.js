@@ -56,8 +56,7 @@ function renderDashboard() {
         <section class="portal-hero">
             <span class="pill">LERNRAUM · KLASSE 9</span>
             <h1>Willkommen in deinem Lernraum 👋</h1>
-            <p>Wähle ein Fach und öffne dort ein Thema. Die Inhalte werden Schritt für Schritt ergänzt.</p>
-            <a class="btn" href="#faecher">Fächer auswählen ↓</a>
+            <p>Wähle ein Fach über die Navigation und öffne dort ein Thema. Die Inhalte werden Schritt für Schritt ergänzt.</p>
         </section>
         <section class="portal-stats" aria-label="Lernstand">
             <article class="card">
@@ -75,14 +74,6 @@ function renderDashboard() {
                 <p class="portal-stat-number">${subjects.length}</p>
                 <p>Chemie mit Lerninhalten, weitere Fächer als Platzhalter</p>
             </article>
-        </section>
-        <section id="faecher" class="portal-content-section">
-            <div class="portal-section-heading">
-                <div><span class="pill">DEIN ÜBERBLICK</span><h2>Fächer der 9. Klasse</h2></div>
-                <p>Fach auswählen → Thema öffnen → lernen</p>
-            </div>
-            <div class="subject-grid">${renderSubjectCards()}</div>
-            <p class="portal-curriculum-note">Hinweis: Fächerangebot und Themen unterscheiden sich je nach Bundesland, Schulform und Schule.</p>
         </section>
     `;
 }
