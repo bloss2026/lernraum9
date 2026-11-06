@@ -13,7 +13,7 @@ const app = document.getElementById('portalApp');
 
 function renderNavigation(activeSubjectId = '') {
     return `
-        <aside class="portal-sidebar">
+        <aside class="portal-sidebar" id="portalSidebar">
             <a class="portal-brand" href="./index.html">
                 <span class="portal-brand-icon" aria-hidden="true">📚</span>
                 <span class="portal-brand-copy"><strong>Lernraum 9</strong><small>DEIN LERNRAUM</small></span>
@@ -32,6 +32,7 @@ function renderNavigation(activeSubjectId = '') {
                 <p><strong>Lernraum · Klasse 9</strong><br>Fachpläne können je nach Schule variieren.</p>
             </div>
         </aside>
+        <button class="portal-nav-overlay" type="button" aria-label="Menü schließen" tabindex="-1" hidden></button>
     `;
 }
 
@@ -438,11 +439,48 @@ if (app) {
         app.innerHTML = `
             ${renderNavigation(subject?.id || '')}
             <main class="portal-main">
-                <header class="portal-topbar"><span>Lernplattform · Klasse 9</span>${page === 'home' ? '' : '<a href="./index.html">Startseite</a>'}</header>
+                <header class="portal-topbar">
+                    <button class="portal-menu-toggle" type="button" aria-controls="portalSidebar" aria-expanded="false">
+                        <span aria-hidden="true">☰</span><span>Fächer</span>
+                    </button>
+                    <span>Lernplattform · Klasse 9</span>
+                    ${page === 'home' ? '' : '<a href="./index.html">Startseite</a>'}
+                </header>
                 ${page === 'home' ? renderDashboard() : renderSubjectPage(subject)}
                 ${page === 'home' ? '' : '<footer class="portal-footer">Lernraum 9 · Fachinhalte werden fortlaufend ergänzt.</footer>'}
             </main>
         `;
+    }
+
+    const navigation = document.getElementById('portalSidebar');
+    const menuToggle = document.querySelector('.portal-menu-toggle');
+    const menuOverlay = document.querySelector('.portal-nav-overlay');
+    if (navigation && menuToggle && menuOverlay) {
+        const mobileNavigation = window.matchMedia('(max-width: 600px)');
+        const setMenuOpen = open => {
+            const isOpen = mobileNavigation.matches && open;
+            app.classList.toggle('portal-nav-open', isOpen);
+            navigation.setAttribute('aria-hidden', String(mobileNavigation.matches && !isOpen));
+            menuToggle.setAttribute('aria-expanded', String(isOpen));
+            menuOverlay.hidden = !isOpen;
+            document.body.classList.toggle('portal-nav-open', isOpen);
+        };
+
+        setMenuOpen(false);
+        menuToggle.addEventListener('click', () => {
+            const opening = menuToggle.getAttribute('aria-expanded') !== 'true';
+            setMenuOpen(opening);
+            if (opening) navigation.querySelector('nav a')?.focus();
+        });
+        menuOverlay.addEventListener('click', () => setMenuOpen(false));
+        navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenuOpen(false)));
+        mobileNavigation.addEventListener('change', () => setMenuOpen(false));
+        document.addEventListener('keydown', event => {
+            if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+                setMenuOpen(false);
+                menuToggle.focus();
+            }
+        });
     }
 
     if (page === 'home') loadDashboardState();

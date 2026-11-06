@@ -827,20 +827,36 @@
         .portal-sidebar-footer strong { color: #f1f5f9; }
         .portal-main {
             margin-left: 260px;
-            flex: 1;
+            flex: 0 1 auto;
             min-width: 0;
+            width: calc(100% - 260px);
             max-width: 1500px;
             padding: 1.5rem 2rem 3rem;
         }
         .portal-topbar {
             display: flex;
-            justify-content: space-between;
+            justify-content: flex-start;
             align-items: center;
             gap: 1rem;
             margin-bottom: 1.5rem;
             color: var(--text-muted);
             font-size: 0.9rem;
         }
+        .portal-menu-toggle {
+            display: none;
+            align-items: center;
+            gap: 0.45rem;
+            min-height: 42px;
+            padding: 0.45rem 0.7rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 10px;
+            background: rgba(14, 165, 233, 0.12);
+            color: #7dd3fc;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .portal-topbar > a { margin-left: auto; }
         .portal-topbar a,
         .portal-back-link {
             color: var(--primary-dark);
@@ -912,39 +928,10 @@
             border-top: 1px solid var(--border);
         }
         @media (max-width: 900px) {
-            .portal-sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                overflow: hidden;
-                padding-bottom: 0;
-                transform: none;
-                border-right: 0;
-                border-bottom: 1px solid rgba(255,255,255,0.08);
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
-            }
-            .portal-sidebar nav {
-                display: flex;
-                align-items: center;
-                gap: 0.4rem;
-                overflow-x: auto;
-                padding: 0.55rem 0.8rem;
-                -webkit-overflow-scrolling: touch;
-                scrollbar-width: thin;
-            }
-            .portal-nav-heading,
-            .portal-sidebar-footer {
-                display: none;
-            }
-            .portal-nav-link {
-                flex: 0 0 auto;
-                min-height: 42px;
-                margin: 0;
-                white-space: nowrap;
-            }
+            .portal-sidebar { transform: none; }
             .portal-main {
-                width: 100%;
-                margin-left: 0;
+                width: calc(100% - 260px);
+                margin-left: 260px;
                 padding: 1rem;
             }
         }
@@ -1169,6 +1156,37 @@
         }
 
         @media (max-width: 600px) {
+            body.portal-nav-open { overflow: hidden; }
+            #portalApp:not(.math-learning-layout) > .portal-sidebar {
+                position: fixed;
+                inset: 0 auto 0 0;
+                z-index: 101;
+                width: min(290px, 84vw);
+                height: 100dvh;
+                padding-bottom: 0.85rem;
+                overflow-y: auto;
+                transform: translateX(-105%);
+                visibility: hidden;
+                transition: transform 0.24s ease, visibility 0.24s ease;
+            }
+            #portalApp:not(.math-learning-layout).portal-nav-open > .portal-sidebar {
+                transform: translateX(0);
+                visibility: visible;
+            }
+            .portal-nav-overlay {
+                position: fixed;
+                inset: 0;
+                z-index: 100;
+                border: 0;
+                background: rgba(3, 10, 20, 0.66);
+            }
+            .portal-menu-toggle { display: inline-flex; }
+            .portal-topbar { gap: 0.6rem; }
+            .portal-topbar > span { flex: 1; }
+            .portal-main {
+                width: 100%;
+                margin-left: 0;
+            }
             main > header,
             .portal-topbar {
                 padding: 0.65rem 0.75rem;
@@ -1180,7 +1198,6 @@
                 border-radius: 18px;
             }
 
-            .portal-brand { padding: 0.8rem 1rem; }
             .portal-main { padding: 0.75rem 0.75rem 2rem; }
             .portal-hero { padding: 1.25rem; }
             .portal-hero h1 {
@@ -1611,9 +1628,9 @@
 
         #portalApp { flex: 1 1 auto; min-width: 0; }
         #portalApp.math-learning-layout { display: flex; min-height: 100vh; }
-        .portal-main { width: calc(100% - 260px); }
+        #portalApp.math-learning-layout > .portal-main { width: calc(100% - 260px); }
         @media (max-width: 900px) {
-            .portal-main { width: 100%; }
+            #portalApp.math-learning-layout > .portal-main { width: 100%; }
             #portalApp.math-learning-layout { flex-direction: column; }
             #portalApp.math-learning-layout > .portal-sidebar {
                 position: relative;
