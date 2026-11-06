@@ -1055,6 +1055,10 @@
         @media (max-width: 760px) {
             .physics-formula-cards,
             .physics-exercise-grid { grid-template-columns: 1fr; }
+            .physics-circuit-grid { grid-template-columns: 1fr; }
+            .physics-energy-flow { grid-template-columns: 1fr; }
+            .physics-energy-step { min-height: 0; }
+            .physics-energy-arrow { justify-self: center; transform: rotate(90deg); }
         }
 
         /* Shared visual system across the dashboard, subject pages, and learning tools. */
@@ -1968,6 +1972,117 @@
         .math-lesson-explanation { display: grid; gap: 0.8rem; }
         .math-lesson-detail .math-lesson-explanation p { margin: 0; color: var(--math-text); line-height: 1.75; }
         .math-lesson-detail section h3 { margin-bottom: 0.75rem; color: var(--math-accent); }
+        .physics-visual {
+            display: grid;
+            gap: 0.85rem;
+            padding: clamp(1rem, 2.5vw, 1.4rem);
+            border: 1px solid var(--math-border);
+            border-radius: 14px;
+            background: linear-gradient(145deg, var(--math-panel-alt), var(--math-panel));
+        }
+        .physics-visual > h3 { margin: 0; color: var(--math-accent); }
+        .physics-visual-svg {
+            display: block;
+            width: 100%;
+            height: auto;
+            max-height: 320px;
+            color: var(--math-text);
+        }
+        .physics-wire,
+        .physics-mark {
+            fill: none;
+            stroke: var(--math-accent);
+            stroke-width: 5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .physics-mark { stroke-width: 4; }
+        .physics-source,
+        .physics-resistor {
+            fill: var(--math-panel);
+            stroke: var(--math-good);
+            stroke-width: 3;
+        }
+        .physics-lamp {
+            fill: rgba(251, 191, 36, 0.15);
+            stroke: #fbbf24;
+            stroke-width: 4;
+        }
+        .physics-arrow {
+            fill: none;
+            stroke: var(--math-good);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .physics-arrow-strong { stroke-width: 8; }
+        .physics-label,
+        .physics-small-label {
+            fill: var(--math-text);
+            font-size: 15px;
+            font-weight: 750;
+        }
+        .physics-small-label { font-size: 12px; }
+        .physics-visual-notes,
+        .physics-circuit-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 0.8rem;
+        }
+        .physics-visual-notes p,
+        .physics-circuit-card > p {
+            margin: 0;
+            padding: 0.8rem;
+            border: 1px solid var(--math-border);
+            border-radius: 10px;
+            background: var(--math-panel);
+            color: var(--math-muted);
+            line-height: 1.6;
+        }
+        .physics-visual-memory {
+            margin: 0;
+            padding: 0.9rem 1rem;
+            border-left: 4px solid var(--math-good);
+            border-radius: 8px;
+            background: var(--math-panel);
+            color: var(--math-text) !important;
+            line-height: 1.6;
+        }
+        .physics-circuit-card {
+            min-width: 0;
+            padding: 0.8rem;
+            border: 1px solid var(--math-border);
+            border-radius: 12px;
+            background: var(--math-panel);
+        }
+        .physics-circuit-card figcaption {
+            display: grid;
+            gap: 0.15rem;
+            color: var(--math-text);
+        }
+        .physics-circuit-card figcaption span,
+        .physics-circuit-card > p { color: var(--math-muted); font-size: 0.9rem; }
+        .physics-energy-flow {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .physics-energy-step {
+            display: grid;
+            justify-items: center;
+            gap: 0.3rem;
+            min-height: 132px;
+            padding: 1rem 0.65rem;
+            border: 1px solid var(--math-border);
+            border-radius: 12px;
+            background: var(--math-panel);
+            color: var(--math-text);
+            text-align: center;
+        }
+        .physics-energy-step small { color: var(--math-muted); line-height: 1.45; }
+        .physics-energy-icon { font-size: 1.8rem; }
+        .physics-energy-arrow { color: var(--math-good); font-size: 1.5rem; font-weight: 900; }
         .math-lesson-steps ol,
         .math-lesson-examples .math-example ol {
             margin: 0;

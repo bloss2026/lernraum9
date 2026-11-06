@@ -513,6 +513,109 @@
 
     const topicUrl = `./physik-themen.html?topic=${encodeURIComponent(lesson.topic)}`;
 
+    const electricityVisuals = {
+        'current-voltage': `
+            <section class="physics-visual" aria-labelledby="physicsVisualTitle">
+                <h3 id="physicsVisualTitle">Als Bild: ein geschlossener Stromkreis</h3>
+                <svg class="physics-visual-svg" viewBox="0 0 600 220" role="img" aria-labelledby="currentSvgTitle currentSvgDesc">
+                    <title id="currentSvgTitle">Geschlossener Stromkreis mit Batterie und Lampe</title>
+                    <desc id="currentSvgDesc">Eine Batterie treibt Ladungen durch einen geschlossenen Drahtkreis und eine Lampe. Ein Pfeil zeigt die Stromrichtung.</desc>
+                    <path class="physics-wire" d="M100 48 H475 V172 H100 V48"/>
+                    <circle class="physics-source" cx="100" cy="110" r="26"/>
+                    <path class="physics-mark" d="M91 102 H109 M100 93 V111 M93 131 H107"/>
+                    <circle class="physics-lamp" cx="475" cy="110" r="28"/>
+                    <path class="physics-mark" d="M462 97 L488 123 M488 97 L462 123"/>
+                    <path class="physics-arrow" d="M190 48 H270 M270 48 L257 41 M270 48 L257 55"/>
+                    <text class="physics-label" x="100" y="207" text-anchor="middle">Spannungsquelle U</text>
+                    <text class="physics-label" x="475" y="207" text-anchor="middle">Lampe</text>
+                    <text class="physics-label" x="230" y="34" text-anchor="middle">Strom I</text>
+                    <text class="physics-small-label" x="100" y="116" text-anchor="middle">+</text>
+                    <text class="physics-small-label" x="475" y="114" text-anchor="middle">Licht</text>
+                </svg>
+                <div class="physics-visual-notes">
+                    <p><strong>Stromstärke I:</strong> Wie viel Ladung pro Sekunde an einer Stelle vorbeifließt.</p>
+                    <p><strong>Spannung U:</strong> Wie viel Energie die Quelle pro Ladungsmenge bereitstellt.</p>
+                </div>
+                <p class="physics-visual-memory"><strong>Merke:</strong> Spannung kann anliegen, auch wenn der Schalter offen ist. Dauerhafter Strom fließt erst im geschlossenen Kreis.</p>
+            </section>`,
+        resistance: `
+            <section class="physics-visual" aria-labelledby="physicsVisualTitle">
+                <h3 id="physicsVisualTitle">Als Bild: gleicher Antrieb, unterschiedlicher Widerstand</h3>
+                <svg class="physics-visual-svg" viewBox="0 0 600 260" role="img" aria-labelledby="resistanceSvgTitle resistanceSvgDesc">
+                    <title id="resistanceSvgTitle">Vergleich von kleinem und großem Widerstand</title>
+                    <desc id="resistanceSvgDesc">Bei derselben Spannung zeigt ein dicker Pfeil den größeren Strom durch einen kleinen Widerstand. Ein dünner Pfeil zeigt den kleineren Strom durch einen großen Widerstand.</desc>
+                    <text class="physics-label" x="150" y="28" text-anchor="middle">Kleiner Widerstand</text>
+                    <text class="physics-label" x="450" y="28" text-anchor="middle">Großer Widerstand</text>
+                    <path class="physics-wire" d="M65 70 H235 V185 H65 V70 M365 70 H535 V185 H365 V70"/>
+                    <circle class="physics-source" cx="65" cy="128" r="21"/>
+                    <circle class="physics-source" cx="365" cy="128" r="21"/>
+                    <rect class="physics-resistor" x="127" y="55" width="54" height="30" rx="6"/>
+                    <rect class="physics-resistor" x="427" y="55" width="54" height="30" rx="6"/>
+                    <text class="physics-small-label" x="154" y="76" text-anchor="middle">R klein</text>
+                    <text class="physics-small-label" x="454" y="76" text-anchor="middle">R groß</text>
+                    <path class="physics-arrow physics-arrow-strong" d="M84 185 H199 M199 185 L184 176 M199 185 L184 194"/>
+                    <path class="physics-arrow" d="M384 185 H416 M416 185 L404 178 M416 185 L404 192"/>
+                    <text class="physics-label" x="150" y="222" text-anchor="middle">größerer Strom I</text>
+                    <text class="physics-label" x="450" y="222" text-anchor="middle">kleinerer Strom I</text>
+                    <text class="physics-small-label" x="300" y="252" text-anchor="middle">In beiden Kreisen ist die Spannung gleich.</text>
+                </svg>
+                <p class="physics-visual-memory"><strong>Merke:</strong> Bei gleicher Spannung gilt: Je größer der Widerstand, desto kleiner der Strom. Das Ohmsche Gesetz verbindet U, R und I.</p>
+            </section>`,
+        circuits: `
+            <section class="physics-visual" aria-labelledby="physicsVisualTitle">
+                <h3 id="physicsVisualTitle">Schaltungen sehen: nur ein Weg oder mehrere Zweige?</h3>
+                <div class="physics-circuit-grid">
+                    <figure class="physics-circuit-card">
+                        <figcaption><strong>Reihenschaltung</strong><span>Ein Weg für den Strom</span></figcaption>
+                        <svg class="physics-visual-svg" viewBox="0 0 560 230" role="img" aria-labelledby="seriesSvgTitle seriesSvgDesc">
+                            <title id="seriesSvgTitle">Zwei Widerstände in einer Reihenschaltung</title>
+                            <desc id="seriesSvgDesc">Ein einziger geschlossener Stromweg führt nacheinander durch Widerstand eins und zwei.</desc>
+                            <path class="physics-wire" d="M70 45 H490 V185 H70 V45"/>
+                            <path class="physics-wire" d="M70 94 V138"/>
+                            <path class="physics-mark" d="M53 102 H87 M58 128 H82"/>
+                            <rect class="physics-resistor" x="170" y="30" width="72" height="30" rx="6"/>
+                            <rect class="physics-resistor" x="322" y="30" width="72" height="30" rx="6"/>
+                            <text class="physics-small-label" x="206" y="51" text-anchor="middle">R1</text>
+                            <text class="physics-small-label" x="358" y="51" text-anchor="middle">R2</text>
+                            <path class="physics-arrow" d="M105 45 H145 M145 45 L132 38 M145 45 L132 52"/>
+                            <text class="physics-label" x="280" y="216" text-anchor="middle">I überall gleich · U1 + U2 = Uges</text>
+                        </svg>
+                        <p>Wird die Kette an einer Stelle geöffnet, stoppt der Strom im ganzen Kreis.</p>
+                    </figure>
+                    <figure class="physics-circuit-card">
+                        <figcaption><strong>Parallelschaltung</strong><span>Mehrere Wege für den Strom</span></figcaption>
+                        <svg class="physics-visual-svg" viewBox="0 0 560 230" role="img" aria-labelledby="parallelSvgTitle parallelSvgDesc">
+                            <title id="parallelSvgTitle">Zwei Widerstände in einer Parallelschaltung</title>
+                            <desc id="parallelSvgDesc">Zwei getrennte Zweige verbinden dieselben oberen und unteren Leitungen. Der Strom teilt sich auf die Zweige auf.</desc>
+                            <path class="physics-wire" d="M75 48 H485 M75 182 H485 M75 48 V88 M75 142 V182"/>
+                            <path class="physics-mark" d="M58 96 H92 M63 132 H87"/>
+                            <path class="physics-wire" d="M235 48 V82 M235 138 V182 M390 48 V82 M390 138 V182"/>
+                            <rect class="physics-resistor" x="204" y="82" width="62" height="56" rx="6"/>
+                            <rect class="physics-resistor" x="359" y="82" width="62" height="56" rx="6"/>
+                            <text class="physics-small-label" x="235" y="116" text-anchor="middle">R1</text>
+                            <text class="physics-small-label" x="390" y="116" text-anchor="middle">R2</text>
+                            <path class="physics-arrow" d="M235 57 V72 M235 72 L228 61 M235 72 L242 61 M390 57 V72 M390 72 L383 61 M390 72 L397 61"/>
+                            <text class="physics-label" x="280" y="216" text-anchor="middle">U in jedem Zweig gleich · I1 + I2 = Iges</text>
+                        </svg>
+                        <p>Ein Zweig kann ausfallen, während Strom durch die anderen Zweige fließt.</p>
+                    </figure>
+                </div>
+                <p class="physics-visual-memory"><strong>Merksatz:</strong> Reihe = gleicher Strom. Parallel = gleiche Spannung.</p>
+            </section>`,
+        'electric-power': `
+            <section class="physics-visual" aria-labelledby="physicsVisualTitle">
+                <h3 id="physicsVisualTitle">Energieverbrauch: Leistung mal Zeit</h3>
+                <div class="physics-energy-flow" role="img" aria-label="Die Spannungsquelle versorgt ein Gerät. Je größer die Leistung und je länger die Betriebszeit, desto größer die verbrauchte Energie.">
+                    <div class="physics-energy-step"><span class="physics-energy-icon" aria-hidden="true">🔋</span><strong>Spannungsquelle</strong><small>Spannung U und Strom I</small></div>
+                    <span class="physics-energy-arrow" aria-hidden="true">→</span>
+                    <div class="physics-energy-step"><span class="physics-energy-icon" aria-hidden="true">💡</span><strong>Gerät</strong><small>Leistung P = U · I</small></div>
+                    <span class="physics-energy-arrow" aria-hidden="true">→</span>
+                    <div class="physics-energy-step"><span class="physics-energy-icon" aria-hidden="true">✨</span><strong>Umgesetzte Energie</strong><small>E = P · t</small></div>
+                </div>
+                <p class="physics-visual-memory"><strong>Einheiten merken:</strong> Watt × Sekunden = Joule. Kilowatt × Stunden = Kilowattstunden. 1000 W = 1 kW.</p>
+            </section>`
+    };
+
     function renderLesson() {
         view.innerHTML = `
             <section class="math-panel math-lesson-heading-card">
@@ -525,6 +628,7 @@
                 <div class="math-lesson-explanation">
                     ${lesson.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}
                 </div>
+                ${lesson.topic === 'electricity' ? electricityVisuals[lesson.id] : ''}
                 ${window.LernraumVideoResources.render(lesson, 'Physik')}
                 <section class="math-lesson-steps">
                     <h3>So gehst du vor</h3>
