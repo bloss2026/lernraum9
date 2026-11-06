@@ -377,26 +377,6 @@
             margin: 1rem 0;
             border-radius: 4px;
         }
-        .source-box {
-            background: rgba(15, 23, 42, 0.03);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            border-radius: 8px;
-            padding: 1rem;
-            margin-top: 1.5rem;
-        }
-        .source-box ul {
-            margin-top: 0.5rem;
-            padding-left: 1.25rem;
-            color: var(--text-muted);
-        }
-        .source-box a {
-            color: var(--primary-dark);
-            text-decoration: none;
-        }
-        .source-box a:hover {
-            text-decoration: underline;
-        }
-
         /* Fortschrittsbalken */
         .progress-bar-container {
             background: var(--border);
@@ -1273,11 +1253,6 @@
             background: linear-gradient(90deg, var(--teal), #38bdf8);
         }
 
-        .source-box {
-            background: #f3f7fb;
-            border-color: var(--border);
-        }
-
         .atom-question-option:hover:not(:disabled) {
             background: #d9f1ef;
         }
@@ -1354,7 +1329,6 @@
         .portal-topbar a,
         .portal-back-link,
         .portal-card-link,
-        .source-box a,
         .periodic-table-figure a {
             color: #7dd3fc;
         }
@@ -1395,7 +1369,6 @@
         .experiment-box,
         .experiment-panel,
         .experiment-caution,
-        .source-box,
         .atom-explainer,
         .controls-panel .control-group,
         .lexicon-item {
@@ -1430,10 +1403,6 @@
         .experiment-caution {
             background: #3a3024;
             border-left-color: var(--warning);
-        }
-
-        .source-box {
-            background: #13263a;
         }
 
         .module-card-badge,
@@ -1817,8 +1786,7 @@
         .math-lesson-detail .math-lesson-explanation p { margin: 0; color: var(--math-text); line-height: 1.75; }
         .math-lesson-detail section h3 { margin-bottom: 0.75rem; color: var(--math-accent); }
         .math-lesson-steps ol,
-        .math-lesson-examples .math-example ol,
-        .math-lesson-sources ul {
+        .math-lesson-examples .math-example ol {
             margin: 0;
             padding-left: 1.4rem;
             color: var(--math-muted);
@@ -1826,14 +1794,12 @@
         }
         .math-lesson-steps li + li,
         .math-lesson-examples li + li,
-        .math-lesson-sources li + li { margin-top: 0.35rem; }
         .math-lesson-examples { display: grid; gap: 0.2rem; }
         .math-lesson-examples .math-example { margin-top: 0.35rem; }
         .math-lesson-examples .math-example ol { margin-top: 0.4rem; }
         .learning-video-section { display: grid; gap: 0.85rem; }
         .learning-video-section > div:first-child > p,
         .video-resource-search > p { margin-top: 0.4rem; color: var(--math-muted); line-height: 1.6; }
-        .learning-video-section > div:first-child > p a { color: var(--math-accent); font-weight: 700; text-underline-offset: 3px; }
         .learning-video-section h3 { margin: 0.3rem 0; color: var(--math-accent); }
         .video-resource-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
         .video-resource-card { display: grid; align-content: start; gap: 0.65rem; }
@@ -1855,8 +1821,6 @@
             color: var(--math-text);
             line-height: 1.65;
         }
-        .math-lesson-sources a { color: var(--math-accent); font-weight: 700; text-underline-offset: 3px; }
-        .math-lesson-sources > p { margin: 0.7rem 0 0; color: var(--math-muted); font-size: 0.86rem; line-height: 1.55; }
         .math-topic-content > .math-button { margin-top: 0.25rem; }
         .math-filter-label,
         .math-calculator label {

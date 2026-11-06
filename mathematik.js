@@ -918,14 +918,6 @@
                                     <ol>${example.lines.map(line => `<li>${escapeHtml(line)}</li>`).join('')}</ol>
                                 </div>`).join('')}
                         </section>
-                        <section class="math-lesson-sources">
-                            <h3>Quellen und zum Weiterlesen</h3>
-                            <ul>
-                                ${detail.sources.map(source => `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHtml(source.label)}</a></li>`).join('')}
-                                <li><a href="https://www.bildungsplaene-bw.de/,Lde/LS/BP2016BW/ALLG/SEK1/M" target="_blank" rel="noopener noreferrer">Bildungsplan Baden-Württemberg: Mathematik Sekundarstufe I</a></li>
-                            </ul>
-                            <p>Die Erklärungen sind eigenständig für dieses Lernmodul formuliert; die Links dienen zum Vertiefen und Nachprüfen.</p>
-                        </section>
                     </article>
                     <button class="math-button math-button-primary" type="button" data-open-practice="${selected.id}" data-open-subtopic="${selectedLesson.id}">Passende Übungen zu „${selectedLesson.title}“ →</button>
                 </section>`;

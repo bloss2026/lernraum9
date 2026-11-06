@@ -779,10 +779,6 @@
                     </div>
                     <h3>Wichtige Fachbegriffe</h3>
                     <p><em>${currentModule.terms}</em></p>
-                    <div class="source-box">
-                        <strong>📚 Quellen zum Weiterlesen</strong>
-                        <ul>${(moduleSources[currentModule.id] || generalModuleSources).map(source => `<li><a href="${source.url}" target="_blank" rel="noopener noreferrer">${source.label}</a></li>`).join('')}</ul>
-                    </div>
                     <div style="background: var(--surface-blue); padding: 1rem; border-radius: 8px; margin-top: 1.5rem;">
                         <strong>Zusammenfassung:</strong> ${currentModule.summary}
                     </div>
@@ -893,11 +889,6 @@
                 { title: 'Ein guter Prüfungsweg', text: 'Lies zuerst die Ordnungszahl ab: Das ist die Protonenzahl. Nutze Massenzahl minus Ordnungszahl für die Neutronenzahl. Bei einem neutralen Atom ist die Elektronenzahl gleich der Protonenzahl. Prüfe danach, ob Periode und Außenelektronen zum Schalenmodell passen.' }
             ]
         };
-        const generalModuleSources = [
-            { label: 'OpenStax Chemistry 2e, Abschnitt 2.2: Aufbau des Atoms', url: 'https://openstax.org/books/chemistry-2e/pages/2-2-evolution-of-atomic-theory' },
-            { label: 'NASA Space Place: Atoms', url: 'https://spaceplace.nasa.gov/atoms/en/' }
-        ];
-
         const moduleQuestionStudySectionIndexes = {
             1: [0, 1, 0, 1, 2],
             2: [0, 1, 0, 1, 2],
@@ -909,24 +900,6 @@
             8: [0, 1, 1, 0],
             9: [0, 1, 0, 1],
             10: [0, 1, 0, 1]
-        };
-
-        const moduleSources = {
-            1: [
-                { label: 'OpenStax Chemistry 2e, Abschnitt 2.1: frühe Atomvorstellungen und Demokrit', url: 'https://openstax.org/books/chemistry-2e/pages/2-1-early-ideas-in-atomic-theory' }
-            ],
-            2: [
-                { label: 'OpenStax Chemistry 2e, Abschnitt 2.1: Daltons Atomhypothese', url: 'https://openstax.org/books/chemistry-2e/pages/2-1-early-ideas-in-atomic-theory' }
-            ],
-            3: [
-                { label: 'OpenStax Chemistry 2e, Abschnitt 2.2: Rutherfords Streuversuch und Kernmodell', url: 'https://openstax.org/books/chemistry-2e/pages/2-2-evolution-of-atomic-theory' }
-            ],
-            4: [
-                { label: 'OpenStax Chemistry 2e, Abschnitt 6.1: elektromagnetische Energie und Emissionsspektren', url: 'https://openstax.org/books/chemistry-2e/pages/6-1-electromagnetic-energy' },
-                { label: 'Chemguide: Flammenproben – Durchführung, typische Farben und Entstehung der Spektrallinien', url: 'https://www.chemguide.co.uk/inorganic/group1/flametests.html' },
-                { label: 'NIST: Atomic Spectra Database – Spektrallinien und Energieniveaus', url: 'https://www.nist.gov/pml/atomic-spectra-database' },
-                { label: 'NIST: Atomic Spectroscopy – grundlegende Begriffe und Zusammenhänge', url: 'https://www.nist.gov/pml/atomic-spectroscopy-compendium-basic-ideas-notation-data-and-formulas' }
-            ]
         };
 
         function getLearningSupportText(moduleId) {
