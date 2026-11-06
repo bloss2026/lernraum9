@@ -962,10 +962,11 @@
         const selectedTopic = topicById(activeFilter);
         const selectedLesson = selectedTopic?.lessons.find(lesson => lesson.id === activeSubtopicFilter);
         document.getElementById('mathViewPractice').innerHTML = `
-            <div class="math-section-heading"><div><span class="math-eyebrow">ÜBUNGSDATENBANK</span><h2>${selectedLesson ? `Übungen: ${selectedLesson.title}` : 'Üben mit direktem Feedback'}</h2></div><p>${list.length} Aufgaben · Schrittweise Lösungswege</p></div>
-            <label class="math-filter-label">Themengebiet
-                <select id="mathTopicFilter" class="math-select">${[['all', 'Alle Themen'], ...topics.map(topic => [topic.id, topic.title])].map(([value, label]) => `<option value="${value}" ${activeFilter === value ? 'selected' : ''}>${label}</option>`).join('')}</select>
-            </label>
+            <div class="math-section-heading"><div><span class="math-eyebrow">${selectedLesson ? 'PASSENDE ÜBUNGEN' : 'ÜBUNGSDATENBANK'}</span><h2>${selectedLesson ? `Übungen: ${selectedLesson.title}` : 'Üben mit direktem Feedback'}</h2></div><p>${list.length} Aufgaben · Schrittweise Lösungswege</p></div>
+            ${activeSubtopicFilter ? '' : `
+                <label class="math-filter-label">Themengebiet
+                    <select id="mathTopicFilter" class="math-select">${[['all', 'Alle Themen'], ...topics.map(topic => [topic.id, topic.title])].map(([value, label]) => `<option value="${value}" ${activeFilter === value ? 'selected' : ''}>${label}</option>`).join('')}</select>
+                </label>`}
             <div class="math-exercise-grid">${list.map((task, index) => {
                 const topic = topicById(task.topic);
                 const state = feedbackState[task.id] || {};
@@ -1100,7 +1101,7 @@
     function switchView(view) {
         document.querySelectorAll('.math-tab').forEach(button => button.classList.toggle('active', button.dataset.mathView === view));
         document.querySelectorAll('.math-view').forEach(section => section.classList.toggle('hidden', section.id !== `mathView${view[0].toUpperCase()}${view.slice(1)}`));
-        root.closest('#portalApp')?.classList.toggle('math-subtopic-focus', view === 'topics' && Boolean(activeSubtopic));
+        root.closest('#portalApp')?.classList.toggle('math-subtopic-focus', ['topics', 'practice'].includes(view) && Boolean(activeSubtopic));
         if (view === 'practice') renderPractice();
         if (view === 'mental') renderMentalMath();
     }
