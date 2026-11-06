@@ -196,31 +196,38 @@ function renderNavigation(activeSubjectId = '') {
 
 function renderCloudMenu() {
     return `
-        <details class="portal-cloud-menu" id="cloudMenu">
-            <summary><span aria-hidden="true">☁️</span><span id="cloudMenuLabel">Lernkonto &amp; Synchronisierung</span></summary>
-            <div class="portal-cloud-menu-content">
-                <p class="portal-cloud-menu-description">Melde dich an, um deinen Lernstand auf mehreren Geräten zu nutzen.</p>
-                <form id="cloudAuthForm" class="cloud-auth-form">
-                    <label for="cloudEmail">E-Mail-Adresse</label>
-                    <input id="cloudEmail" name="email" type="email" autocomplete="email" required>
-                    <label for="cloudPassword">Passwort</label>
-                    <input id="cloudPassword" name="password" type="password" autocomplete="current-password" minlength="6" required>
-                    <div class="cloud-auth-actions">
-                        <button class="btn" type="submit" data-cloud-auth="signin">Anmelden</button>
-                        <button class="btn cloud-signup-button" type="submit" data-cloud-auth="signup">Konto erstellen</button>
-                    </div>
-                    <button id="cloudResendConfirmation" class="btn cloud-secondary-button" type="button">Bestätigungs-E-Mail erneut senden</button>
-                </form>
-                <div id="cloudAccountActions" class="cloud-account-actions" hidden>
-                    <p>Angemeldet als <strong id="cloudAccountEmail"></strong></p>
-                    <div class="cloud-auth-actions">
-                        <button id="cloudSyncNow" class="btn" type="button">Jetzt synchronisieren</button>
-                        <button id="cloudSignOut" class="btn cloud-secondary-button" type="button">Abmelden</button>
-                    </div>
+        <button id="cloudMenuButton" class="portal-cloud-menu-button" type="button" aria-haspopup="dialog" aria-controls="cloudAuthDialog">
+            <span aria-hidden="true">☁️</span><span id="cloudMenuLabel">Anmelden</span>
+        </button>
+        <dialog class="cloud-auth-dialog" id="cloudAuthDialog" aria-labelledby="cloudDialogTitle">
+            <div class="cloud-dialog-heading">
+                <div>
+                    <span class="pill">DEIN LERNSTAND</span>
+                    <h2 id="cloudDialogTitle">Lernkonto</h2>
                 </div>
-                <p id="cloudSyncStatus" class="cloud-sync-status" role="status" aria-live="polite"></p>
+                <button id="cloudDialogClose" class="cloud-dialog-close" type="button" aria-label="Fenster schließen">×</button>
             </div>
-        </details>
+            <p class="cloud-dialog-description">Melde dich einmal an. Dein Lernstand wird danach automatisch auf deinen Geräten synchronisiert.</p>
+            <form id="cloudAuthForm" class="cloud-auth-form">
+                <label for="cloudEmail">E-Mail-Adresse</label>
+                <input id="cloudEmail" name="email" type="email" autocomplete="email" required>
+                <label for="cloudPassword">Passwort</label>
+                <input id="cloudPassword" name="password" type="password" autocomplete="current-password" minlength="6" required>
+                <div class="cloud-auth-actions">
+                    <button class="btn" type="submit" data-cloud-auth="signin">Anmelden</button>
+                    <button class="btn cloud-signup-button" type="submit" data-cloud-auth="signup">Konto erstellen</button>
+                </div>
+                <button id="cloudResendConfirmation" class="btn cloud-secondary-button" type="button">Bestätigungs-E-Mail erneut senden</button>
+            </form>
+            <div id="cloudAccountActions" class="cloud-account-actions" hidden>
+                <p>Angemeldet als <strong id="cloudAccountEmail"></strong></p>
+                <div class="cloud-auth-actions">
+                    <button id="cloudSyncNow" class="btn" type="button">Jetzt synchronisieren</button>
+                    <button id="cloudSignOut" class="btn cloud-secondary-button" type="button">Abmelden</button>
+                </div>
+            </div>
+            <p id="cloudSyncStatus" class="cloud-sync-status" role="status" aria-live="polite"></p>
+        </dialog>
     `;
 }
 
@@ -866,6 +873,9 @@ if (app) {
     const cloudSignOut = document.getElementById('cloudSignOut');
     const cloudResendConfirmation = document.getElementById('cloudResendConfirmation');
     const cloudMenuLabel = document.getElementById('cloudMenuLabel');
+    const cloudMenuButton = document.getElementById('cloudMenuButton');
+    const cloudAuthDialog = document.getElementById('cloudAuthDialog');
+    const cloudDialogClose = document.getElementById('cloudDialogClose');
     const cloudAuthButtons = cloudAuthForm ? cloudAuthForm.querySelectorAll('button[type="submit"]') : [];
 
     const updateCloudPanel = state => {
@@ -878,7 +888,7 @@ if (app) {
         cloudSyncStatus.textContent = state.message || '';
         cloudSyncStatus.dataset.status = state.status || 'guest';
         if (cloudMenuLabel) {
-            cloudMenuLabel.textContent = hasAccount ? 'Mein Lernkonto' : 'Anmelden & Lernstand synchronisieren';
+            cloudMenuLabel.textContent = hasAccount ? 'Mein Lernkonto' : 'Anmelden';
         }
         const isSyncing = state.status === 'syncing';
         if (cloudSyncNow) cloudSyncNow.disabled = isSyncing;
@@ -892,6 +902,16 @@ if (app) {
         updateCloudPanel(window.LernraumCloud.getState());
         window.addEventListener('lernraum:cloud-state', event => updateCloudPanel(event.detail));
     }
+
+    cloudMenuButton?.addEventListener('click', () => {
+        if (!cloudAuthDialog?.open) cloudAuthDialog?.showModal();
+        const hasAccount = Boolean(window.LernraumCloud?.getState().email);
+        (hasAccount ? cloudSyncNow : cloudAuthForm?.elements.email)?.focus();
+    });
+    cloudDialogClose?.addEventListener('click', () => cloudAuthDialog?.close());
+    cloudAuthDialog?.addEventListener('click', event => {
+        if (event.target === cloudAuthDialog) cloudAuthDialog.close();
+    });
 
     if (cloudAuthForm && window.LernraumCloud) {
         cloudAuthForm.addEventListener('submit', async event => {
@@ -918,7 +938,11 @@ if (app) {
                 cloudAuthButtons.forEach(button => {
                     button.disabled = false;
                 });
-                updateCloudPanel(window.LernraumCloud.getState());
+                const nextState = window.LernraumCloud.getState();
+                updateCloudPanel(nextState);
+                if (submitter?.dataset.cloudAuth === 'signin' && ['synced', 'offline'].includes(nextState.status)) {
+                    cloudAuthDialog?.close();
+                }
             }
         });
     }

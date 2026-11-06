@@ -1693,64 +1693,105 @@
             backdrop-filter: blur(16px);
         }
 
-        .portal-cloud-menu {
+        .portal-cloud-menu-button {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            width: calc(100% - 1.6rem);
+            min-height: 48px;
+            padding: 0.65rem 0.75rem;
             margin: 0 0.8rem 1rem;
             border: 1px solid rgba(148, 163, 184, 0.2);
             border-radius: 14px;
             background: rgba(255,255,255,0.06);
-            color: #e2e8f0;
-        }
-
-        .portal-cloud-menu > summary {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            min-height: 48px;
-            padding: 0.65rem 0.75rem;
             color: #f0f9ff;
             font-size: 0.78rem;
             font-weight: 700;
             line-height: 1.35;
             cursor: pointer;
-            list-style: none;
+            text-align: left;
         }
 
-        .portal-cloud-menu > summary::-webkit-details-marker { display: none; }
-        .portal-cloud-menu > summary::after { content: "⌄"; margin-left: auto; color: #9fb3ca; }
-        .portal-cloud-menu[open] > summary::after { content: "⌃"; }
-        .portal-cloud-menu > summary:focus-visible {
+        .portal-cloud-menu-button:hover { background: rgba(255,255,255,0.11); }
+        .portal-cloud-menu-button > span:last-child { overflow-wrap: anywhere; }
+        .portal-cloud-menu-button:focus-visible {
             outline: 3px solid rgba(56, 189, 248, 0.7);
             outline-offset: -3px;
             border-radius: 13px;
         }
 
-        .portal-cloud-menu-content { padding: 0 0.75rem 0.8rem; }
-        .portal-cloud-menu-description,
+        .cloud-auth-dialog {
+            width: min(440px, calc(100vw - 2rem));
+            max-height: min(90vh, 720px);
+            padding: 1.5rem;
+            overflow-y: auto;
+            border: 1px solid #d5e0ea;
+            border-radius: 20px;
+            background: #fff;
+            color: #10243b;
+            box-shadow: 0 24px 80px rgba(7, 18, 33, 0.3);
+        }
+
+        .cloud-auth-dialog[open] {
+            position: fixed;
+            inset: 0;
+            margin: auto;
+        }
+
+        .cloud-auth-dialog::backdrop {
+            background: rgba(3, 10, 20, 0.68);
+            backdrop-filter: blur(3px);
+        }
+
+        .cloud-dialog-heading {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .cloud-dialog-heading .pill { margin-bottom: 0.65rem; }
+        .cloud-dialog-heading h2 { margin: 0; color: #10243b; }
+        .cloud-dialog-close {
+            display: grid;
+            width: 40px;
+            height: 40px;
+            flex: 0 0 40px;
+            place-items: center;
+            border: 1px solid #d5e0ea;
+            border-radius: 12px;
+            background: #f8fafc;
+            color: #334155;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cloud-dialog-description,
         .cloud-account-actions > p {
             margin: 0 0 0.75rem;
-            color: #b7c7d9;
-            font-size: 0.76rem;
+            color: #526579;
+            font-size: 0.9rem;
             line-height: 1.5;
         }
 
         .cloud-auth-form {
             display: grid;
-            gap: 0.55rem;
+            gap: 0.65rem;
         }
 
         .cloud-auth-form label {
-            color: #e2e8f0;
-            font-size: 0.78rem;
+            color: #10243b;
+            font-size: 0.9rem;
             font-weight: 700;
         }
 
         .cloud-auth-form input {
             width: 100%;
-            min-height: 40px;
-            padding: 0.55rem 0.65rem;
-            border: 1px solid rgba(148, 163, 184, 0.45);
-            border-radius: 9px;
-            background: #f8fafc;
+            min-height: 46px;
+            padding: 0.65rem 0.8rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            background: #fff;
             color: #10243b;
         }
 
@@ -1762,15 +1803,15 @@
 
         .cloud-auth-actions {
             display: grid;
-            gap: 0.5rem;
+            gap: 0.65rem;
         }
 
         .cloud-auth-actions button,
         .cloud-auth-form > .cloud-secondary-button {
             width: 100%;
-            min-height: 40px;
-            padding: 0.5rem 0.6rem;
-            font-size: 0.76rem;
+            min-height: 44px;
+            padding: 0.6rem 0.75rem;
+            font-size: 0.88rem;
         }
 
         .cloud-auth-actions button:disabled,
@@ -1781,16 +1822,19 @@
 
         .cloud-auth-actions .cloud-signup-button,
         .cloud-auth-actions .cloud-secondary-button,
+        .cloud-account-actions .cloud-secondary-button,
         .cloud-auth-form > .cloud-secondary-button {
-            border: 1px solid rgba(148, 163, 184, 0.4);
-            background: rgba(255,255,255,0.08);
-            color: #e2e8f0;
+            border: 1px solid #cbd5e1;
+            background: #f8fafc;
+            color: #10243b;
         }
 
         .cloud-account-actions {
             display: grid;
             gap: 0.75rem;
         }
+
+        .cloud-account-actions > p strong { overflow-wrap: anywhere; }
 
         .cloud-auth-form[hidden],
         .cloud-account-actions[hidden] {
@@ -1800,14 +1844,14 @@
         .cloud-sync-status {
             min-height: 1.5em;
             margin: 0.75rem 0 0;
-            color: #bae6fd;
-            font-size: 0.75rem;
+            color: #075985;
+            font-size: 0.85rem;
             font-weight: 600;
             line-height: 1.5;
         }
 
-        .cloud-sync-status[data-status="synced"] { color: #86efac; }
-        .cloud-sync-status[data-status="error"] { color: #fca5a5; }
+        .cloud-sync-status[data-status="synced"] { color: #166534; }
+        .cloud-sync-status[data-status="error"] { color: #b42332; }
 
         .pwa-update-notice.visible {
             opacity: 1;
