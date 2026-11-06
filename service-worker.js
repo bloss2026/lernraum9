@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lernraum9-v26';
+const CACHE_NAME = 'lernraum9-v27';
 const APP_ASSETS = [
     './',
     './index.html',
@@ -30,7 +30,7 @@ const APP_ASSETS = [
 self.addEventListener('install', event => {
     event.waitUntil(
         caches.open(CACHE_NAME)
-            .then(cache => cache.addAll(APP_ASSETS))
+            .then(cache => cache.addAll(APP_ASSETS.map(asset => new Request(asset, { cache: 'reload' }))))
     );
 });
 
