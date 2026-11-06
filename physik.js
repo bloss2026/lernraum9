@@ -16,8 +16,8 @@
             steps: ['Gesuchte Größe und passende Formel notieren: v = s / t, s = v · t oder t = s / v.', 'Strecke und Zeit in passenden Einheiten einsetzen.', 'Rechnen und das Ergebnis mit der richtigen Einheit angeben.'],
             example: { title: 'Fahrradfahrt', lines: ['Ein Fahrrad fährt 600 m in 120 s.', 'v = 600 m / 120 s = 5 m/s.', 'In km/h: 5 · 3,6 = 18 km/h.'] },
             videos: [
-                { id: 'UeSm8SgJf08', title: 'Geschwindigkeit berechnen (nur km/h)', description: 'Die Formel zur Berechnung der Geschwindigkeit mit Beispielen anwenden.', url: 'https://www.youtube.com/watch?v=UeSm8SgJf08' },
-                { id: 'ABfjpgI9O9M', title: 'km/h in m/s umrechnen', description: 'Geschwindigkeiten zwischen Kilometer pro Stunde und Meter pro Sekunde umrechnen.', url: 'https://www.youtube.com/watch?v=ABfjpgI9O9M' }
+                { id: 'UeSm8SgJf08', title: 'Geschwindigkeit berechnen (nur km/h)', description: 'Die Formel zur Berechnung der Geschwindigkeit mit Beispielen anwenden.', creator: 'Lehrerschmidt', url: 'https://www.youtube.com/watch?v=UeSm8SgJf08' },
+                { id: 'ABfjpgI9O9M', title: 'km/h in m/s umrechnen', description: 'Geschwindigkeiten zwischen Kilometer pro Stunde und Meter pro Sekunde umrechnen.', creator: 'Lehrerschmidt', url: 'https://www.youtube.com/watch?v=ABfjpgI9O9M' }
             ],
             exercises: [
                 { prompt: 'Ein Läufer legt 400 m in 80 s zurück. Wie groß ist seine Geschwindigkeit in m/s?', answer: 5, unit: 'm/s', steps: ['Formel: v = s / t.', 'v = 400 m / 80 s.', 'v = 5 m/s.'] },
@@ -473,26 +473,7 @@
                 <div class="math-lesson-explanation">
                     ${lesson.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}
                 </div>
-                ${lesson.videos ? `
-                    <section class="physics-video-section" aria-labelledby="physicsVideoHeading">
-                        <div>
-                            <span class="math-eyebrow">ZUSÄTZLICH ANSCHAUEN</span>
-                            <h3 id="physicsVideoHeading">Lernvideos zur Geschwindigkeit</h3>
-                            <p>Die Videos werden erst geladen, wenn du auf „Im Lernraum abspielen“ klickst. Die Wiedergabe erfolgt über YouTube.</p>
-                        </div>
-                        <div class="physics-video-grid">
-                            ${lesson.videos.map((video, index) => `
-                                <article class="math-panel physics-video-card">
-                                    <h4>${escapeHtml(video.title)}</h4>
-                                    <p>${escapeHtml(video.description)}</p>
-                                    <div class="physics-video-frame" data-physics-video-frame="${index}">
-                                        <button class="math-button math-button-primary" type="button" data-physics-load-video="${index}">▶ Im Lernraum abspielen</button>
-                                    </div>
-                                    <a href="${escapeHtml(video.url)}" target="_blank" rel="noopener noreferrer">Alternativ auf YouTube öffnen ↗</a>
-                                    <small>Video von Lehrerschmidt · YouTube</small>
-                                </article>`).join('')}
-                        </div>
-                    </section>` : ''}
+                ${window.LernraumVideoResources.render(lesson, 'Physik')}
                 <section class="math-lesson-steps">
                     <h3>So gehst du vor</h3>
                     <ol>${lesson.steps.map(step => `<li>${escapeHtml(step)}</li>`).join('')}</ol>
@@ -594,20 +575,6 @@
             steps.hidden = !state.solution;
             button.textContent = `Lösungsweg ${state.solution ? 'ausblenden' : 'anzeigen'}`;
             button.setAttribute('aria-expanded', String(state.solution));
-        }
-
-        if (button.dataset.physicsLoadVideo !== undefined) {
-            const video = lesson.videos?.[Number(button.dataset.physicsLoadVideo)];
-            if (!video) return;
-            const frame = view.querySelector(`[data-physics-video-frame="${button.dataset.physicsLoadVideo}"]`);
-            const iframe = document.createElement('iframe');
-            iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(video.id)}?autoplay=1&rel=0`;
-            iframe.title = video.title;
-            iframe.loading = 'lazy';
-            iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-            iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-            iframe.allowFullscreen = true;
-            frame.replaceChildren(iframe);
         }
 
     });

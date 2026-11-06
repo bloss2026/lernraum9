@@ -905,6 +905,7 @@
                         <div class="math-lesson-explanation">
                             ${detail.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}
                         </div>
+                        ${window.LernraumVideoResources.render(selectedLesson, 'Mathematik')}
                         <section class="math-lesson-steps">
                             <h3>So gehst du vor</h3>
                             <ol>${detail.steps.map(step => `<li>${escapeHtml(step)}</li>`).join('')}</ol>
@@ -1053,7 +1054,8 @@
                     <button type="button" class="math-button" data-mental-new>Neue Aufgabe</button>
                 </div>
                 <p class="math-feedback ${mentalMathState.feedback.startsWith('Richtig') ? 'is-correct' : 'is-incorrect'}" aria-live="polite" ${mentalMathState.feedback ? '' : 'hidden'}>${escapeHtml(mentalMathState.feedback)}</p>
-            </article>`;
+            </article>
+            ${window.LernraumVideoResources.render({ id: 'mental-math', title: 'Kopfrechnen' }, 'Mathematik')}`;
         formatFractions(document.getElementById('mathViewMental'));
     }
 

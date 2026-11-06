@@ -1830,17 +1830,22 @@
         .math-lesson-examples { display: grid; gap: 0.2rem; }
         .math-lesson-examples .math-example { margin-top: 0.35rem; }
         .math-lesson-examples .math-example ol { margin-top: 0.4rem; }
-        .physics-video-section { display: grid; gap: 0.85rem; }
-        .physics-video-section > div:first-child > p { margin-top: 0.4rem; color: var(--math-muted); line-height: 1.6; }
-        .physics-video-section h3 { margin: 0.3rem 0; color: var(--math-accent); }
-        .physics-video-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
-        .physics-video-card { display: grid; align-content: start; gap: 0.65rem; }
-        .physics-video-card h4 { color: var(--math-text); font-size: 1rem; }
-        .physics-video-card p { margin: 0; color: var(--math-muted); line-height: 1.55; }
-        .physics-video-card > a { color: var(--math-accent); font-weight: 700; text-underline-offset: 3px; }
-        .physics-video-card > small { color: var(--math-muted); }
-        .physics-video-frame { display: grid; min-height: 92px; place-items: center; padding: 1rem; border: 1px solid var(--math-border); border-radius: 12px; background: #070d15; }
-        .physics-video-frame iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 8px; }
+        .learning-video-section { display: grid; gap: 0.85rem; }
+        .learning-video-section > div:first-child > p,
+        .video-resource-search > p { margin-top: 0.4rem; color: var(--math-muted); line-height: 1.6; }
+        .learning-video-section > div:first-child > p a { color: var(--math-accent); font-weight: 700; text-underline-offset: 3px; }
+        .learning-video-section h3 { margin: 0.3rem 0; color: var(--math-accent); }
+        .video-resource-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+        .video-resource-card { display: grid; align-content: start; gap: 0.65rem; }
+        .video-resource-card h4 { color: var(--math-text); font-size: 1rem; }
+        .video-resource-card p { margin: 0; color: var(--math-muted); line-height: 1.55; }
+        .video-resource-card > a,
+        .video-resource-search > a:not(.math-button) { color: var(--math-accent); font-weight: 700; text-underline-offset: 3px; }
+        .video-resource-card > small { color: var(--math-muted); }
+        .learning-video-frame { display: grid; min-height: 92px; place-items: center; padding: 1rem; border: 1px solid var(--math-border); border-radius: 12px; background: #070d15; }
+        .learning-video-frame iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 8px; }
+        .video-resource-search { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1rem; }
+        .video-resource-search > p { flex-basis: 100%; margin-bottom: 0; }
         .math-common-mistake {
             padding: 1rem;
             border: 1px solid rgba(251, 191, 36, 0.28);
@@ -1942,7 +1947,7 @@
             .math-lesson-grid,
             .math-exercise-grid,
             .math-exam-intro-grid,
-            .physics-video-grid { grid-template-columns: 1fr; }
+            .video-resource-grid { grid-template-columns: 1fr; }
             .math-exam-choice-grid { grid-template-columns: 1fr; }
             .math-section-heading { align-items: flex-start; }
         }
