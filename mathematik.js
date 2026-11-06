@@ -9,10 +9,11 @@
             id: 'algebra',
             title: 'Arithmetik & Algebra',
             icon: '➗',
-            summary: 'Terme, Gleichungen, Brüche, Formeln, Potenzen, Wurzeln sowie Prozent- und Zinsaufgaben sicher bearbeiten.',
+            summary: 'Terme, lineare und quadratische Gleichungen, Brüche, Formeln, Potenzen, Wurzeln sowie Prozent- und Zinsaufgaben sicher bearbeiten.',
             lessons: [
                 { id: 'terms', title: 'Terme', text: 'Fasse gleichartige Glieder zusammen. Klammern löst du mit dem Distributivgesetz auf: a(b + c) = ab + ac.', example: '3x + 2x − 4 = 5x − 4; 2(x + 3) = 2x + 6.' },
                 { id: 'equations', title: 'Gleichungen', text: 'Führe auf beiden Seiten dieselbe Rechenoperation aus. Ziel ist, x allein stehen zu lassen.', example: '3x + 5 = 20 → 3x = 15 → x = 5. Probe: 3 · 5 + 5 = 20.' },
+                { id: 'quadratic-equations', title: 'Quadratische Gleichungen', text: 'Faktorisiere eine quadratische Gleichung und nutze die Nullproduktregel, um ihre Lösungen zu finden.', example: 'x² − 5x + 6 = 0 → (x − 2)(x − 3) = 0 → x = 2 oder x = 3.' },
                 { id: 'fractions', title: 'Brüche & rationale Zahlen', text: 'Brüche kürzen und erweitern, gleichnamig machen und sicher mit Vorzeichen rechnen.', example: '3/4 + 1/8 = 6/8 + 1/8 = 7/8.' },
                 { id: 'rearranging-formulas', title: 'Formeln umstellen', text: 'Stelle eine Formel nach einer gesuchten Variablen um, indem du auf beiden Seiten Umkehroperationen ausführst.', example: 's = v · t wird nach t umgestellt zu t = s / v.' },
                 { id: 'word-equations', title: 'Textaufgaben mit Gleichungen', text: 'Übersetze Angaben in eine Gleichung, löse sie und prüfe, ob das Ergebnis zur Situation passt.', example: 'Das Dreifache einer Zahl plus 4 ist 19: 3x + 4 = 19, also x = 5.' },
@@ -26,19 +27,21 @@
             id: 'functions',
             title: 'Funktionen',
             icon: '📈',
-            summary: 'Lineare Zusammenhänge lesen, Steigungen berechnen und Geraden im Koordinatensystem deuten.',
+            summary: 'Lineare und quadratische Funktionen, Steigungen und Graphen verstehen.',
             lessons: [
                 { id: 'linear-functions', title: 'Lineare Funktion', text: 'Eine Gerade hat die Form y = m · x + b. m ist die Steigung; b ist der Schnittpunkt mit der y-Achse.', example: 'y = 2x + 1: Bei x = 0 ist y = 1; bei x = 2 ist y = 5.' },
                 { id: 'slope', title: 'Steigung', text: 'Die Steigung m = Änderung in y / Änderung in x. Positive Steigung bedeutet, die Gerade steigt nach rechts.', example: 'Von (1|2) nach (3|6): m = (6 − 2) / (3 − 1) = 2.' },
-                { id: 'graphs', title: 'Graph zeichnen', text: 'Markiere zuerst den y-Achsenabschnitt b. Nutze dann die Steigung als Schritt nach rechts und nach oben oder unten.', example: 'Bei y = 2x + 1 startest du bei (0|1). Zwei nach rechts und vier nach oben ergibt (2|5).' }
+                { id: 'graphs', title: 'Graph zeichnen', text: 'Markiere zuerst den y-Achsenabschnitt b. Nutze dann die Steigung als Schritt nach rechts und nach oben oder unten.', example: 'Bei y = 2x + 1 startest du bei (0|1). Zwei nach rechts und vier nach oben ergibt (2|5).' },
+                { id: 'quadratic-functions', title: 'Quadratische Funktionen', text: 'Der Graph einer quadratischen Funktion ist eine Parabel. In der Scheitelpunktform f(x) = a(x − h)² + k liegt der Scheitelpunkt bei (h|k).', example: 'f(x) = (x − 4)² + 2 hat den Scheitelpunkt (4|2).' }
             ]
         },
         {
             id: 'geometry',
             title: 'Geometrie',
             icon: '📐',
-            summary: 'Rechtwinklige Dreiecke und Volumen sowie Oberflächen von Körpern berechnen.',
+            summary: 'Flächen, rechtwinklige Dreiecke und Volumen sowie Oberflächen von Körpern berechnen.',
             lessons: [
+                { id: 'triangle-area', title: 'Dreiecksfläche', text: 'Der Flächeninhalt eines Dreiecks ist halb so groß wie Grundseite mal zugehörige Höhe: A = g · h / 2.', example: 'g = 12 cm, h = 7 cm: A = 12 · 7 / 2 = 42 cm².' },
                 { id: 'pythagoras', title: 'Satz des Pythagoras', text: 'Im rechtwinkligen Dreieck gilt a² + b² = c². c ist immer die längste Seite gegenüber dem rechten Winkel.', example: 'a = 3 cm, b = 4 cm: c = √(3² + 4²) = √25 = 5 cm.' },
                 { id: 'prism', title: 'Prisma', text: 'Volumen: V = Grundfläche · Länge. Bei einem geraden Prisma gilt für die Oberfläche: O = 2G + Umfang der Grundfläche · Länge.', example: 'Rechteckige Grundfläche 3 cm · 4 cm, Länge 5 cm: V = 12 · 5 = 60 cm³.' },
                 { id: 'cylinder', title: 'Zylinder', text: 'Grundfläche G = πr². Volumen V = πr²h; Oberfläche O = 2πr² + 2πrh.', example: 'r = 2 cm, h = 5 cm: V = π · 2² · 5 = 20π ≈ 62,8 cm³.' },
@@ -85,6 +88,19 @@
             ],
             commonMistake: 'Wird auf einer Seite addiert, muss auf der anderen Seite ebenfalls addiert werden. Beim Verschieben eines Terms ändert sich sein Vorzeichen, weil du dieselbe Gegenoperation auf beiden Seiten ausführst.',
             sources: [{ label: 'Mathebibel: Gleichungen', url: 'https://www.mathebibel.de/gleichungen' }]
+        },
+        'quadratic-equations': {
+            paragraphs: [
+                'Eine quadratische Gleichung enthält eine Variable mit dem Exponenten 2. Eine wichtige Form ist x² + bx + c = 0. Wenn sich der Term in zwei Faktoren zerlegen lässt, kannst du die Nullproduktregel verwenden: Ein Produkt ist genau dann null, wenn mindestens ein Faktor null ist.',
+                'Setze beide Faktoren einzeln gleich null und löse die entstehenden einfachen Gleichungen. So erhältst du die Lösungen der quadratischen Gleichung. Bei einer Parabel sind diese Lösungen zugleich die Nullstellen, also die x-Werte, an denen der Graph die x-Achse schneidet.'
+            ],
+            steps: ['Alle Terme auf eine Seite bringen, sodass auf der anderen Seite 0 steht.', 'Den quadratischen Term faktorisieren.', 'Jeden Faktor einzeln gleich 0 setzen.', 'Beide Gleichungen lösen und die Lösungen durch Einsetzen prüfen.'],
+            examples: [
+                { title: 'Quadratische Gleichung lösen', lines: ['x² − 5x + 6 = 0', '(x − 2)(x − 3) = 0', 'x − 2 = 0 oder x − 3 = 0; also x = 2 oder x = 3.'] },
+                { title: 'Nullstellen bestimmen', lines: ['x² − 4x + 3 = 0', '(x − 1)(x − 3) = 0', 'Die Nullstellen sind x = 1 und x = 3.'] }
+            ],
+            commonMistake: 'Bei der Nullproduktregel müssen alle Faktoren betrachtet werden. Eine quadratische Gleichung kann zwei Lösungen haben; prüfe daher jeden Faktor einzeln.',
+            sources: []
         },
         fractions: {
             paragraphs: [
@@ -222,6 +238,19 @@
             commonMistake: 'Bei einem Punkt (2|5) bedeutet 2 die waagerechte x-Koordinate und 5 die senkrechte y-Koordinate. Prüfe, ob beide Achsen dieselbe oder unterschiedliche Skalierungen haben.',
             sources: [{ label: 'Mathebibel: Graph einer Funktion', url: 'https://www.mathebibel.de/graph' }, { label: 'Mathebibel: Lineare Funktionen', url: 'https://www.mathebibel.de/lineare-funktionen' }]
         },
+        'quadratic-functions': {
+            paragraphs: [
+                'Eine quadratische Funktion enthält x² und hat als Graph eine Parabel. Eine typische Form ist f(x) = ax² + bx + c. Der Faktor a bestimmt, ob die Parabel nach oben oder unten geöffnet und wie breit sie ist.',
+                'In der Scheitelpunktform f(x) = a(x − h)² + k kannst du den Scheitelpunkt S(h|k) direkt ablesen. Für einen Funktionswert setzt du den gegebenen x-Wert überall für x ein und rechnest mit der üblichen Reihenfolge der Rechenoperationen.'
+            ],
+            steps: ['Form der Funktion erkennen und gegebenenfalls in Scheitelpunktform bringen.', 'Für einen Funktionswert den x-Wert überall einsetzen.', 'Potenzen vor Multiplikation und Addition berechnen.', 'In der Scheitelpunktform den Scheitelpunkt S(h|k) ablesen.'],
+            examples: [
+                { title: 'Funktionswert berechnen', lines: ['f(x) = x² − 2x + 4; gesucht ist f(3).', 'f(3) = 3² − 2 · 3 + 4.', 'f(3) = 9 − 6 + 4 = 7.'] },
+                { title: 'Scheitelpunkt ablesen', lines: ['f(x) = (x − 4)² + 2', 'Vergleich mit f(x) = (x − h)² + k: h = 4, k = 2.', 'Scheitelpunkt S(4|2).'] }
+            ],
+            commonMistake: 'In f(x) = (x − h)² + k ist die x-Koordinate des Scheitelpunkts h. Achte auf das Vorzeichen in der Klammer: (x − 4)² hat h = 4.',
+            sources: []
+        },
         pythagoras: {
             paragraphs: [
                 'Der Satz des Pythagoras gilt ausschließlich in rechtwinkligen Dreiecken. Die beiden Seiten, die den rechten Winkel bilden, heißen Katheten. Die gegenüberliegende und längste Seite heißt Hypotenuse. Bezeichne die Katheten mit a und b und die Hypotenuse mit c.',
@@ -234,6 +263,19 @@
             ],
             commonMistake: 'Die Hypotenuse ist nicht einfach die schräg gezeichnete Seite, sondern immer die Seite gegenüber dem rechten Winkel. Sie ist die längste Seite.',
             sources: [{ label: 'Mathebibel: Satz des Pythagoras', url: 'https://www.mathebibel.de/satz-des-pythagoras' }]
+        },
+        'triangle-area': {
+            paragraphs: [
+                'Der Flächeninhalt eines Dreiecks hängt von einer Grundseite g und der dazugehörigen senkrechten Höhe h ab. Die Höhe muss im rechten Winkel auf der gewählten Grundseite stehen; sie ist nicht unbedingt eine der Dreiecksseiten.',
+                'Ein Dreieck ist halb so groß wie ein Parallelogramm mit derselben Grundseite und Höhe. Deshalb gilt A = g · h / 2. Gib den Flächeninhalt in Quadrateinheiten an.'
+            ],
+            steps: ['Grundseite g und die dazugehörige senkrechte Höhe h bestimmen.', 'Formel A = g · h / 2 notieren.', 'Werte mit ihren Einheiten einsetzen und rechnen.', 'Flächeneinheit, zum Beispiel cm², angeben.'],
+            examples: [
+                { title: 'Flächeninhalt berechnen', lines: ['g = 12 cm, h = 7 cm', 'A = 12 · 7 / 2', 'A = 84 / 2 = 42 cm².'] },
+                { title: 'Höhe berechnen', lines: ['A = 30 cm², g = 10 cm', 'h = 2A / g = 60 / 10', 'h = 6 cm.'] }
+            ],
+            commonMistake: 'Die Höhe muss zur gewählten Grundseite senkrecht sein. Vergiss beim Flächeninhalt außerdem nicht, das Produkt aus Grundseite und Höhe durch 2 zu teilen.',
+            sources: []
         },
         prism: {
             paragraphs: [
@@ -519,6 +561,50 @@
             ]
         }
     };
+
+    const examPracticeSubtopics = {
+        'exam-a1-1': 'powers',
+        'exam-a1-2': 'roots',
+        'exam-a1-3': 'equations',
+        'exam-a1-4': 'percent',
+        'exam-a1-5': 'fractions',
+        'exam-a1-6': 'interest',
+        'exam-a2-1': 'linear-functions',
+        'exam-a2-2': 'quadratic-equations',
+        'exam-a2-3': 'pythagoras',
+        'exam-a2-4': 'percent',
+        'exam-a2-5': 'cylinder',
+        'exam-a2-6': 'statistics',
+        'exam-a2-7': 'triangle-area',
+        'exam-b1-1': 'pythagoras',
+        'exam-b1-2': 'prism',
+        'exam-b1-3': 'cylinder',
+        'exam-b2-1': 'path-rules',
+        'exam-b2-2': 'statistics',
+        'exam-b2-3': 'tree-diagrams',
+        'exam-b3-1': 'quadratic-functions',
+        'exam-b3-2': 'quadratic-equations',
+        'exam-b3-3': 'quadratic-functions'
+    };
+    const examQuestions = [...exam.a1, ...exam.a2, ...Object.values(exam.b).flat()];
+    examQuestions.forEach(question => {
+        const subtopic = examPracticeSubtopics[question.id];
+        if (!subtopic) throw new Error(`Für die Prüfungsaufgabe "${question.id}" fehlt ein Unterthema.`);
+        const topic = topics.find(item => item.lessons.some(lesson => lesson.id === subtopic));
+        if (!topic) throw new Error(`Für das Unterthema "${subtopic}" fehlt ein Themengebiet.`);
+        if (exercises.some(item => item.subtopic === subtopic && item.prompt === question.prompt)) return;
+        exercises.push({
+            id: `practice-${question.id}`,
+            topic: topic.id,
+            subtopic,
+            kind: 'number',
+            prompt: question.prompt,
+            answer: question.answer,
+            unit: '',
+            steps: [...question.steps],
+            ...(question.tolerance !== undefined ? { tolerance: question.tolerance } : {})
+        });
+    });
 
     const gradeScale = [
         { min: 92, grade: '1', label: 'sehr gut' },

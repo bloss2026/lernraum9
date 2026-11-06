@@ -93,9 +93,9 @@ function loadDashboardState() {
 function renderSubjectPage(subject) {
     if (subject.id === 'mathematik') {
         const mathTopics = [
-            { id: 'algebra', icon: '➗', title: 'Arithmetik & Algebra', description: 'Terme, Gleichungen, Potenz- und Wurzelrechnung, Prozent- und Zinsrechnung.' },
-            { id: 'functions', icon: '📈', title: 'Funktionen', description: 'Lineare Funktionen, Steigung und Funktionsgraphen.' },
-            { id: 'geometry', icon: '📐', title: 'Geometrie', description: 'Pythagoras sowie Prisma, Zylinder und Pyramide.' },
+            { id: 'algebra', icon: '➗', title: 'Arithmetik & Algebra', description: 'Terme, lineare und quadratische Gleichungen, Brüche, Potenzen, Wurzeln, Prozent- und Zinsrechnung.' },
+            { id: 'functions', icon: '📈', title: 'Funktionen', description: 'Lineare und quadratische Funktionen, Steigung und Funktionsgraphen.' },
+            { id: 'geometry', icon: '📐', title: 'Geometrie', description: 'Dreiecksflächen, Pythagoras sowie Prisma, Zylinder und Pyramide.' },
             { id: 'probability', icon: '🎲', title: 'Stochastik', description: 'Baumdiagramme, Pfadregeln und Statistik.' }
         ];
         return `
@@ -268,10 +268,11 @@ function renderAtomTopicPage() {
 function renderMathTopicPage() {
     const topics = {
         algebra: {
-            icon: '➗', title: 'Arithmetik & Algebra', description: 'Terme, Gleichungen, Brüche, Formeln, Potenz- und Wurzelrechnung sowie Prozent- und Zinsrechnung.',
+            icon: '➗', title: 'Arithmetik & Algebra', description: 'Terme, lineare und quadratische Gleichungen, Brüche, Formeln, Potenz- und Wurzelrechnung sowie Prozent- und Zinsrechnung.',
             subtopics: [
                 { id: 'terms', icon: '🔤', title: 'Terme', description: 'Terme ordnen, zusammenfassen und Klammern auflösen.' },
                 { id: 'equations', icon: '⚖️', title: 'Gleichungen', description: 'Gleichungen schrittweise lösen und die Lösung prüfen.' },
+                { id: 'quadratic-equations', icon: '📐', title: 'Quadratische Gleichungen', description: 'Quadratische Gleichungen faktorisieren und Nullstellen bestimmen.' },
                 { id: 'fractions', icon: '½', title: 'Brüche & rationale Zahlen', description: 'Brüche kürzen, erweitern und mit Vorzeichen rechnen.' },
                 { id: 'rearranging-formulas', icon: '🔄', title: 'Formeln umstellen', description: 'Formeln nach der gesuchten Variablen umstellen.' },
                 { id: 'word-equations', icon: '📝', title: 'Textaufgaben mit Gleichungen', description: 'Text in Gleichungen übersetzen und Ergebnisse prüfen.' },
@@ -282,16 +283,18 @@ function renderMathTopicPage() {
             ]
         },
         functions: {
-            icon: '📈', title: 'Funktionen', description: 'Lineare Funktionen, Steigung und Funktionsgraphen.',
+            icon: '📈', title: 'Funktionen', description: 'Lineare und quadratische Funktionen, Steigung und Funktionsgraphen.',
             subtopics: [
                 { id: 'linear-functions', icon: '📉', title: 'Lineare Funktionen', description: 'Funktionsgleichungen der Form y = mx + b verstehen.' },
                 { id: 'slope', icon: '↗️', title: 'Steigung', description: 'Die Steigung aus einer Gleichung oder zwei Punkten bestimmen.' },
-                { id: 'graphs', icon: '📊', title: 'Funktionsgraphen', description: 'Geraden zeichnen und Graphen ablesen.' }
+                { id: 'graphs', icon: '📊', title: 'Funktionsgraphen', description: 'Geraden zeichnen und Graphen ablesen.' },
+                { id: 'quadratic-functions', icon: '∿', title: 'Quadratische Funktionen', description: 'Parabeln, Funktionswerte und Scheitelpunkte untersuchen.' }
             ]
         },
         geometry: {
-            icon: '📐', title: 'Geometrie', description: 'Satz des Pythagoras und Berechnungen an Körpern.',
+            icon: '📐', title: 'Geometrie', description: 'Dreiecksflächen, Satz des Pythagoras und Berechnungen an Körpern.',
             subtopics: [
+                { id: 'triangle-area', icon: '🔺', title: 'Dreiecksfläche', description: 'Den Flächeninhalt eines Dreiecks mit Grundseite und Höhe berechnen.' },
                 { id: 'pythagoras', icon: '📐', title: 'Satz des Pythagoras', description: 'Fehlende Seiten im rechtwinkligen Dreieck berechnen.' },
                 { id: 'prism', icon: '📦', title: 'Prisma', description: 'Volumen und Oberfläche eines Prismas berechnen.' },
                 { id: 'cylinder', icon: '🥫', title: 'Zylinder', description: 'Grundfläche, Volumen und Oberfläche bestimmen.' },
