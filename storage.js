@@ -4,6 +4,7 @@
     const databaseName = 'lernraum9';
     const storeName = 'keyValue';
     const legacyKeys = ['chemieLernState', 'mathematikLearningState'];
+    let cloudReady = Promise.resolve();
 
     function safeLocalStorage() {
         if (!('localStorage' in window)) {
@@ -108,73 +109,102 @@
         });
     }
 
+    async function getLocal(key) {
+        const database = await databaseReady;
+        if (!database) {
+            return JSON.parse(localStorageAdapter.getItem(key) || 'null');
+        }
+
+        return new Promise((resolve, reject) => {
+            const request = database.transaction(storeName, 'readonly').objectStore(storeName).get(key);
+            request.onsuccess = () => resolve(request.result ? request.result.value : null);
+            request.onerror = () => reject(request.error || new Error(`Der Lernstand "${key}" konnte nicht gelesen werden.`));
+        });
+    }
+
+    async function setLocal(key, value) {
+        const database = await databaseReady;
+        if (!database) {
+            try {
+                localStorageAdapter.setItem(key, JSON.stringify(value));
+            } catch (error) {
+                console.warn(`Der Lernstand "${key}" konnte im LocalStorage nicht gespeichert werden:`, error);
+            }
+            return;
+        }
+
+        await transactionRequest(database, 'readwrite', store => store.put({ key, value }));
+    }
+
+    async function updateLocal(key, updater) {
+        const database = await databaseReady;
+        if (!database) {
+            const currentValue = (() => {
+                const value = localStorageAdapter.getItem(key);
+                if (value === null) return {};
+                try {
+                    return JSON.parse(value);
+                } catch (error) {
+                    return {};
+                }
+            })();
+            const updatedValue = updater(currentValue);
+            try {
+                localStorageAdapter.setItem(key, JSON.stringify(updatedValue));
+            } catch (error) {
+                console.warn(`Der Lernstand "${key}" konnte im LocalStorage nicht aktualisiert werden:`, error);
+            }
+            return updatedValue;
+        }
+
+        let updatedValue;
+        await new Promise((resolve, reject) => {
+            const transaction = database.transaction(storeName, 'readwrite');
+            const store = transaction.objectStore(storeName);
+            const request = store.get(key);
+            request.onsuccess = () => {
+                try {
+                    updatedValue = updater(request.result ? request.result.value : {});
+                    store.put({ key, value: updatedValue });
+                } catch (error) {
+                    transaction.abort();
+                    reject(error);
+                }
+            };
+            request.onerror = () => reject(request.error || new Error(`Der Lernstand "${key}" konnte nicht aktualisiert werden.`));
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = () => reject(transaction.error || new Error(`Der Lernstand "${key}" konnte nicht aktualisiert werden.`));
+            transaction.onabort = () => reject(transaction.error || new Error(`Die Aktualisierung des Lernstands "${key}" wurde abgebrochen.`));
+        });
+        return updatedValue;
+    }
+
+    function queueCloudWrite(key, value) {
+        if (window.LernraumCloud) {
+            window.LernraumCloud.queueWrite(key, value);
+        }
+    }
+
     window.LernraumDB = {
         async get(key) {
-            const database = await databaseReady;
-            if (!database) {
-                return JSON.parse(localStorageAdapter.getItem(key) || 'null');
-            }
-
-            return new Promise((resolve, reject) => {
-                const request = database.transaction(storeName, 'readonly').objectStore(storeName).get(key);
-                request.onsuccess = () => resolve(request.result ? request.result.value : null);
-                request.onerror = () => reject(request.error || new Error(`Der Lernstand "${key}" konnte nicht gelesen werden.`));
-            });
+            await cloudReady;
+            return getLocal(key);
         },
         async set(key, value) {
-            const database = await databaseReady;
-            if (!database) {
-                try {
-                    localStorageAdapter.setItem(key, JSON.stringify(value));
-                } catch (error) {
-                    console.warn(`Der Lernstand "${key}" konnte im LocalStorage nicht gespeichert werden:`, error);
-                }
-                return;
-            }
-
-            await transactionRequest(database, 'readwrite', store => store.put({ key, value }));
+            await cloudReady;
+            await setLocal(key, value);
+            queueCloudWrite(key, value);
         },
         async update(key, updater) {
-            const database = await databaseReady;
-            if (!database) {
-                const currentValue = (() => {
-                    const value = localStorageAdapter.getItem(key);
-                    if (value === null) return {};
-                    try {
-                        return JSON.parse(value);
-                    } catch (error) {
-                        return {};
-                    }
-                })();
-                const updatedValue = updater(currentValue);
-                try {
-                    localStorageAdapter.setItem(key, JSON.stringify(updatedValue));
-                } catch (error) {
-                    console.warn(`Der Lernstand "${key}" konnte im LocalStorage nicht aktualisiert werden:`, error);
-                }
-                return updatedValue;
-            }
-
-            let updatedValue;
-            await new Promise((resolve, reject) => {
-                const transaction = database.transaction(storeName, 'readwrite');
-                const store = transaction.objectStore(storeName);
-                const request = store.get(key);
-                request.onsuccess = () => {
-                    try {
-                        updatedValue = updater(request.result ? request.result.value : {});
-                        store.put({ key, value: updatedValue });
-                    } catch (error) {
-                        transaction.abort();
-                        reject(error);
-                    }
-                };
-                request.onerror = () => reject(request.error || new Error(`Der Lernstand "${key}" konnte nicht aktualisiert werden.`));
-                transaction.oncomplete = () => resolve();
-                transaction.onerror = () => reject(transaction.error || new Error(`Der Lernstand "${key}" konnte nicht aktualisiert werden.`));
-                transaction.onabort = () => reject(transaction.error || new Error(`Die Aktualisierung des Lernstands "${key}" wurde abgebrochen.`));
-            });
+            await cloudReady;
+            const updatedValue = await updateLocal(key, updater);
+            queueCloudWrite(key, updatedValue);
             return updatedValue;
+        },
+        getLocal,
+        setLocal,
+        setCloudReady(promise) {
+            cloudReady = Promise.resolve(promise);
         }
     };
 })();

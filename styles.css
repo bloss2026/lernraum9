@@ -1693,6 +1693,96 @@
             backdrop-filter: blur(16px);
         }
 
+        .cloud-sync-card {
+            display: grid;
+            gap: 1rem;
+            max-width: 760px;
+            margin-inline: auto;
+        }
+
+        .cloud-sync-card h2 {
+            margin-bottom: 0.45rem;
+            color: var(--primary-dark);
+        }
+
+        .cloud-sync-card > div:first-child > p,
+        .cloud-account-actions > p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .cloud-auth-form {
+            display: grid;
+            gap: 0.55rem;
+        }
+
+        .cloud-auth-form label {
+            color: var(--text-main);
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .cloud-auth-form input {
+            width: 100%;
+            min-height: 44px;
+            margin-bottom: 0.45rem;
+            padding: 0.65rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--text-main);
+        }
+
+        .cloud-auth-form input:focus-visible,
+        .cloud-auth-actions button:focus-visible {
+            outline: 3px solid rgba(56, 189, 248, 0.55);
+            outline-offset: 2px;
+        }
+
+        .cloud-auth-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.65rem;
+        }
+
+        .cloud-auth-actions button:disabled {
+            cursor: wait;
+            opacity: 0.65;
+        }
+
+        .cloud-auth-actions .cloud-signup-button,
+        .cloud-auth-actions .cloud-secondary-button {
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-main);
+        }
+
+        .cloud-account-actions {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .cloud-auth-form[hidden],
+        .cloud-account-actions[hidden] {
+            display: none;
+        }
+
+        .cloud-sync-status {
+            min-height: 1.5em;
+            color: var(--primary-dark);
+            font-weight: 700;
+            line-height: 1.5;
+        }
+
+        .cloud-sync-status[data-status="synced"] { color: var(--success); }
+        .cloud-sync-status[data-status="error"] { color: var(--error); }
+
+        .cloud-privacy-note {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            line-height: 1.5;
+        }
+
         .pwa-update-notice.visible {
             opacity: 1;
             pointer-events: auto;

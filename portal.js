@@ -234,6 +234,34 @@ function renderDashboard() {
                 <p>Chemie mit Lerninhalten, weitere Fächer als Platzhalter</p>
             </article>
         </section>
+        <section class="portal-content-section" aria-labelledby="cloudSyncTitle">
+            <article class="card cloud-sync-card">
+                <div>
+                    <span class="pill">DEIN LERNSTAND</span>
+                    <h2 id="cloudSyncTitle">Auf mehreren Geräten weiterlernen</h2>
+                    <p>Erstelle ein Lernkonto, damit dein Chemie- und Mathematik-Lernstand auf deinen Geräten verfügbar ist.</p>
+                </div>
+                <form id="cloudAuthForm" class="cloud-auth-form">
+                    <label for="cloudEmail">E-Mail-Adresse</label>
+                    <input id="cloudEmail" name="email" type="email" autocomplete="email" required>
+                    <label for="cloudPassword">Passwort</label>
+                    <input id="cloudPassword" name="password" type="password" autocomplete="current-password" minlength="6" required>
+                    <div class="cloud-auth-actions">
+                        <button class="btn" type="submit" data-cloud-auth="signin">Anmelden</button>
+                        <button class="btn cloud-signup-button" type="submit" data-cloud-auth="signup">Konto erstellen</button>
+                    </div>
+                </form>
+                <div id="cloudAccountActions" class="cloud-account-actions" hidden>
+                    <p>Angemeldet als <strong id="cloudAccountEmail"></strong></p>
+                    <div class="cloud-auth-actions">
+                        <button id="cloudSyncNow" class="btn" type="button">Jetzt synchronisieren</button>
+                        <button id="cloudSignOut" class="btn cloud-secondary-button" type="button">Abmelden</button>
+                    </div>
+                </div>
+                <p id="cloudSyncStatus" class="cloud-sync-status" role="status" aria-live="polite"></p>
+                <p class="cloud-privacy-note">Gespeichert werden nur Lernfortschritt und Übungseinstellungen. Verwende bei Bedarf mit deinen Eltern eine passende E-Mail-Adresse.</p>
+            </article>
+        </section>
         <section class="portal-content-section">
             <div class="portal-section-heading">
                 <div><span class="pill">FÄCHERÜBERSICHT</span><h2>Fach wählen</h2></div>
@@ -825,6 +853,78 @@ if (app) {
 
     if (page === 'home') {
         if (window.LernraumDB) loadDashboardState();
+
+        const cloudAuthForm = document.getElementById('cloudAuthForm');
+        const cloudSyncStatus = document.getElementById('cloudSyncStatus');
+        const cloudAccountActions = document.getElementById('cloudAccountActions');
+        const cloudAccountEmail = document.getElementById('cloudAccountEmail');
+        const cloudSyncNow = document.getElementById('cloudSyncNow');
+        const cloudSignOut = document.getElementById('cloudSignOut');
+        const cloudAuthButtons = cloudAuthForm ? cloudAuthForm.querySelectorAll('button[type="submit"]') : [];
+
+        const updateCloudPanel = state => {
+            if (!cloudAuthForm || !cloudSyncStatus) return;
+            const hasAccount = Boolean(state.email)
+                && ['syncing', 'synced', 'offline', 'error'].includes(state.status);
+            cloudAuthForm.hidden = hasAccount;
+            cloudAccountActions.hidden = !hasAccount;
+            cloudAccountEmail.textContent = hasAccount ? state.email : '';
+            cloudSyncStatus.textContent = state.message || '';
+            cloudSyncStatus.dataset.status = state.status || 'guest';
+            const isSyncing = state.status === 'syncing';
+            if (cloudSyncNow) cloudSyncNow.disabled = isSyncing;
+            if (cloudSignOut) cloudSignOut.disabled = isSyncing;
+            cloudAuthButtons.forEach(button => {
+                button.disabled = isSyncing;
+            });
+        };
+
+        if (window.LernraumCloud) {
+            updateCloudPanel(window.LernraumCloud.getState());
+            window.addEventListener('lernraum:cloud-state', event => updateCloudPanel(event.detail));
+        }
+
+        if (cloudAuthForm && window.LernraumCloud) {
+            cloudAuthForm.addEventListener('submit', async event => {
+                event.preventDefault();
+                const submitter = event.submitter;
+                const email = cloudAuthForm.elements.email.value.trim();
+                const password = cloudAuthForm.elements.password.value;
+                cloudAuthButtons.forEach(button => {
+                    button.disabled = true;
+                });
+                cloudSyncStatus.textContent = 'Anmeldung wird geprüft …';
+                try {
+                    if (submitter?.dataset.cloudAuth === 'signup') {
+                        const result = await window.LernraumCloud.signUp(email, password);
+                        if (result.confirmationRequired) {
+                            cloudSyncStatus.textContent = 'Konto angelegt. Bitte bestätige deine E-Mail-Adresse und melde dich danach an.';
+                        }
+                    } else {
+                        await window.LernraumCloud.signIn(email, password);
+                    }
+                } catch (error) {
+                    cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
+                } finally {
+                    cloudAuthButtons.forEach(button => {
+                        button.disabled = false;
+                    });
+                    updateCloudPanel(window.LernraumCloud.getState());
+                }
+            });
+        }
+
+        cloudSyncNow?.addEventListener('click', () => {
+            window.LernraumCloud.syncNow().catch(error => {
+                console.error('Die manuelle Lernstand-Synchronisierung ist fehlgeschlagen:', error);
+            });
+        });
+        cloudSignOut?.addEventListener('click', () => {
+            window.LernraumCloud.signOut().catch(error => {
+                console.error('Das Lernkonto konnte nicht vollständig abgemeldet werden:', error);
+                cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
+            });
+        });
 
         const subjectSearchInput = document.getElementById('subjectSearch');
         if (subjectSearchInput) {
