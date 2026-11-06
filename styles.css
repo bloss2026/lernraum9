@@ -1734,6 +1734,19 @@
             color: var(--math-text);
             line-height: 1.55;
         }
+        .math-fraction {
+            display: inline-grid;
+            grid-template-rows: 1fr 1fr;
+            margin: 0 0.12em;
+            vertical-align: middle;
+            line-height: 1;
+            text-align: center;
+        }
+        .math-fraction > span:first-child {
+            padding: 0 0.12em 0.08em;
+            border-bottom: 1px solid currentColor;
+        }
+        .math-fraction > span:last-child { padding: 0.08em 0.12em 0; }
         .math-lesson-detail { display: grid; gap: 1.2rem; margin-bottom: 1rem; padding: clamp(1rem, 3vw, 1.6rem); }
         .math-lesson-explanation { display: grid; gap: 0.8rem; }
         .math-lesson-detail .math-lesson-explanation p { margin: 0; color: var(--math-text); line-height: 1.75; }

@@ -560,6 +560,42 @@
         return topics.find(topic => topic.id === id);
     }
 
+    function formatFractions(container) {
+        const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+        const textNodes = [];
+        while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+        textNodes.forEach(textNode => {
+            const text = textNode.nodeValue;
+            const fractionPattern = /(\([^()]+\)|\d+)\s*\/\s*(\([^()]+\)|\d+)/g;
+            let lastIndex = 0;
+            let match;
+            const fragment = document.createDocumentFragment();
+
+            while ((match = fractionPattern.exec(text))) {
+                fragment.append(document.createTextNode(text.slice(lastIndex, match.index)));
+                const fraction = document.createElement('span');
+                fraction.className = 'math-fraction';
+                fraction.setAttribute('role', 'math');
+                const numeratorText = match[1].replace(/^\((.*)\)$/, '$1');
+                const denominatorText = match[2].replace(/^\((.*)\)$/, '$1');
+                fraction.setAttribute('aria-label', `${numeratorText} geteilt durch ${denominatorText}`);
+                const numerator = document.createElement('span');
+                numerator.textContent = numeratorText;
+                const denominator = document.createElement('span');
+                denominator.textContent = denominatorText;
+                fraction.append(numerator, denominator);
+                fragment.append(fraction);
+                lastIndex = fractionPattern.lastIndex;
+            }
+
+            if (lastIndex) {
+                fragment.append(document.createTextNode(text.slice(lastIndex)));
+                textNode.replaceWith(fragment);
+            }
+        });
+    }
+
     function renderTopics() {
         const selected = topicById(activeTopic);
         const selectedLesson = selected.lessons.find(lesson => lesson.id === activeSubtopic);
@@ -603,6 +639,7 @@
                     </article>
                     <button class="math-button math-button-primary" type="button" data-open-practice="${selected.id}" data-open-subtopic="${selectedLesson.id}">Passende Übungen zu „${selectedLesson.title}“ →</button>
                 </section>`;
+            formatFractions(document.getElementById('mathViewTopics'));
             return;
         }
         document.getElementById('mathViewTopics').innerHTML = `
@@ -618,6 +655,7 @@
                     <button class="math-button math-button-primary" type="button" data-open-practice="${selected.id}">Zu den ${selected.title}-Übungen →</button>
                 </section>
             </div>`;
+        formatFractions(document.getElementById('mathViewTopics'));
     }
 
     function taskInput(task, value = '') {
@@ -651,6 +689,7 @@
                     <ol class="math-solution" data-solution="${task.id}" ${state.solution ? '' : 'hidden'}>${task.steps.map(step => `<li>${step}</li>`).join('')}</ol>
                 </article>`;
             }).join('')}</div>`;
+        formatFractions(document.getElementById('mathViewPractice'));
     }
 
     function randomInteger(min, max) {
@@ -725,6 +764,7 @@
                 </div>
                 <p class="math-feedback ${mentalMathState.feedback.startsWith('Richtig') ? 'is-correct' : 'is-incorrect'}" aria-live="polite" ${mentalMathState.feedback ? '' : 'hidden'}>${escapeHtml(mentalMathState.feedback)}</p>
             </article>`;
+        formatFractions(document.getElementById('mathViewMental'));
     }
 
     function formatTime(seconds) {
@@ -746,6 +786,7 @@
                 <div class="math-notice"><strong>Bearbeitungszeit: 135 Minuten.</strong> Die Zeit läuft für die gesamte Prüfung. A1 und A2 sind Pflichtteile; im Wahlteil B bearbeitest du genau zwei von drei Aufgabenangeboten.</div>
                 <div class="math-notice">Dies ist eine selbst erstellte Übungssimulation, keine Originalprüfung. Die Notenanzeige ist eine Orientierung und kein amtlicher Notenschlüssel.</div>
                 <button type="button" class="math-button math-button-primary" data-exam-start>Prüfung starten</button>`;
+            formatFractions(host);
             return;
         }
         if (examState.phase === 'a1') {
@@ -753,6 +794,7 @@
                 <div class="math-exam-topline"><div><span class="math-eyebrow">PFLICHTTEIL A1</span><h2>Bearbeite alle Aufgaben aus A1</h2></div><div class="math-timer" role="timer" aria-live="off">${formatTime(examState.remainingSeconds)}</div></div>
                 ${renderExamQuestions(exam.a1)}
                 <button type="button" class="math-button math-button-primary" data-exam-next>Weiter zu Pflichtteil A2</button>`;
+            formatFractions(host);
             return;
         }
         if (examState.phase === 'a2b') {
@@ -783,6 +825,7 @@
                 `).join('') : ''}
                 <p class="math-notice" aria-live="polite">${examState.bChoices.length === 2 ? 'Beide Wahlaufgaben ausgewählt. Du kannst die Prüfung abgeben.' : 'Wähle genau zwei Wahlaufgaben, um die Prüfung abzugeben.'}</p>
                 <button type="button" class="math-button math-button-primary" data-exam-submit ${examState.bChoices.length === 2 ? '' : 'disabled'}>Prüfung auswerten</button>`;
+            formatFractions(host);
             return;
         }
         renderExamResults();
@@ -901,6 +944,7 @@
                 <details><summary>Lösungsweg anzeigen</summary><ol>${task.steps.map(step => `<li>${step}</li>`).join('')}</ol></details>
             </article>`).join('')}</div>
             <button type="button" class="math-button math-button-primary" data-exam-reset>Nochmal üben</button>`;
+        formatFractions(document.getElementById('mathViewExam'));
     }
 
     function switchView(view) {
