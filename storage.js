@@ -185,6 +185,53 @@
         }
     }
 
+    async function registerExercises(subjectId, exerciseIds, completedIds = []) {
+        if (!subjectId || !Array.isArray(exerciseIds) || !Array.isArray(completedIds)) {
+            throw new TypeError('Für den Übungsfortschritt werden ein Fach und Aufgabenlisten benötigt.');
+        }
+
+        return window.LernraumDB.update('lernraumUebungen', state => {
+            const subjects = state && typeof state === 'object' && state.subjects ? state.subjects : {};
+            const current = subjects[subjectId] || { available: [], completed: [] };
+            const available = new Set(Array.isArray(current.available) ? current.available : []);
+            const completed = new Set(Array.isArray(current.completed) ? current.completed : []);
+            exerciseIds.filter(id => typeof id === 'string' && id).forEach(id => available.add(id));
+            completedIds.filter(id => typeof id === 'string' && id).forEach(id => completed.add(id));
+
+            return {
+                ...state,
+                subjects: {
+                    ...subjects,
+                    [subjectId]: { available: [...available], completed: [...completed] }
+                }
+            };
+        });
+    }
+
+    async function recordExerciseAttempt(subjectId, exerciseId) {
+        if (!subjectId || typeof exerciseId !== 'string' || !exerciseId) {
+            throw new TypeError('Für den Übungsfortschritt werden ein Fach und eine Aufgaben-ID benötigt.');
+        }
+
+        return window.LernraumDB.update('lernraumUebungen', state => {
+            const subjects = state && typeof state === 'object' && state.subjects ? state.subjects : {};
+            const current = subjects[subjectId] || { available: [], completed: [] };
+            const completed = new Set(Array.isArray(current.completed) ? current.completed : []);
+            completed.add(exerciseId);
+            return {
+                ...state,
+                subjects: {
+                    ...subjects,
+                    [subjectId]: {
+                        ...current,
+                        available: Array.isArray(current.available) ? current.available : [],
+                        completed: [...completed]
+                    }
+                }
+            };
+        });
+    }
+
     window.LernraumDB = {
         async get(key) {
             await cloudReady;
@@ -203,6 +250,8 @@
         },
         getLocal,
         setLocal,
+        registerExercises,
+        recordExerciseAttempt,
         setCloudReady(promise) {
             cloudReady = Promise.resolve(promise);
         }

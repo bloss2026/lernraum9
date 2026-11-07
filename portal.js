@@ -1,5 +1,6 @@
 const subjects = [
     { id: 'deutsch', name: 'Deutsch', icon: '📖', file: 'deutsch.html', group: 'Sprachen' },
+    { id: 'englisch', name: 'Englisch', icon: '🇬🇧', file: 'englisch.html', group: 'Sprachen', note: 'Themen und Übungen für Englisch kommen später.' },
     { id: 'mathematik', name: 'Mathematik', icon: '📐', file: 'mathematik.html', group: 'Mathematik', available: true, note: 'Zehn Themengebiete mit Erklärungen und Übungen.' },
     { id: 'biologie', name: 'Biologie', icon: '🧬', file: 'biologie.html', group: 'Naturwissenschaften' },
     { id: 'chemie', name: 'Chemie', icon: '⚗️', file: 'chemie.html', group: 'Naturwissenschaften', available: true },
@@ -96,76 +97,50 @@ const physicsTopics = [
 
 const currentSubject = subjects.find(subject => subject.id === document.documentElement.dataset.subject);
 const app = document.getElementById('portalApp');
-const subjectProgressTotals = {
-    mathematik: 10,
-    physik: 9,
-    chemie: 10
-};
-
-async function readSubjectProgressState() {
-    if (!window.LernraumDB) return { subjects: {} };
-    const state = await window.LernraumDB.get('lernraumFachFortschritte');
-    return state && typeof state === 'object' ? state : { subjects: {} };
-}
-
-async function updateSubjectProgress(subjectId, topicId) {
-    if (!subjectId || !window.LernraumDB) return;
-
-    const state = await readSubjectProgressState();
-    state.subjects = state.subjects || {};
-    const entry = state.subjects[subjectId] || { topics: [] };
-    const topics = Array.isArray(entry.topics) ? entry.topics : [];
-    if (topicId && !topics.includes(topicId)) {
-        topics.push(topicId);
-    }
-
-    state.subjects[subjectId] = {
-        ...entry,
-        topics,
-        lastUpdated: Date.now()
-    };
-
-    await window.LernraumDB.set('lernraumFachFortschritte', state);
-    refreshSubjectProgressCards();
-}
-
-async function currentSubjectProgress(subjectId) {
-    const state = await readSubjectProgressState();
-    const entry = state.subjects && state.subjects[subjectId] ? state.subjects[subjectId] : { topics: [] };
-    const topics = Array.isArray(entry.topics) ? entry.topics : [];
-    const total = subjectProgressTotals[subjectId] || Math.max(topics.length, 1);
-    const completed = Math.min(topics.length, total);
-    return {
-        completed,
-        total,
-        percent: total ? Math.round((completed / total) * 100) : 0
-    };
-}
+const exerciseSubjects = new Set(['mathematik', 'chemie', 'physik']);
 
 function refreshSubjectProgressCards() {
     if (!document.querySelector('[data-progress-subject]')) return;
 
-    Object.keys(subjectProgressTotals).forEach(async subjectId => {
-        const nodes = document.querySelectorAll(`[data-progress-subject="${subjectId}"]`);
-        const progress = await currentSubjectProgress(subjectId);
-        nodes.forEach(node => {
-            node.textContent = `Fortschritt: ${progress.completed}/${progress.total}`;
+    const updateProgress = (subjectId, entry) => {
+        const available = Array.isArray(entry?.available) ? entry.available : [];
+        const completedIds = new Set(Array.isArray(entry?.completed) ? entry.completed : []);
+        const completed = available.length
+            ? available.filter(id => completedIds.has(id)).length
+            : completedIds.size;
+        const percent = available.length ? Math.round((completed / available.length) * 100) : 0;
+        document.querySelectorAll(`[data-progress-subject="${subjectId}"]`).forEach(node => {
+            node.textContent = available.length
+                ? `${completed} von ${available.length} Aufgaben bearbeitet`
+                : `${completed} Aufgaben bearbeitet`;
         });
-    });
+        document.querySelectorAll(`[data-progress-bar="${subjectId}"]`).forEach(bar => {
+            bar.style.width = `${percent}%`;
+            bar.parentElement.hidden = !available.length;
+            const progressBar = bar.parentElement;
+            progressBar.setAttribute('aria-valuenow', String(percent));
+            progressBar.setAttribute('aria-valuetext', available.length
+                ? `${completed} von ${available.length} Aufgaben bearbeitet`
+                : `${completed} Aufgaben bearbeitet`);
+        });
+    };
 
-    if (window.LernraumDB) {
-        window.LernraumDB.get('chemieLernState').then(state => {
-            const completed = Array.isArray(state?.completedModules) ? state.completedModules.length : 0;
-            const total = subjectProgressTotals.chemie || 10;
-            document.querySelectorAll('[data-progress-subject="chemie"]').forEach(node => {
-                node.textContent = `Fortschritt: ${Math.min(completed, total)}/${total}`;
-            });
-        }).catch(() => {
-            document.querySelectorAll('[data-progress-subject="chemie"]').forEach(node => {
-                node.textContent = 'Fortschritt: 0/10';
-            });
-        });
-    }
+    window.LernraumDB.get('lernraumUebungen').then(state => {
+        const progressBySubject = state?.subjects || {};
+        return Promise.all(Array.from(exerciseSubjects, async subjectId => {
+            const entry = progressBySubject[subjectId] || { available: [], completed: [] };
+            if (subjectId === 'mathematik') {
+                const legacyState = await window.LernraumDB.get('mathematikLearningState');
+                const legacyCompleted = Object.entries(legacyState?.feedback || {})
+                    .filter(([, feedback]) => feedback?.checked)
+                    .map(([id]) => id);
+                entry.completed = [...new Set([...(entry.completed || []), ...legacyCompleted])];
+            }
+            updateProgress(subjectId, entry);
+        }));
+    }).catch(error => {
+        console.error('Der Übungsfortschritt konnte im Dashboard nicht geladen werden:', error);
+    });
 }
 
 function renderNavigation(activeSubjectId = '') {
@@ -231,71 +206,34 @@ function renderCloudMenu() {
     `;
 }
 
-function renderSubjectCards() {
-    return subjects.map(subject => `
-        <a class="subject-card portal-subject-card ${subject.available ? '' : 'placeholder-card'}" href="./${subject.file}" data-subject-card data-subject-name="${subject.name.toLowerCase()}">
-            <span class="subject-icon" aria-hidden="true">${subject.icon}</span>
-            <span class="subject-status ${subject.available ? 'available' : ''}">
-                ${subject.available ? 'Themen verfügbar' : 'Platzhalter · Inhalte folgen'}
-            </span>
-            <div class="subject-progress" data-progress-subject="${subject.id}">Fortschritt: --</div>
-            <h3>${subject.name}</h3>
-            <p>${subject.available
-                ? 'Themenübersicht und Lernmodule'
-                : subject.note || `Noch keine Lerninhalte für ${subject.name} hinterlegt.`}</p>
-            <span class="portal-card-link">Fach öffnen →</span>
-        </a>
-    `).join('');
-}
-
 function renderDashboard() {
     return `
-        <section class="portal-hero">
-            <span class="pill">LERNRAUM · KLASSE 9</span>
-            <h1>Willkommen in deinem Lernraum 👋</h1>
-            <p>Wähle ein Fach über die Navigation und öffne dort ein Thema. Die Inhalte werden Schritt für Schritt ergänzt.</p>
-        </section>
-        <section class="portal-stats" aria-label="Lernstand">
-            <article class="card">
-                <h2>Chemie-Module</h2>
-                <p class="portal-stat-number" id="portalChemistryModules">— / 10</p>
-                <p>Module abgeschlossen</p>
-            </article>
-            <article class="card">
-                <h2>Quiz-Bestleistung</h2>
-                <p class="portal-stat-number" id="portalChemistryBestScore">—%</p>
-                <p>Dein bisheriger Chemie-Quizstand</p>
-            </article>
-            <article class="card">
-                <h2>Fächer</h2>
-                <p class="portal-stat-number">${subjects.length}</p>
-                <p>Chemie mit Lerninhalten, weitere Fächer als Platzhalter</p>
-            </article>
-        </section>
-        <section class="portal-content-section">
+        <section class="dashboard-welcome" aria-labelledby="dashboardWelcomeHeading">
             <div class="portal-section-heading">
-                <div><span class="pill">FÄCHERÜBERSICHT</span><h2>Fach wählen</h2></div>
+                <h1 id="dashboardWelcomeHeading">Willkommen in deinem Lernraum</h1>
+                <p>Hier findest du alle Fächer und deinen Lernfortschritt auf einen Blick.</p>
             </div>
-            <div class="portal-search" role="search">
-                <label class="portal-search-label" for="subjectSearch">Fach suchen</label>
-                <input id="subjectSearch" type="search" placeholder="z. B. Mathematik, Physik, Chemie" aria-label="Fächer suchen" autocomplete="off">
-            </div>
-            <div class="subject-grid" id="subjectGrid">
-                ${renderSubjectCards()}
+        </section>
+        <section class="dashboard-progress" aria-labelledby="dashboardProgressHeading">
+            <h2 id="dashboardProgressHeading">Deine Fächer</h2>
+            <div class="dashboard-progress-list">
+                ${subjects.map(subject => `
+                    <article class="card dashboard-progress-item">
+                        <div class="dashboard-progress-heading">
+                            <span class="subject-icon" aria-hidden="true">${subject.icon}</span>
+                            <h3>${subject.name}</h3>
+                        </div>
+                        ${exerciseSubjects.has(subject.id) ? `
+                            <span class="dashboard-progress-label" data-progress-subject="${subject.id}">Wird geladen …</span>
+                            <div class="progress-bar-container" role="progressbar" aria-label="${subject.name} Lernfortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="progress-bar" data-progress-bar="${subject.id}"></div>
+                            </div>
+                        ` : `<span class="dashboard-progress-label">${subject.id === 'englisch' ? 'Themen kommen später' : 'Für dieses Fach sind noch keine Übungen verfügbar'}</span>`}
+                    </article>
+                `).join('')}
             </div>
         </section>
     `;
-}
-
-function loadDashboardState() {
-    window.LernraumDB.get('chemieLernState').then(state => {
-        document.getElementById('portalChemistryModules').textContent =
-            `${Array.isArray(state?.completedModules) ? state.completedModules.length : 0} / 10`;
-        document.getElementById('portalChemistryBestScore').textContent =
-            `${Number.isFinite(state?.quizBestScore) ? state.quizBestScore : 0}%`;
-    }).catch(error => {
-        console.error('Der Chemie-Lernstand konnte im Dashboard nicht aus IndexedDB geladen werden:', error);
-    });
 }
 
 function renderSubjectPage(subject) {
@@ -811,13 +749,12 @@ if (app) {
     } else {
         app.innerHTML = `
             ${renderNavigation(subject?.id || '')}
-            <main class="portal-main">
-                <header class="portal-topbar">
+            <main class="portal-main ${page === 'home' ? 'portal-home-main' : ''}">
+                <header class="portal-topbar ${page === 'home' ? 'portal-home-topbar' : ''}">
                     <button class="portal-menu-toggle" type="button" aria-controls="portalSidebar" aria-expanded="false">
                         <span aria-hidden="true">☰</span><span>Fächer</span>
                     </button>
-                    <span>Lernplattform · Klasse 9</span>
-                    ${page === 'home' ? '' : '<a href="./index.html">Startseite</a>'}
+                    ${page === 'home' ? '' : '<span>Lernplattform · Klasse 9</span><a href="./index.html">Startseite</a>'}
                 </header>
                 ${page === 'home' ? renderDashboard() : renderSubjectPage(subject)}
                 ${page === 'home' ? '' : '<footer class="portal-footer">Lernraum 9 · Fachinhalte werden fortlaufend ergänzt.</footer>'}
@@ -862,8 +799,6 @@ if (app) {
     }
 
     refreshSubjectProgressCards();
-
-    if (page === 'home' && window.LernraumDB) loadDashboardState();
 
     const cloudAuthForm = document.getElementById('cloudAuthForm');
     const cloudSyncStatus = document.getElementById('cloudSyncStatus');
@@ -979,18 +914,4 @@ if (app) {
         });
     });
 
-    if (page === 'home') {
-        const subjectSearchInput = document.getElementById('subjectSearch');
-        if (subjectSearchInput) {
-            const filterCards = () => {
-                const query = subjectSearchInput.value.trim().toLowerCase();
-                document.querySelectorAll('[data-subject-card]').forEach(card => {
-                    const matches = !query || card.dataset.subjectName.includes(query);
-                    card.classList.toggle('hidden', !matches);
-                });
-            };
-            subjectSearchInput.addEventListener('input', filterCards);
-            filterCards();
-        }
-    }
 }

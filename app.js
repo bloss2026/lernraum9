@@ -1722,6 +1722,9 @@
         function checkExercise(button, selectedOption) {
             if (!exerciseQuestionRevealed) return;
             const exercise = exercisesData[currentExerciseIndex];
+            window.LernraumDB.recordExerciseAttempt('chemie', `atom-exercise-${currentExerciseIndex}`).catch(error => {
+                console.error('Der bearbeitete Chemie-Aufgabenstand konnte nicht gespeichert werden:', error);
+            });
             const feedback = document.getElementById('exerciseFeedback');
             const options = document.querySelectorAll('#exerciseOptions button');
             options.forEach(option => { option.disabled = true; });
@@ -1966,6 +1969,12 @@
 
         window.onload = async () => {
             appState = await loadState();
+            window.LernraumDB.registerExercises(
+                'chemie',
+                exercisesData.map((exercise, index) => `atom-exercise-${index}`)
+            ).catch(error => {
+                console.error('Die Chemie-Übungen konnten nicht für den Lernfortschritt registriert werden:', error);
+            });
             updateDashboard();
             if (document.getElementById('subjectGrid')) renderSubjectCatalog();
             renderProgress();

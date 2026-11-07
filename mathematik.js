@@ -1145,6 +1145,9 @@
             }
             feedbackState[task.id] = { ...(feedbackState[task.id] || {}), value, checked: true, correct: isCorrect(task, value) };
             persistPractice();
+            window.LernraumDB.recordExerciseAttempt('mathematik', task.id).catch(error => {
+                console.error('Der bearbeitete Mathematik-Aufgabenstand konnte nicht gespeichert werden:', error);
+            });
             const feedback = document.querySelector(`[data-feedback="${task.id}"]`);
             feedback.textContent = feedbackState[task.id].correct ? 'Richtig! Gut gerechnet.' : 'Noch nicht richtig. Prüfe deinen Rechenweg und versuche es erneut.';
             feedback.className = `math-feedback ${feedbackState[task.id].correct ? 'is-correct' : 'is-incorrect'}`;
@@ -1205,6 +1208,11 @@
 
     root.setAttribute('aria-busy', 'true');
     loadState().then(() => {
+        const exerciseIds = exercises.map(task => task.id);
+        const completedIds = Object.keys(feedbackState).filter(id => feedbackState[id]?.checked);
+        window.LernraumDB.registerExercises('mathematik', exerciseIds, completedIds).catch(error => {
+            console.error('Die Mathematik-Übungen konnten nicht für den Lernfortschritt registriert werden:', error);
+        });
         renderTopics();
         renderPractice();
         if (['practice', 'mental'].includes(requestedView)) {

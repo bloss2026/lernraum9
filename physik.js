@@ -505,6 +505,10 @@
     const lesson = lessons.find(item => item.id === root.dataset.subtopic);
     const isPractice = new URLSearchParams(window.location.search).get('view') === 'practice';
     const taskState = new Map();
+    const exerciseIds = lessons.flatMap(item => (item.exercises || []).map((task, index) => `${item.id}-${index + 1}`));
+    window.LernraumDB.registerExercises('physik', exerciseIds).catch(error => {
+        console.error('Die Physik-Übungen konnten nicht für den Lernfortschritt registriert werden:', error);
+    });
 
     if (!lesson) {
         view.innerHTML = '<section class="math-panel"><h2>Unterthema nicht gefunden</h2><p>Bitte wähle ein Unterthema aus der Physik-Übersicht.</p><a class="portal-back-link" href="./physik.html">Zur Physik-Themenübersicht</a></section>';
@@ -710,9 +714,15 @@
                 state.feedback = 'incorrect';
                 state.message = 'Gib zuerst eine Antwort ein.';
             } else if (matchesAnswer(task, value)) {
+                window.LernraumDB.recordExerciseAttempt('physik', button.dataset.physicsCheck).catch(error => {
+                    console.error('Der bearbeitete Physik-Aufgabenstand konnte nicht gespeichert werden:', error);
+                });
                 state.feedback = 'correct';
                 state.message = 'Richtig! Gut gelöst.';
             } else {
+                window.LernraumDB.recordExerciseAttempt('physik', button.dataset.physicsCheck).catch(error => {
+                    console.error('Der bearbeitete Physik-Aufgabenstand konnte nicht gespeichert werden:', error);
+                });
                 state.feedback = 'incorrect';
                 state.message = 'Noch nicht richtig. Prüfe deinen Rechenweg und versuche es erneut.';
             }

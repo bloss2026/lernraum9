@@ -82,6 +82,10 @@
         { prompt: 'Eine Sammellinse hat f = 10 cm; der Gegenstand steht g = 30 cm entfernt. Berechne b.', answer: 15, unit: 'cm', steps: ['Linsengleichung: 1/f = 1/g + 1/b; nach 1/b umstellen: 1/b = 1/f − 1/g.', 'Werte einsetzen: 1/b = 1/(10 cm) − 1/(30 cm) = 3/(30 cm) − 1/(30 cm) = 2/(30 cm) = 1/(15 cm).', 'Kehrwert bilden: b = 15 cm.'] }
     ];
 
+    window.LernraumDB.registerExercises('physik', exercises.map((exercise, index) => `formel-${index}`)).catch(error => {
+        console.error('Die Physik-Formelübungen konnten nicht für den Lernfortschritt registriert werden:', error);
+    });
+
     root.innerHTML = `
         <div class="physics-formula-grid">
             ${formulaGroups.map((group, groupIndex) => `
@@ -143,6 +147,11 @@
         feedback.className = `physics-formula-feedback ${isCorrect ? 'is-correct' : 'is-incorrect'}`;
         feedback.hidden = false;
 
+        if (input.value.trim()) {
+            window.LernraumDB.recordExerciseAttempt('physik', `formel-${index}`).catch(error => {
+                console.error('Der bearbeitete Physik-Aufgabenstand konnte nicht gespeichert werden:', error);
+            });
+        }
         if (isCorrect) solved.add(index);
         score.textContent = solved.size === exercises.length
             ? `Alle ${exercises.length} Aufgaben richtig gelöst – starke Leistung!`

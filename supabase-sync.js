@@ -6,7 +6,7 @@
     const appUrl = 'https://bloss2026.github.io/lernraum9/';
     const sessionKey = 'lernraum9.supabase.session';
     const activeUserKey = 'lernraum9.supabase.active-user';
-    const syncedKeys = ['chemieLernState', 'mathematikLearningState', 'lernraumFachFortschritte'];
+    const syncedKeys = ['chemieLernState', 'mathematikLearningState', 'lernraumFachFortschritte', 'lernraumUebungen'];
     const localChangePrefix = 'lernraum9.supabase.changed.';
     const accountCachePrefix = 'lernraum9.supabase.account.';
     let session = null;
