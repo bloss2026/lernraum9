@@ -1,6 +1,6 @@
 const subjects = [
     { id: 'deutsch', name: 'Deutsch', icon: '📖', file: 'deutsch.html', group: 'Sprachen' },
-    { id: 'englisch', name: 'Englisch', icon: '🇬🇧', file: 'englisch.html', group: 'Sprachen', note: 'Themen und Übungen für Englisch kommen später.' },
+    { id: 'englisch', name: 'Englisch', icon: '🇬🇧', file: 'englisch.html', group: 'Sprachen', note: 'Lerne englische Vokabeln mit Karteikarten, Quiz und Schreibtraining.' },
     { id: 'mathematik', name: 'Mathematik', icon: '📐', file: 'mathematik.html', group: 'Mathematik', available: true, note: 'Zehn Themengebiete mit Erklärungen und Übungen.' },
     { id: 'biologie', name: 'Biologie', icon: '🧬', file: 'biologie.html', group: 'Naturwissenschaften' },
     { id: 'chemie', name: 'Chemie', icon: '⚗️', file: 'chemie.html', group: 'Naturwissenschaften', available: true },
@@ -228,7 +228,7 @@ function renderDashboard() {
                             <div class="progress-bar-container" role="progressbar" aria-label="${subject.name} Lernfortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                                 <div class="progress-bar" data-progress-bar="${subject.id}"></div>
                             </div>
-                        ` : `<span class="dashboard-progress-label">${subject.id === 'englisch' ? 'Themen kommen später' : 'Für dieses Fach sind noch keine Übungen verfügbar'}</span>`}
+                        ` : `<span class="dashboard-progress-label">${subject.id === 'englisch' ? 'Vokabeltrainer verfügbar' : 'Für dieses Fach sind noch keine Übungen verfügbar'}</span>`}
                     </article>
                 `).join('')}
             </div>
@@ -237,6 +237,31 @@ function renderDashboard() {
 }
 
 function renderSubjectPage(subject) {
+    if (subject.id === 'englisch') {
+        return `
+            <section class="portal-hero portal-subject-hero">
+                <a class="portal-back-link" href="./index.html">← Dashboard</a>
+                <span class="pill">${subject.icon} ENGLISCH · KLASSE 9</span>
+                <h1>Englisch</h1>
+                <p>Übe englische Vokabeln in kleinen Einheiten und in deinem Tempo. Deine Lernkarten und Fortschritte findest du an einem Ort.</p>
+            </section>
+            <section class="portal-content-section">
+                <div class="portal-section-heading">
+                    <div><span class="pill">LERNWERKZEUG</span><h2>Englisch lernen</h2></div>
+                    <p>Wähle einen Lernbereich und starte ganz ohne Zeitdruck.</p>
+                </div>
+                <div class="subject-grid">
+                    <a class="subject-card portal-subject-card" href="./vokabel.html">
+                        <span class="subject-icon" aria-hidden="true">🗂️</span>
+                        <span class="subject-status available">Karteikarten · Quiz · Schreibtraining</span>
+                        <h3>Vokabeltrainer</h3>
+                        <p>Wiederhole Wörter, übe Übersetzungen und behalte deinen Lernfortschritt im Blick.</p>
+                        <span class="portal-card-link">Trainer öffnen →</span>
+                    </a>
+                </div>
+            </section>
+        `;
+    }
     if (subject.id === 'physik') {
         return `
             <section class="portal-hero portal-subject-hero">
@@ -697,6 +722,21 @@ if (app) {
                 <header class="portal-topbar"><span>Lernplattform · Klasse 9</span><a href="./index.html">Startseite</a></header>
                 ${renderMathLearningPage()}
                 <footer class="portal-footer">Lernraum 9 · Mathematik · Klasse 9.</footer>
+            </main>
+        `;
+    } else if (page === 'vocabulary') {
+        app.innerHTML = `
+            ${renderNavigation('englisch')}
+            <main class="portal-main">
+                <header class="portal-topbar">
+                    <button class="portal-menu-toggle" type="button" aria-controls="portalSidebar" aria-expanded="false">
+                        <span aria-hidden="true">☰</span><span>Fächer</span>
+                    </button>
+                    <span>Lernplattform · Klasse 9</span>
+                    <a href="./englisch.html">Englisch</a>
+                </header>
+                <div id="vocabularyApp"></div>
+                <footer class="portal-footer">Lernraum 9 · Englisch · Vokabeltrainer.</footer>
             </main>
         `;
     } else if (page === 'physics-formulas') {
