@@ -491,7 +491,6 @@
             render();
         } else if (cloud.status === 'synced' && cloud.email) {
             refreshFromCloud(false).then(() => {
-                setNotice('Dein Lernstand ist automatisch mit deinem Lernkonto synchronisiert.', 'success');
                 render();
             }).catch(error => {
                 setNotice(error.message || 'Dein Lernstand konnte nicht automatisch geladen werden.', 'error');
@@ -509,7 +508,6 @@
         try {
             await window.LernraumCloud.syncNow();
             await refreshFromCloud(false);
-            setNotice('Dein Lernstand ist automatisch mit deinem Lernkonto synchronisiert.', 'success');
         } catch (error) {
             setNotice(error.message || 'Dein Lernstand konnte nicht automatisch synchronisiert werden.', 'error');
         }
@@ -524,7 +522,6 @@
 
     render();
     refreshFromCloud().then(() => {
-        setNotice('Dein Lernstand ist automatisch mit deinem Lernkonto synchronisiert.', 'success');
         render();
     }).catch(error => {
         state.loaded = true;
