@@ -47,7 +47,8 @@
         if (/user already registered/i.test(message)) return 'Für diese E-Mail-Adresse gibt es bereits ein Konto. Melde dich bitte an.';
         if (/password should be at least/i.test(message)) return 'Das Passwort ist zu kurz. Verwende mindestens 6 Zeichen.';
         if (/rate limit/i.test(message)) return 'Zu viele Versuche. Bitte warte kurz und versuche es erneut.';
-        if (/learning_progress|schema cache/i.test(message)) return 'Die Lernstands-Datenbank ist noch nicht eingerichtet. Bitte zuerst die Supabase-Migration ausführen.';
+        if (/learning_progress_storage_key_check|check constraint.*storage_key|storage_key.*check constraint/i.test(message)) return 'Die Supabase-Datenbank benötigt noch die Migration 20261109161500_learning_progress_exercises.sql. Bitte führe sie im Supabase-Projekt aus.';
+        if (/PGRST205|schema cache|relation .*learning_progress.*does not exist/i.test(message)) return 'Die Lernstands-Tabelle fehlt in Supabase. Bitte führe zuerst die Lernstands-Migrationen aus.';
         return message || 'Die Verbindung zum Lernkonto ist fehlgeschlagen.';
     }
 

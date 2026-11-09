@@ -20,11 +20,19 @@ Der Einstieg zum Trainer befindet sich in der Englisch-Übersicht.
 
 Supabase einrichten
 -------------------
-Im Supabase-Projekt die Migration
-supabase/migrations/20261107100000_vocabulary_trainer.sql ausführen. Sie
-erstellt nutzergebundene Tabellen für Lernstände, Tagesziele, Aktivitäten
-und Quiz-Ergebnisse, aktiviert Row Level Security und richtet die Funktion
-zum sicheren Hochzählen täglicher Übungseinheiten ein.
+Im Supabase-Projekt die Migrationen in supabase/migrations in zeitlicher
+Reihenfolge ausführen. Dazu gehören die Lernstands-Migration
+20261106170000_learning_progress.sql, die Migration
+20261107100000_vocabulary_trainer.sql und die Erweiterung
+20261109161500_learning_progress_exercises.sql. Die Lernstands-Migrationen
+richten die Synchronisierung der Fachfortschritte und Übungen ein. Die
+Vokabeltrainer-Migration erstellt nutzergebundene Tabellen für Lernstände,
+Tagesziele, Aktivitäten und Quiz-Ergebnisse, aktiviert Row Level Security
+und richtet die Funktion zum sicheren Hochzählen täglicher Übungseinheiten
+ein.
+Wenn die ersten Migrationen bereits ausgeführt wurden, muss nur die neue
+Erweiterung 20261109161500_learning_progress_exercises.sql nachträglich im
+Supabase SQL Editor ausgeführt werden.
 
 Der Trainer verwendet die bestehende Lernraum-9-Supabase-Konfiguration und
 Anmeldung. Nutzer müssen über „Lernkonto“ auf dem Dashboard angemeldet sein.
