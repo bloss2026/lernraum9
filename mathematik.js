@@ -244,11 +244,13 @@
         'linear-functions': {
             paragraphs: [
                 'Eine Funktion ordnet jedem erlaubten x-Wert genau einen y-Wert zu. Bei einer linearen Funktion ist der Graph eine Gerade. Eine übliche Schreibweise ist y = mx + b (auch y = mx + n). m beschreibt, wie stark y sich ändert, wenn x um 1 wächst; b ist der y-Wert bei x = 0.',
-                'Um den Funktionswert zu berechnen, setzt du einen x-Wert für x ein und rechnest aus. Um eine lineare Funktion zu zeichnen, reicht es, zwei Punkte zu bestimmen und mit dem Lineal zu verbinden. Ein sinnvoller Startpunkt ist der y-Achsenabschnitt (0|b); einen zweiten Punkt findest du mit der Steigung.'
+                'Um den Funktionswert zu berechnen, setzt du einen x-Wert für x ein und rechnest aus. Um eine lineare Funktion zu zeichnen, reicht es, zwei Punkte zu bestimmen und mit dem Lineal zu verbinden. Ein sinnvoller Startpunkt ist der y-Achsenabschnitt (0|b); einen zweiten Punkt findest du mit der Steigung.',
+                'Die Steigung m kannst du aus zwei Punkten der Geraden berechnen: m = (y₂ − y₁) / (x₂ − x₁). Rechne zuerst die Änderung der y-Werte und teile sie durch die Änderung der x-Werte. Die Punktreihenfolge muss oben und unten gleich bleiben. Beispiel: P₁(1|2) und P₂(4|8): m = (8 − 2) / (4 − 1) = 6 / 3 = 2. Die Gerade steigt also pro Schritt nach rechts um 2.'
             ],
-            steps: ['Gleichung in die Form y = mx + b bringen.', 'Steigung m und y-Achsenabschnitt b ablesen.', 'Für einen Funktionswert den x-Wert einsetzen.', 'Für einen Graphen mindestens zwei passende Punkte berechnen.', 'Punkte ins Koordinatensystem eintragen und verbinden.'],
+            steps: ['Gleichung in die Form y = mx + b bringen.', 'Steigung m und y-Achsenabschnitt b ablesen. Wenn zwei Punkte gegeben sind, m = (y₂ − y₁) / (x₂ − x₁) berechnen.', 'Für m die y-Änderung durch die x-Änderung teilen; bei beiden Differenzen dieselbe Punktreihenfolge verwenden.', 'Für einen Funktionswert den x-Wert einsetzen.', 'Für einen Graphen mindestens zwei passende Punkte berechnen.', 'Punkte ins Koordinatensystem eintragen und verbinden.'],
             examples: [
                 { title: 'Funktionswert berechnen', lines: ['y = 2x + 1; gesucht ist y für x = 3.', 'y = 2 · 3 + 1', 'y = 7. Der Punkt (3|7) liegt auf der Geraden.'] },
+                { title: 'Steigung m aus zwei Punkten berechnen', lines: ['P₁(1|2), P₂(4|8): m = (y₂ − y₁) / (x₂ − x₁).', 'y-Werte einsetzen: 8 − 2 = 6; x-Werte einsetzen: 4 − 1 = 3.', 'm = 6 / 3 = 2.'] },
                 { title: 'Gerade aus der Gleichung zeichnen', lines: ['y = 2x + 1: b = 1, also erster Punkt (0|1).', 'm = 2 = 2/1: 1 nach rechts, 2 nach oben.', 'Zweiter Punkt (1|3); die beiden Punkte verbinden.'] }
             ],
             commonMistake: 'Der y-Achsenabschnitt ist b, nicht m. Bei y = 2x + 1 schneidet die Gerade die y-Achse bei 1; die Steigung ist 2.',
@@ -617,6 +619,12 @@
         ['Bei y = −4x + 6: Berechne y für x = 2.', -2, 'y =', ['x = 2 einsetzen: y = −4 · 2 + 6.', '−8 + 6 = −2.', 'y = −2.']],
         ['Bei y = 7x − 3: Gib die Steigung m an.', 7, 'm =', ['Mit y = mx + b vergleichen.', 'Der Koeffizient vor x ist die Steigung m.', 'm = 7.']],
         ['Bei y = −2x + 8: Gib den y-Achsenabschnitt b an.', 8, 'b =', ['Mit y = mx + b vergleichen.', 'Der konstante Term ist der y-Achsenabschnitt.', 'b = 8.']]
+    ]);
+    addPracticeSet('linear-functions', [
+        ['Berechne m für die Punkte P₁(1|2) und P₂(4|8).', 2, 'm =', ['m = (y₂ − y₁) / (x₂ − x₁).', 'm = (8 − 2) / (4 − 1) = 6 / 3.', 'm = 2.']],
+        ['Berechne m für die Punkte P₁(2|7) und P₂(5|1).', -2, 'm =', ['m = (y₂ − y₁) / (x₂ − x₁).', 'm = (1 − 7) / (5 − 2) = −6 / 3.', 'm = −2.']],
+        ['Eine Gerade verläuft durch (0|−1) und (3|8). Berechne ihre Steigung m.', 3, 'm =', ['m = (y₂ − y₁) / (x₂ − x₁).', 'm = (8 − (−1)) / (3 − 0) = 9 / 3.', 'm = 3.']],
+        ['Bei einer Geraden wächst x um 4 und y um 10. Berechne m.', 2.5, 'm =', ['m = Änderung von y / Änderung von x.', 'm = 10 / 4.', 'm = 2,5.']]
     ]);
     addPracticeSet('slope', [
         ['Berechne die Steigung zwischen (2|3) und (5|12).', 3, 'm =', ['Änderung y: 12 − 3 = 9.', 'Änderung x: 5 − 2 = 3.', 'm = 9/3 = 3.']],
