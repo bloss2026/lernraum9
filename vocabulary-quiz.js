@@ -3,8 +3,11 @@
 
     function makeQuestion(words, progress, direction = 'en-de', random = Math.random) {
         if (words.length < 2) return null;
+        const questionDirection = direction === 'mixed'
+            ? (random() < 0.5 ? 'en-de' : 'de-en')
+            : direction;
         const word = words[Math.floor(random() * words.length)];
-        const isEnglishToGerman = direction === 'en-de';
+        const isEnglishToGerman = questionDirection === 'en-de';
         const correct = isEnglishToGerman ? word.german : word.english;
         const others = words
             .filter(candidate => candidate.id !== word.id)
@@ -23,7 +26,7 @@
             prompt: isEnglishToGerman ? word.english : word.german,
             correct,
             choices,
-            direction
+            direction: questionDirection
         };
     }
 

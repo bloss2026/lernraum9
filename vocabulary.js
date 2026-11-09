@@ -23,6 +23,7 @@
         throw new Error('Jede Vokabel braucht eine eindeutige ID.');
     }
     const units = [...new Set(words.map(word => word.unit))];
+    const maxQuizQuestions = 20;
     const state = {
         mode: 'dashboard',
         direction: 'en-de',
@@ -43,6 +44,8 @@
         sessionIndex: 0,
         revealed: false,
         question: null,
+        quizQuestionCount: 0,
+        quizFinished: false,
         answered: false,
         answerCorrect: false,
         answerText: '',
@@ -198,12 +201,13 @@
     function renderQuiz() {
         const selectedWords = words.filter(word => !state.sessionUnit || word.unit === state.sessionUnit);
         if (selectedWords.length < 2) return `<section class="vocab-panel"><h2>Multiple Choice</h2>${renderUnitSelector('Unit auswählen')}<p>Für ein Quiz müssen mindestens zwei Vokabeln in der ausgewählten Unit bereitgestellt sein. Es werden keine Antwortmöglichkeiten erfunden.</p></section>`;
-        if (!state.question) return `<section class="vocab-panel"><h2>Multiple Choice</h2>${renderUnitSelector('Unit auswählen')}<p>Eine Frage besteht aus vorhandenen Vokabeln. Bei weniger als vier Wörtern werden nur die verfügbaren Antworten angezeigt.</p><button class="vocab-button" data-action="new-question">Quiz starten</button></section>`;
+        if (state.quizFinished && !state.question) return `<section class="vocab-panel"><h2>Multiple Choice</h2>${renderUnitSelector('Unit auswählen')}<p>Du hast alle ${maxQuizQuestions} Fragen geschafft. Gut gemacht!</p><button class="vocab-button" data-action="restart-quiz">Neue Runde starten</button></section>`;
+        if (!state.question) return `<section class="vocab-panel"><h2>Multiple Choice</h2>${renderUnitSelector('Unit auswählen')}<p>Es gibt pro Runde höchstens ${maxQuizQuestions} Fragen. Die Richtung wechselt zufällig zwischen Englisch → Deutsch und Deutsch → Englisch. Bei weniger als vier Wörtern werden nur die verfügbaren Antworten angezeigt.</p><button class="vocab-button" data-action="new-question">Quiz starten</button></section>`;
         const question = state.question;
-        return `<section class="vocab-panel vocab-quiz-panel">${renderUnitSelector('Unit auswählen')}<div class="vocab-session-heading"><span>Multiple Choice</span><button class="vocab-sound-button" data-action="speak" data-word="${html(question.word.id)}">🔊 Anhören</button></div>
+        return `<section class="vocab-panel vocab-quiz-panel">${renderUnitSelector('Unit auswählen')}<div class="vocab-session-heading"><span>Frage ${state.quizQuestionCount} von ${maxQuizQuestions}</span><button class="vocab-sound-button" data-action="speak" data-word="${html(question.word.id)}">🔊 Anhören</button></div>
             <p class="vocab-question-label">${question.direction === 'en-de' ? 'Was bedeutet dieses englische Wort?' : 'Wie heißt dieses Wort auf Englisch?'}</p><h2 class="vocab-question">${html(question.prompt)}</h2>
             <div class="vocab-choice-grid">${question.choices.map(choice => `<button type="button" class="vocab-choice" data-action="choose" data-choice="${html(choice)}" ${state.answered || state.busy ? 'disabled' : ''}>${html(choice)}</button>`).join('')}</div>
-            ${state.answered ? `<div class="vocab-feedback ${state.answerCorrect ? 'vocab-correct' : 'vocab-incorrect'}" role="status">${state.answerCorrect ? 'Richtig! Gut gemacht.' : `Noch nicht ganz. Die richtige Antwort ist: ${html(question.correct)}`}<button class="vocab-button vocab-next-question" data-action="new-question">Nächste Frage</button></div>` : ''}
+            ${state.answered ? `<div class="vocab-feedback ${state.answerCorrect ? 'vocab-correct' : 'vocab-incorrect'}" role="status">${state.answerCorrect ? 'Richtig! Gut gemacht.' : `Noch nicht ganz. Die richtige Antwort ist: ${html(question.correct)}`}${state.quizFinished ? `<p>Du hast alle ${maxQuizQuestions} Fragen geschafft!</p><button class="vocab-button" data-action="restart-quiz">Neue Runde starten</button>` : '<button class="vocab-button vocab-next-question" data-action="new-question">Nächste Frage</button>'}</div>` : ''}
         </section>`;
     }
 
@@ -333,7 +337,9 @@
 
     function newQuestion() {
         const selectedWords = words.filter(word => !state.sessionUnit || word.unit === state.sessionUnit);
-        state.question = window.VocabularyQuiz.makeQuestion(selectedWords, state.progress, state.direction);
+        const direction = state.mode === 'quiz' ? 'mixed' : state.direction;
+        state.question = window.VocabularyQuiz.makeQuestion(selectedWords, state.progress, direction);
+        if (state.mode === 'quiz') state.quizQuestionCount += 1;
         state.answered = false;
         state.answerCorrect = false;
         state.answer = '';
@@ -351,6 +357,7 @@
         state.answerCorrect = correct;
         state.answer = answer;
         state.answerText = answer;
+        if (mode === 'quiz' && state.quizQuestionCount >= maxQuizQuestions) state.quizFinished = true;
         render();
         await persistReview(word, correct ? 'good' : 'again', mode, correct);
     }
@@ -364,6 +371,8 @@
                 state.mode = button.dataset.mode;
                 state.sessionWords = [];
                 if (state.mode === 'quiz' || state.mode === 'writing') state.question = null;
+                state.quizQuestionCount = 0;
+                state.quizFinished = false;
                 setNotice('');
                 render();
             } else if (action === 'start-session') {
@@ -387,6 +396,11 @@
             } else if (action === 'speak') {
                 speech(button.dataset.word);
             } else if (action === 'new-question') {
+                newQuestion();
+            } else if (action === 'restart-quiz') {
+                state.quizQuestionCount = 0;
+                state.quizFinished = false;
+                state.question = null;
                 newQuestion();
             } else if (action === 'choose') {
                 await answerQuestion(button.dataset.choice, 'quiz');
@@ -437,6 +451,8 @@
             state.sessionUnit = event.target.value;
             state.sessionWords = [];
             state.question = null;
+            state.quizQuestionCount = 0;
+            state.quizFinished = false;
             state.answered = false;
             state.answer = '';
             state.answerText = '';
