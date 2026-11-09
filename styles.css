@@ -1944,6 +1944,22 @@
         }
 
         .cloud-account-actions > p strong { overflow-wrap: anywhere; }
+        .cloud-backup-actions {
+            display: grid;
+            gap: 0.55rem;
+        }
+
+        .cloud-backup-actions button {
+            width: 100%;
+            min-height: 42px;
+        }
+
+        .cloud-backup-actions small,
+        .cloud-sync-details {
+            color: #526579;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
 
         .cloud-auth-form[hidden],
         .cloud-account-actions[hidden] {
@@ -1957,6 +1973,10 @@
             font-size: 0.85rem;
             font-weight: 600;
             line-height: 1.5;
+        }
+
+        .cloud-sync-details {
+            margin: 0.25rem 0 0;
         }
 
         .cloud-sync-status[data-status="synced"] { color: #166534; }

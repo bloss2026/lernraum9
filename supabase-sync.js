@@ -9,11 +9,14 @@
     const syncedKeys = ['chemieLernState', 'mathematikLearningState', 'lernraumFachFortschritte', 'lernraumUebungen'];
     const localChangePrefix = 'lernraum9.supabase.changed.';
     const accountCachePrefix = 'lernraum9.supabase.account.';
+    const lastSyncedPrefix = 'lernraum9.supabase.last-synced.';
+    const pendingKeysPrefix = 'lernraum9.supabase.pending.';
+    const backupFormat = 'lernraum9-learning-backup';
     let session = null;
     let syncPromise = null;
     let syncAgain = false;
     let syncTimer = null;
-    let state = { status: 'guest', email: '', message: '' };
+    let state = { status: 'guest', email: '', message: '', lastSyncedAt: null, pendingChanges: 0 };
 
     function publishState(nextState) {
         state = { ...state, ...nextState };
@@ -155,6 +158,35 @@
         window.localStorage.setItem(`${localChangePrefix}${session.user.id}.${key}`, String(timestamp));
     }
 
+    function pendingKeys(userId = session?.user?.id) {
+        if (!userId) return [];
+        try {
+            const keys = JSON.parse(window.localStorage.getItem(`${pendingKeysPrefix}${userId}`) || '[]');
+            return Array.isArray(keys) ? keys.filter(key => syncedKeys.includes(key)) : [];
+        } catch (error) {
+            console.warn('Die Liste ausstehender Lernstandsänderungen ist ungültig:', error);
+            return [];
+        }
+    }
+
+    function setPending(key, isPending) {
+        if (!session?.user?.id) return;
+        const keys = new Set(pendingKeys());
+        if (isPending) keys.add(key);
+        else keys.delete(key);
+        window.localStorage.setItem(`${pendingKeysPrefix}${session.user.id}`, JSON.stringify([...keys]));
+    }
+
+    function syncMetadata(userId = session?.user?.id) {
+        if (!userId) return { lastSyncedAt: null, pendingChanges: 0 };
+        const lastSyncedAt = window.localStorage.getItem(`${lastSyncedPrefix}${userId}`);
+        return { lastSyncedAt, pendingChanges: pendingKeys(userId).length };
+    }
+
+    function publishSyncState(nextState) {
+        publishState({ ...syncMetadata(), ...nextState });
+    }
+
     function accountCacheKey(userId, key) {
         return `${accountCachePrefix}${userId}.${key}`;
     }
@@ -202,7 +234,7 @@
         window.localStorage.removeItem(activeUserKey);
     }
 
-    async function upsertProgress(userId, key, value) {
+    async function upsertProgress(userId, key, value, accessToken = session.access_token) {
         await request('/rest/v1/learning_progress?on_conflict=user_id%2Cstorage_key', {
             method: 'POST',
             headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
@@ -212,26 +244,26 @@
                 value,
                 updated_at: new Date().toISOString()
             })
-        }, session.access_token);
+        }, accessToken);
     }
 
     async function performSync() {
         if (session?.user?.id) await prepareAccount(session.user.id);
         if (!navigator.onLine) {
-            publishState({ status: 'offline', email: session?.user?.email || '', message: 'Offline. Änderungen bleiben auf diesem Gerät gespeichert.' });
+            publishSyncState({ status: 'offline', email: session?.user?.email || '', message: 'Offline. Änderungen bleiben auf diesem Gerät gespeichert.' });
             return;
         }
 
         const activeSession = await currentSession();
         if (!activeSession?.access_token || !activeSession.user?.id) {
-            const message = state.status === 'guest' && /erneut anmelden/i.test(state.message)
+            const message = state.status === 'guest' && /anmeldung ist abgelaufen/i.test(state.message)
                 ? state.message
                 : 'Melde dich an, um deinen Lernstand auf mehreren Geräten zu synchronisieren.';
             publishState({ status: 'guest', email: '', message });
             return;
         }
 
-        publishState({ status: 'syncing', email: activeSession.user.email || '', message: 'Lernstand wird synchronisiert …' });
+        publishSyncState({ status: 'syncing', email: activeSession.user.email || '', message: 'Lernstand wird synchronisiert …' });
         const rows = await request('/rest/v1/learning_progress?select=storage_key,value,updated_at', {
             method: 'GET'
         }, activeSession.access_token);
@@ -261,9 +293,12 @@
             await window.LernraumDB.setLocal(key, value);
             await upsertProgress(activeSession.user.id, key, value);
             setLocalChangedAt(key, Date.now());
+            setPending(key, false);
         }
 
-        publishState({ status: 'synced', email: activeSession.user.email || '', message: 'Lernstand ist synchronisiert.' });
+        const lastSyncedAt = new Date().toISOString();
+        window.localStorage.setItem(`${lastSyncedPrefix}${activeSession.user.id}`, lastSyncedAt);
+        publishSyncState({ status: 'synced', email: activeSession.user.email || '', message: 'Lernstand ist synchronisiert.', lastSyncedAt });
     }
 
     function syncNow() {
@@ -272,7 +307,7 @@
             return syncPromise;
         }
         syncPromise = performSync().catch(error => {
-            publishState({
+            publishSyncState({
                 status: 'error',
                 email: session?.user?.email || '',
                 message: `Synchronisierung fehlgeschlagen: ${getErrorMessage(error)}`
@@ -291,10 +326,139 @@
     function queueWrite(key) {
         if (!session || !syncedKeys.includes(key)) return;
         setLocalChangedAt(key, Date.now());
+        setPending(key, true);
+        if (state.status !== 'syncing') {
+            publishSyncState({
+                status: 'syncing',
+                email: session.user?.email || '',
+                message: 'Änderungen werden synchronisiert …'
+            });
+        }
         window.clearTimeout(syncTimer);
         syncTimer = window.setTimeout(() => {
             syncNow().catch(error => console.error(`Der Lernstand "${key}" konnte nicht synchronisiert werden:`, error));
         }, 900);
+    }
+
+    async function authenticatedOnlineSession() {
+        if (!navigator.onLine) throw new Error('Für eine vollständige Sicherung oder Wiederherstellung ist eine Internetverbindung erforderlich.');
+        const activeSession = await currentSession();
+        if (!activeSession?.access_token || !activeSession.user?.id) {
+            throw new Error('Bitte melde dich zuerst über „Mein Lernkonto“ an.');
+        }
+        return activeSession;
+    }
+
+    async function requestAllRows(path, accessToken) {
+        const rows = [];
+        const pageSize = 1000;
+        for (let offset = 0; ; offset += pageSize) {
+            const page = await request(`${path}&limit=${pageSize}&offset=${offset}`, {}, accessToken);
+            if (!Array.isArray(page)) throw new Error('Supabase hat eine ungültige Sicherungsdatenliste gesendet.');
+            rows.push(...page);
+            if (page.length < pageSize) return rows;
+        }
+    }
+
+    async function exportBackup() {
+        await authenticatedOnlineSession();
+        await syncNow();
+        const activeSession = await authenticatedOnlineSession();
+        const userId = activeSession.user.id;
+        const core = {};
+        for (const key of syncedKeys) {
+            const value = await window.LernraumDB.getLocal(key);
+            if (value !== null) core[key] = value;
+        }
+        const userFilter = `user_id=eq.${encodeURIComponent(userId)}`;
+        const [progress, settings, activity, quiz] = await Promise.all([
+            requestAllRows(`/rest/v1/vocabulary_progress?select=*&${userFilter}`, activeSession.access_token),
+            request(`/rest/v1/vocabulary_settings?select=*&${userFilter}`, {}, activeSession.access_token),
+            requestAllRows(`/rest/v1/vocabulary_daily_activity?select=*&${userFilter}&order=activity_date.asc`, activeSession.access_token),
+            requestAllRows(`/rest/v1/vocabulary_quiz_results?select=*&${userFilter}&order=created_at.asc`, activeSession.access_token)
+        ]);
+        if (!Array.isArray(settings)) throw new Error('Supabase hat ungültige Vokabeleinstellungen gesendet.');
+        return JSON.stringify({
+            format: backupFormat,
+            version: 1,
+            exportedAt: new Date().toISOString(),
+            core,
+            vocabulary: { progress, settings, activity, quiz }
+        }, null, 2);
+    }
+
+    function validateBackup(backup) {
+        if (!isPlainObject(backup) || backup.format !== backupFormat || backup.version !== 1
+            || !isPlainObject(backup.core) || !isPlainObject(backup.vocabulary)) {
+            throw new Error('Die Datei ist keine gültige Lernraum-9-Sicherung oder hat ein nicht unterstütztes Format.');
+        }
+        if (Object.keys(backup.core).some(key => !syncedKeys.includes(key))) {
+            throw new Error('Die Sicherung enthält einen unbekannten Lernstandsbereich.');
+        }
+        const { progress, settings, activity, quiz } = backup.vocabulary;
+        if (!Array.isArray(progress) || !Array.isArray(settings) || settings.length > 1
+            || !Array.isArray(activity) || !Array.isArray(quiz)
+            || [...progress, ...settings, ...activity, ...quiz].some(row => !isPlainObject(row))) {
+            throw new Error('Die Sicherungsdatei enthält ungültige Vokabeldaten.');
+        }
+    }
+
+    async function upsertRows(table, rows, conflict, accessToken, prefer = 'resolution=merge-duplicates,return=minimal') {
+        const batchSize = 100;
+        for (let offset = 0; offset < rows.length; offset += batchSize) {
+            await request(`/rest/v1/${table}?on_conflict=${encodeURIComponent(conflict)}`, {
+                method: 'POST',
+                headers: { Prefer: prefer },
+                body: JSON.stringify(rows.slice(offset, offset + batchSize))
+            }, accessToken);
+        }
+    }
+
+    async function restoreBackup(backup) {
+        validateBackup(backup);
+        const activeSession = await authenticatedOnlineSession();
+        const userId = activeSession.user.id;
+        const remoteRows = await request('/rest/v1/learning_progress?select=storage_key,value,updated_at', {
+            method: 'GET'
+        }, activeSession.access_token);
+        if (!Array.isArray(remoteRows)) throw new Error('Supabase hat ungültige Lernstandsdaten gesendet.');
+        const remoteByKey = new Map(remoteRows.map(row => [row.storage_key, row]));
+
+        for (const [key, importedValue] of Object.entries(backup.core)) {
+            const remoteRow = remoteByKey.get(key);
+            const value = remoteRow ? mergeValues(remoteRow.value, importedValue) : importedValue;
+            await upsertProgress(userId, key, value, activeSession.access_token);
+            await window.LernraumDB.setLocal(key, value);
+            setLocalChangedAt(key, Date.now());
+            setPending(key, false);
+        }
+
+        const vocabulary = backup.vocabulary;
+        const progress = vocabulary.progress.map(row => ({ ...row, user_id: userId }));
+        const settings = vocabulary.settings.map(row => ({ ...row, user_id: userId }));
+        const activity = vocabulary.activity.map(row => ({ ...row, user_id: userId }));
+        const quiz = vocabulary.quiz
+            .filter(row => typeof row.id === 'string' && row.id)
+            .map(row => ({ ...row, user_id: userId }));
+        await upsertRows('vocabulary_progress', progress, 'user_id,word_id', activeSession.access_token);
+        await upsertRows('vocabulary_settings', settings, 'user_id', activeSession.access_token);
+        await upsertRows('vocabulary_daily_activity', activity, 'user_id,activity_date', activeSession.access_token);
+        await upsertRows(
+            'vocabulary_quiz_results',
+            quiz,
+            'id',
+            activeSession.access_token,
+            'resolution=ignore-duplicates,return=minimal'
+        );
+
+        const lastSyncedAt = new Date().toISOString();
+        window.localStorage.setItem(`${lastSyncedPrefix}${userId}`, lastSyncedAt);
+        publishSyncState({
+            status: 'synced',
+            email: activeSession.user.email || '',
+            message: 'Sicherung wiederhergestellt und synchronisiert.',
+            lastSyncedAt
+        });
     }
 
     async function signUp(email, password) {
@@ -303,7 +467,7 @@
             body: JSON.stringify({ email, password })
         });
         if (!result?.access_token) {
-            publishState({
+            publishSyncState({
                 status: 'confirmation',
                 email,
                 message: 'Bitte bestätige deine E-Mail-Adresse. Danach kannst du dich hier anmelden.'
@@ -384,6 +548,7 @@
             publishState({ status: 'guest', message: 'Melde dich an, um deinen Lernstand auf mehreren Geräten zu synchronisieren.' });
             return;
         }
+        publishSyncState({});
         try {
             await syncNow();
         } catch (error) {
@@ -401,7 +566,9 @@
         signIn,
         signOut,
         syncNow,
-        queueWrite
+        queueWrite,
+        exportBackup,
+        restoreBackup
     };
     window.LernraumDB.setCloudReady(initialize());
 

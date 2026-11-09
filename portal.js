@@ -182,7 +182,7 @@ function renderCloudMenu() {
                 </div>
                 <button id="cloudDialogClose" class="cloud-dialog-close" type="button" aria-label="Fenster schließen">×</button>
             </div>
-            <p class="cloud-dialog-description">Melde dich einmal an. Dein Lernstand wird danach automatisch auf deinen Geräten synchronisiert.</p>
+            <p class="cloud-dialog-description">Melde dich einmal an. Dein Lernstand wird danach automatisch auf deinen Geräten synchronisiert. Offline vorgenommene Änderungen bleiben auf diesem Gerät und werden später übertragen.</p>
             <form id="cloudAuthForm" class="cloud-auth-form">
                 <label for="cloudEmail">E-Mail-Adresse</label>
                 <input id="cloudEmail" name="email" type="email" autocomplete="email" required>
@@ -200,8 +200,15 @@ function renderCloudMenu() {
                     <button id="cloudSyncNow" class="btn" type="button">Jetzt synchronisieren</button>
                     <button id="cloudSignOut" class="btn cloud-secondary-button" type="button">Abmelden</button>
                 </div>
+                <div class="cloud-backup-actions">
+                    <button id="cloudExportBackup" class="btn cloud-secondary-button" type="button">Lernstand sichern</button>
+                    <button id="cloudImportBackup" class="btn cloud-secondary-button" type="button">Sicherung wiederherstellen</button>
+                    <input id="cloudBackupFile" type="file" accept="application/json,.json" hidden>
+                    <small>Sicherung und Wiederherstellung benötigen eine Internetverbindung. Bewahre die heruntergeladene Datei sicher auf.</small>
+                </div>
             </div>
             <p id="cloudSyncStatus" class="cloud-sync-status" role="status" aria-live="polite"></p>
+            <p id="cloudSyncDetails" class="cloud-sync-details"></p>
         </dialog>
     `;
 }
@@ -846,7 +853,11 @@ if (app) {
     const cloudAccountEmail = document.getElementById('cloudAccountEmail');
     const cloudSyncNow = document.getElementById('cloudSyncNow');
     const cloudSignOut = document.getElementById('cloudSignOut');
+    const cloudExportBackup = document.getElementById('cloudExportBackup');
+    const cloudImportBackup = document.getElementById('cloudImportBackup');
+    const cloudBackupFile = document.getElementById('cloudBackupFile');
     const cloudResendConfirmation = document.getElementById('cloudResendConfirmation');
+    const cloudSyncDetails = document.getElementById('cloudSyncDetails');
     const cloudMenuLabel = document.getElementById('cloudMenuLabel');
     const cloudMenuButton = document.getElementById('cloudMenuButton');
     const cloudAuthDialog = document.getElementById('cloudAuthDialog');
@@ -862,12 +873,23 @@ if (app) {
         cloudAccountEmail.textContent = hasAccount ? state.email : '';
         cloudSyncStatus.textContent = state.message || '';
         cloudSyncStatus.dataset.status = state.status || 'guest';
+        const lastSyncedAt = state.lastSyncedAt ? new Date(state.lastSyncedAt) : null;
+        const lastSyncedText = lastSyncedAt && Number.isFinite(lastSyncedAt.getTime())
+            ? `Zuletzt erfolgreich synchronisiert: ${lastSyncedAt.toLocaleString('de-DE')}.`
+            : 'Noch keine erfolgreiche Synchronisierung.';
+        const pendingChanges = Number(state.pendingChanges || 0);
+        const pendingText = pendingChanges
+            ? `${pendingChanges} ${pendingChanges === 1 ? 'Bereich wartet' : 'Bereiche warten'} auf Synchronisierung.`
+            : 'Keine ausstehenden Änderungen.';
+        if (cloudSyncDetails) cloudSyncDetails.textContent = `${lastSyncedText} ${pendingText}`;
         if (cloudMenuLabel) {
             cloudMenuLabel.textContent = hasAccount ? 'Mein Lernkonto' : 'Anmelden';
         }
         const isSyncing = state.status === 'syncing';
         if (cloudSyncNow) cloudSyncNow.disabled = isSyncing;
         if (cloudSignOut) cloudSignOut.disabled = isSyncing;
+        if (cloudExportBackup) cloudExportBackup.disabled = isSyncing;
+        if (cloudImportBackup) cloudImportBackup.disabled = isSyncing;
         cloudAuthButtons.forEach(button => {
             button.disabled = isSyncing;
         });
@@ -946,6 +968,43 @@ if (app) {
         window.LernraumCloud.syncNow().catch(error => {
             console.error('Die manuelle Lernstand-Synchronisierung ist fehlgeschlagen:', error);
         });
+    });
+    cloudExportBackup?.addEventListener('click', async () => {
+        cloudExportBackup.disabled = true;
+        cloudSyncStatus.textContent = 'Sicherung wird erstellt …';
+        try {
+            const backup = await window.LernraumCloud.exportBackup();
+            const blob = new Blob([backup], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `lernraum9-sicherung-${new Date().toISOString().slice(0, 10)}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            cloudSyncStatus.textContent = 'Deine vollständige Lernstand-Sicherung wurde heruntergeladen.';
+        } catch (error) {
+            cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
+        } finally {
+            cloudExportBackup.disabled = false;
+        }
+    });
+    cloudImportBackup?.addEventListener('click', () => cloudBackupFile?.click());
+    cloudBackupFile?.addEventListener('change', async () => {
+        const file = cloudBackupFile.files?.[0];
+        if (!file) return;
+        try {
+            if (file.size > 25 * 1024 * 1024) throw new Error('Die Sicherungsdatei ist größer als 25 MB.');
+            const backup = JSON.parse(await file.text());
+            if (!window.confirm('Die Sicherungsdaten werden mit dem Lernstand dieses Kontos zusammengeführt. Fortfahren?')) return;
+            cloudImportBackup.disabled = true;
+            cloudSyncStatus.textContent = 'Sicherung wird wiederhergestellt …';
+            await window.LernraumCloud.restoreBackup(backup);
+        } catch (error) {
+            cloudSyncStatus.textContent = window.LernraumCloud.getErrorMessage(error);
+        } finally {
+            cloudImportBackup.disabled = false;
+            cloudBackupFile.value = '';
+        }
     });
     cloudSignOut?.addEventListener('click', () => {
         window.LernraumCloud.signOut().catch(error => {

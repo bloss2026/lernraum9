@@ -72,5 +72,21 @@ Seite und nach jeder Lernaktion automatisch mit Supabase synchronisiert.
 Vokabel-Lernstände, Quiz-Ergebnisse, Tagesziele und Lernaktivitäten werden
 pro Lernkonto gespeichert und beim nächsten Öffnen wieder geladen. Die
 anderen Lernbereiche verwenden dieselbe automatische Synchronisierung über
-das gemeinsame Lernkonto. Manuelle Export- und Import-Schaltflächen sind
-nicht erforderlich.
+das gemeinsame Lernkonto. Im geöffneten Bereich „Mein Lernkonto“ werden der
+letzte erfolgreiche Abgleich und noch ausstehende Änderungen angezeigt.
+
+Sicherung und Wiederherstellung
+-------------------------------
+Im Bereich „Mein Lernkonto“ kann nach der Anmeldung eine JSON-Sicherung des
+gesamten Fach- und Vokabellernstands heruntergeladen oder in ein angemeldetes
+Konto importiert werden. Der Import führt die Sicherungsdaten mit vorhandenen
+Fachfortschritten zusammen; Vokabelstände werden anhand ihrer IDs aktualisiert
+und Quiz-Ergebnisse nicht doppelt importiert. Für Export und Import ist eine
+Internetverbindung erforderlich. Offline vorgenommene Fachänderungen bleiben
+auf dem Gerät gespeichert und werden nach Wiederherstellung der Verbindung
+automatisch übertragen.
+
+Tests
+-----
+Die automatisierten Funktionstests lassen sich mit
+`node --test tests/learning-features.test.js` ausführen.

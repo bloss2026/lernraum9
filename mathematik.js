@@ -3,6 +3,7 @@
 
     const root = document.getElementById('mathLearningApp');
     if (!root) return;
+    const calculateSlope = window.LernraumMath.calculateSlope;
 
     const topics = [
         {
@@ -549,10 +550,10 @@
         ['Eine Funktion hat m = 3 und b = −4. Berechne y für x = 2.', 2, 'y =', ['In y = mx + b einsetzen: y = 3 · 2 − 4.', '6 − 4 = 2.', 'y = 2.']]
     ]);
     addPracticeSet('slope', [
-        ['Berechne die Steigung zwischen (0|1) und (2|5).', 2, 'm =', ['Änderung y: 5 − 1 = 4.', 'Änderung x: 2 − 0 = 2.', 'm = 4/2 = 2.']],
-        ['Berechne die Steigung zwischen (1|7) und (4|1).', -2, 'm =', ['Änderung y: 1 − 7 = −6.', 'Änderung x: 4 − 1 = 3.', 'm = −6/3 = −2.']],
-        ['Eine Gerade steigt bei 4 Schritten nach rechts um 12 nach oben. Wie groß ist m?', 3, 'm =', ['Steigung = Änderung y / Änderung x.', 'm = 12/4.', 'm = 3.']],
-        ['Eine Gerade fällt bei 5 Schritten nach rechts um 10 nach unten. Wie groß ist m?', -2, 'm =', ['Änderung nach unten ist −10; Änderung nach rechts ist 5.', 'm = −10/5.', 'm = −2.']]
+        ['Berechne die Steigung zwischen (0|1) und (2|5).', calculateSlope({ x: 0, y: 1 }, { x: 2, y: 5 }), 'm =', ['Änderung y: 5 − 1 = 4.', 'Änderung x: 2 − 0 = 2.', 'm = 4/2 = 2.']],
+        ['Berechne die Steigung zwischen (1|7) und (4|1).', calculateSlope({ x: 1, y: 7 }, { x: 4, y: 1 }), 'm =', ['Änderung y: 1 − 7 = −6.', 'Änderung x: 4 − 1 = 3.', 'm = −6/3 = −2.']],
+        ['Eine Gerade steigt bei 4 Schritten nach rechts um 12 nach oben. Wie groß ist m?', calculateSlope({ x: 0, y: 0 }, { x: 4, y: 12 }), 'm =', ['Steigung = Änderung y / Änderung x.', 'm = 12/4.', 'm = 3.']],
+        ['Eine Gerade fällt bei 5 Schritten nach rechts um 10 nach unten. Wie groß ist m?', calculateSlope({ x: 0, y: 10 }, { x: 5, y: 0 }), 'm =', ['Änderung nach unten ist −10; Änderung nach rechts ist 5.', 'm = −10/5.', 'm = −2.']]
     ]);
     addPracticeSet('graphs', [
         ['Eine Gerade hat m = 1 und b = 4. Berechne y für x = 6.', 10, 'y =', ['y = mx + b einsetzen: y = 1 · 6 + 4.', '6 + 4 = 10.', 'y = 10.']],
