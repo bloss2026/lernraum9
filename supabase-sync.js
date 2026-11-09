@@ -42,6 +42,7 @@
     function getErrorMessage(error) {
         const message = error && typeof error.message === 'string' ? error.message : '';
         if (/invalid login credentials/i.test(message)) return 'E-Mail-Adresse oder Passwort ist nicht richtig.';
+        if (/invalid refresh token|refresh token not found|refresh_token_not_found/i.test(message)) return 'Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an. Deine lokalen Lernstände bleiben erhalten.';
         if (/email not confirmed/i.test(message)) return 'Bitte bestätige zuerst deine E-Mail-Adresse.';
         if (/user already registered/i.test(message)) return 'Für diese E-Mail-Adresse gibt es bereits ein Konto. Melde dich bitte an.';
         if (/password should be at least/i.test(message)) return 'Das Passwort ist zu kurz. Verwende mindestens 6 Zeichen.';
@@ -76,16 +77,37 @@
     }
 
     async function refreshSession() {
-        if (!session?.refresh_token) return null;
-        const result = await request('/auth/v1/token?grant_type=refresh_token', {
-            method: 'POST',
-            body: JSON.stringify({ refresh_token: session.refresh_token })
-        });
-        saveSession({
-            ...result,
-            expires_at: Math.floor(Date.now() / 1000) + Number(result.expires_in || 3600)
-        });
-        return session;
+        if (!session?.refresh_token) {
+            saveSession(null);
+            publishState({
+                status: 'guest',
+                email: '',
+                message: 'Deine Anmeldung ist abgelaufen. Bitte melde dich erneut an. Deine lokalen Lernstände bleiben erhalten.'
+            });
+            return null;
+        }
+        try {
+            const result = await request('/auth/v1/token?grant_type=refresh_token', {
+                method: 'POST',
+                body: JSON.stringify({ refresh_token: session.refresh_token })
+            });
+            saveSession({
+                ...result,
+                expires_at: Math.floor(Date.now() / 1000) + Number(result.expires_in || 3600)
+            });
+            return session;
+        } catch (error) {
+            if (!/invalid refresh token|refresh token not found|refresh_token_not_found/i.test(error.message || '')) {
+                throw error;
+            }
+            saveSession(null);
+            publishState({
+                status: 'guest',
+                email: '',
+                message: getErrorMessage(error)
+            });
+            return null;
+        }
     }
 
     async function currentSession() {
@@ -201,7 +223,10 @@
 
         const activeSession = await currentSession();
         if (!activeSession?.access_token || !activeSession.user?.id) {
-            publishState({ status: 'guest', email: '', message: 'Melde dich an, um deinen Lernstand auf mehreren Geräten zu synchronisieren.' });
+            const message = state.status === 'guest' && /erneut anmelden/i.test(state.message)
+                ? state.message
+                : 'Melde dich an, um deinen Lernstand auf mehreren Geräten zu synchronisieren.';
+            publishState({ status: 'guest', email: '', message });
             return;
         }
 
