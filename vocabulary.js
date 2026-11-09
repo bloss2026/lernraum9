@@ -11,6 +11,8 @@
             id: String(item.id),
             english: String(item.english).trim(),
             german: String(item.german).trim(),
+            studyEnglish: String(item.studyEnglish || item.english).trim(),
+            studyGerman: String(item.studyGerman || item.german).trim(),
             alternatives: Array.isArray(item.alternatives)
                 ? item.alternatives.filter(value => typeof value === 'string').map(value => value.trim()).filter(Boolean)
                 : [],
@@ -183,13 +185,12 @@
                 </div></section>`;
         }
         const word = state.sessionWords[state.sessionIndex];
-        const front = state.direction === 'en-de' ? word.english : word.german;
-        const back = state.direction === 'en-de' ? word.german : word.english;
+        const front = state.direction === 'en-de' ? word.studyEnglish : word.studyGerman;
+        const back = state.direction === 'en-de' ? word.studyGerman : word.studyEnglish;
         return `<section class="vocab-panel vocab-study-panel"><div class="vocab-session-heading"><span>${state.sessionIndex + 1} von ${state.sessionWords.length}</span><span>${state.direction === 'en-de' ? 'Englisch → Deutsch' : 'Deutsch → Englisch'}</span></div>
             <div class="vocab-progress-track"><span style="width:${Math.round(((state.sessionIndex + 1) / state.sessionWords.length) * 100)}%"></span></div>
             <article class="vocab-flashcard"><span>${state.revealed ? 'Übersetzung' : 'Frage'}</span><strong>${html(state.revealed ? back : front)}</strong>
                 ${state.revealed ? '' : `<button class="vocab-sound-button" type="button" data-action="speak" data-word="${html(word.id)}" aria-label="Englische Aussprache abspielen">🔊 Aussprache</button>`}
-                ${state.revealed ? `<span class="vocab-card-category">${html(word.category || 'Ohne Thema')}</span>` : ''}
             </article>
             ${state.revealed ? `<p class="vocab-help">Wie sicher konntest du dich erinnern? Deine Auswahl plant die nächste Wiederholung.</p><div class="vocab-rating-row">
                 ${[['again', 'Nochmal'], ['hard', 'Schwer'], ['good', 'Gut'], ['easy', 'Einfach']].map(([rating, label]) => `<button type="button" class="vocab-rating" data-action="rate" data-rating="${rating}" ${state.busy ? 'disabled' : ''}>${label}</button>`).join('')}
