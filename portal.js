@@ -235,7 +235,8 @@ function renderDashboard() {
                             <div class="progress-bar-container" role="progressbar" aria-label="${subject.name} Lernfortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                                 <div class="progress-bar" data-progress-bar="${subject.id}"></div>
                             </div>
-                        ` : `<span class="dashboard-progress-label">${subject.id === 'englisch' ? 'Vokabeltrainer verfügbar' : 'Für dieses Fach sind noch keine Übungen verfügbar'}</span>`}
+                        ` : `<span class="dashboard-progress-label">${subject.id === 'englisch' ? 'Vokabeltrainer verfügbar' : subject.id === 'deutsch' ? '7 Themen · Übungen und Prüfungstraining' : 'Für dieses Fach sind noch keine Übungen verfügbar'}</span>`}
+                        ${subject.id === 'deutsch' ? `<a class="portal-card-link" href="./${subject.file}">Deutsch-Lernmodul öffnen →</a>` : ''}
                     </article>
                 `).join('')}
             </div>
@@ -344,36 +345,48 @@ function renderSubjectPage(subject) {
     }
 
     if (subject.id === 'deutsch') {
+        const path = (window.location.pathname || '').toLowerCase();
+        const isThemeMap = path.endsWith('deutsch-themen.html');
+        if (isThemeMap) {
+            const themeCards = [
+                { id: 'kasus', icon: '🧩', title: 'Die vier Fälle', description: 'Nominativ, Genitiv, Dativ, Akkusativ – die richtige Frage macht den Unterschied.', details: 'Was ist das Subjekt? Wessen? Wem? Wen oder was?' },
+                { id: 'tempora', icon: '⏱️', title: 'Zeitformen', description: 'Präsens, Präteritum, Perfekt und Futur I richtig unterscheiden.', details: 'Achte auf Signalwörter wie gestern, heute, morgen und bereits.' },
+                { id: 'aktiv-passiv', icon: '🔄', title: 'Aktiv und Passiv', description: 'Handelnde Personen und Vorgänge sachlich umformulieren.', details: 'Aktiv: Das Subjekt handelt. Passiv: Das Objekt steht im Fokus.' },
+                { id: 'wortarten', icon: '🔎', title: 'Wortarten', description: 'Nomen, Verben, Adjektive, Pronomen, Präpositionen und Konjunktionen erkennen.', details: 'Wortarten geben den Satzbau und die Funktion eines Wortes an.' },
+                { id: 'rechtschreibung', icon: '✍️', title: 'Rechtschreibung', description: 'das/dass, s/ss/ß und typische Stolpersteine sicher beherrschen.', details: 'Achte auf Laut und Bedeutung, nicht nur auf „gefühltes“ Schreiben.' },
+                { id: 'gross-kleinschreibung', icon: '🔠', title: 'Groß- und Kleinschreibung', description: 'Nominalisierungen wie „beim Laufen“ und „etwas Wichtiges“ erkennen.', details: 'Wenn ein Verb wie ein Nomen gebraucht wird, wird es großgeschrieben.' },
+                { id: 'schreibwerkstatt', icon: '📝', title: 'Schreibwerkstatt & Ausdruck', description: 'Sätze verbessern, Kommas setzen und Bewerbungen formulieren.', details: 'Mehr Klarheit, bessere Satzstruktur und passender Ausdruck machen Sinn.' }
+            ];
+            return `
+                <section class="portal-hero portal-subject-hero deutsch-hero">
+                    <a class="portal-back-link" href="./index.html">← Dashboard</a>
+                    <span class="pill">📖 DEUTSCH · THEMENKARTE</span>
+                    <h1>Deutsch – Kapitelübersicht</h1>
+                    <p>Jedes Kapitel enthält eine kurze Erklärung, ein Beispiel und eine passende Übung. Über die Karte kannst du direkt in die Lernseite wechseln.</p>
+                    <a class="deutsch-button deutsch-button-primary" href="./deutsch.html">Übungen starten</a>
+                </section>
+                <section class="portal-content-section">
+                    <div class="portal-section-heading">
+                        <div><span class="pill">LERNPFAD</span><h2>Kapitelübersicht</h2></div>
+                        <p>Ein Thema wählen → Regeln ansehen → Übung lösen</p>
+                    </div>
+                    <div class="subject-grid">
+                        ${themeCards.map(chapter => `
+                            <article class="subject-card portal-subject-card">
+                                <span class="subject-icon" aria-hidden="true">${chapter.icon}</span>
+                                <span class="subject-status available">Erklärung · Beispiel · Übung</span>
+                                <h3>${chapter.title}</h3>
+                                <p>${chapter.description}</p>
+                                <small>${chapter.details}</small>
+                                <a class="portal-card-link" href="./deutsch.html">Kapitel öffnen →</a>
+                            </article>
+                        `).join('')}
+                    </div>
+                </section>
+            `;
+        }
         return `
-            <section class="portal-hero portal-subject-hero">
-                <a class="portal-back-link" href="./index.html">← Dashboard</a>
-                <span class="pill">${subject.icon} SPRACHEN · KLASSE 9</span>
-                <h1>Deutsch</h1>
-                <p>Ein kurzer Einstieg in die Rechtschreibung: Woran erkennst du, ob „das“ oder „dass“ richtig ist?</p>
-            </section>
-            <section class="portal-content-section">
-                <div class="portal-section-heading">
-                    <div><span class="pill">THEMA</span><h2>Rechtschreibung: das oder dass?</h2></div>
-                </div>
-                <article class="card">
-                    <h3>Die Regel</h3>
-                    <p><strong>„Das“</strong> ist ein Artikel oder ein Fürwort. Du kannst es oft durch „dieses“, „jenes“ oder „welches“ ersetzen.</p>
-                    <p class="visual-box"><strong>Beispiel:</strong> Das Buch, <em>das</em> ich lese, ist spannend. → Das Buch, <em>welches</em> ich lese, ist spannend.</p>
-                    <p><strong>„Dass“</strong> verbindet einen Hauptsatz mit einem Nebensatz. Es lässt sich nicht durch „dieses“, „jenes“ oder „welches“ ersetzen.</p>
-                    <p class="analogy-box"><strong>Beispiel:</strong> Ich hoffe, <em>dass</em> du heute Zeit hast.</p>
-                    <h3>Übung</h3>
-                    <p>Ergänze die Lücken. Öffne danach die Lösung und prüfe deine Antworten.</p>
-                    <ol class="spelling-exercise">
-                        <li>Ich glaube, ___ es morgen regnet.</li>
-                        <li>Das Fahrrad, ___ vor dem Haus steht, ist neu.</li>
-                        <li>Sie weiß, ___ der Film bald beginnt.</li>
-                    </ol>
-                    <details class="spelling-answer">
-                        <summary>Lösung anzeigen</summary>
-                        <p>1. <strong>dass</strong> · 2. <strong>das</strong> (ersetzbar durch „welches“) · 3. <strong>dass</strong></p>
-                    </details>
-                </article>
-            </section>
+            <section id="deutschApp" class="deutsch-app" aria-live="polite"></section>
         `;
     }
 
