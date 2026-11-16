@@ -3,9 +3,11 @@
 
     const STORAGE_KEY = 'lernraum9.deutsch.progress';
     const categories = window.DeutschExercises || [];
+    const pageParams = new URLSearchParams(window.location?.search || '');
     const exercises = categories.flatMap(category =>
         category.exercises.map(exercise => ({ ...exercise, categoryId: category.id, categoryTitle: category.title }))
     );
+    const exerciseIds = exercises.map(exercise => exercise.id);
 
     function normalizeAnswer(value) {
         return String(value || '').trim().replace(/\s+/g, ' ').toLocaleLowerCase('de-DE');
@@ -21,34 +23,208 @@
     const root = document.getElementById('deutschApp');
     if (!root || !categories.length) return;
 
-    let progress = { completed: [] };
+    const emptyProgress = () => ({
+        completed: [],
+        attempted: [],
+        firstTryCorrect: [],
+        studiedTopics: [],
+        answerHistory: {}
+    });
+    const validIds = new Set(exerciseIds);
+
+    function normalizeProgress(value) {
+        const source = value && typeof value === 'object' ? value : {};
+        const answerHistory = {};
+        if (source.answerHistory && typeof source.answerHistory === 'object') {
+            Object.entries(source.answerHistory).forEach(([exerciseId, attempts]) => {
+                if (!validIds.has(exerciseId) || !Array.isArray(attempts)) return;
+                answerHistory[exerciseId] = attempts
+                    .filter(attempt => attempt && typeof attempt.correct === 'boolean')
+                    .map(attempt => ({
+                        id: typeof attempt.id === 'string' ? attempt.id : '',
+                        sequence: Number.isInteger(attempt.sequence) ? attempt.sequence : 0,
+                        answer: String(attempt.answer || ''),
+                        correct: attempt.correct,
+                        correctAnswer: String(attempt.correctAnswer || ''),
+                        explanation: String(attempt.explanation || ''),
+                        at: typeof attempt.at === 'string' ? attempt.at : ''
+                    }));
+            });
+        }
+
+        const completed = new Set((Array.isArray(source.completed) ? source.completed : [])
+            .filter(id => validIds.has(id)));
+        const attempted = new Set((Array.isArray(source.attempted) ? source.attempted : [])
+            .filter(id => validIds.has(id)));
+        const firstTryCorrect = new Set((Array.isArray(source.firstTryCorrect) ? source.firstTryCorrect : [])
+            .filter(id => validIds.has(id)));
+        Object.entries(answerHistory).forEach(([exerciseId, attempts]) => {
+            if (!attempts.length) return;
+            attempted.add(exerciseId);
+            if (attempts.some(attempt => attempt.correct)) completed.add(exerciseId);
+            attempts.sort((first, second) => first.at.localeCompare(second.at)
+                || first.sequence - second.sequence
+                || first.id.localeCompare(second.id));
+            firstTryCorrect.delete(exerciseId);
+            if (attempts[0].correct) firstTryCorrect.add(exerciseId);
+        });
+
+        return {
+            completed: [...completed],
+            attempted: [...attempted],
+            firstTryCorrect: [...firstTryCorrect],
+            studiedTopics: [...new Set((Array.isArray(source.studiedTopics) ? source.studiedTopics : [])
+                .filter(id => categories.some(category => category.id === id)))],
+            answerHistory
+        };
+    }
+
+    function mergeProgress(firstValue, secondValue) {
+        const first = normalizeProgress(firstValue);
+        const second = normalizeProgress(secondValue);
+        const answerHistory = { ...first.answerHistory };
+        Object.entries(second.answerHistory).forEach(([exerciseId, attempts]) => {
+            const existing = answerHistory[exerciseId] || [];
+            const seen = new Set(existing.map(attempt => attempt.id || JSON.stringify(attempt)));
+            answerHistory[exerciseId] = [
+                ...existing,
+                ...attempts.filter(attempt => {
+                    const key = attempt.id || JSON.stringify(attempt);
+                    if (seen.has(key)) return false;
+                    seen.add(key);
+                    return true;
+                })
+            ];
+        });
+        return normalizeProgress({
+            completed: [...first.completed, ...second.completed],
+            attempted: [...first.attempted, ...second.attempted],
+            firstTryCorrect: [...first.firstTryCorrect, ...second.firstTryCorrect],
+            studiedTopics: [...first.studiedTopics, ...second.studiedTopics],
+            answerHistory
+        });
+    }
+
+    function cloneProgress(value) {
+        return JSON.parse(JSON.stringify(value));
+    }
+
+    function readLocalProgress() {
+        try {
+            const saved = window.localStorage.getItem(STORAGE_KEY);
+            return normalizeProgress(saved ? JSON.parse(saved) : null);
+        } catch (error) {
+            storageError = 'Dein gespeicherter Lernstand konnte nicht geladen werden. Neue Fortschritte bleiben möglicherweise nicht erhalten.';
+            console.error('Der Deutsch-Lernstand konnte nicht geladen werden:', error);
+            return emptyProgress();
+        }
+    }
+
+    let progress = emptyProgress();
     let storageError = '';
+    let activeCategory = null;
+    let sharedProgressReady = !window.LernraumDB
+        || typeof window.LernraumDB.get !== 'function'
+        || typeof window.LernraumDB.update !== 'function';
+    let progressWriteQueue = Promise.resolve();
     let round = null;
     let hintVisible = false;
     let feedback = null;
     let selectedChoice = '';
     let selectedWords = [];
     let selectedCards = [];
+    let attemptIdSequence = 0;
 
-    try {
-        const saved = window.localStorage.getItem(STORAGE_KEY);
-        const parsed = saved ? JSON.parse(saved) : null;
-        if (parsed && Array.isArray(parsed.completed)) {
-            progress = { completed: parsed.completed.filter(id => exercises.some(exercise => exercise.id === id)) };
+    progress = readLocalProgress();
+
+    function refreshProgressView() {
+        if (round) {
+            renderExercise();
+        } else if (activeCategory) {
+            renderTopicDetail(activeCategory);
         }
-    } catch (error) {
-        storageError = 'Dein gespeicherter Lernstand konnte nicht geladen werden. Neue Fortschritte bleiben möglicherweise nicht erhalten.';
-        console.error('Der Deutsch-Lernstand konnte nicht geladen werden:', error);
     }
 
     function persistProgress() {
         try {
             window.localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
-            storageError = '';
         } catch (error) {
             storageError = 'Dein Lernfortschritt konnte nicht gespeichert werden. Prüfe bitte den verfügbaren Speicherplatz.';
             console.error('Der Deutsch-Lernstand konnte nicht gespeichert werden:', error);
         }
+
+        if (!sharedProgressReady || !window.LernraumDB || typeof window.LernraumDB.update !== 'function') {
+            return Promise.resolve();
+        }
+
+        const snapshot = cloneProgress(progress);
+        const write = progressWriteQueue.then(() => window.LernraumDB.update('lernraumUebungen', state => {
+            const subjects = state && typeof state === 'object' && state.subjects
+                ? state.subjects
+                : {};
+            const current = subjects.deutsch && typeof subjects.deutsch === 'object'
+                ? subjects.deutsch
+                : {};
+            const merged = mergeProgress(current, snapshot);
+            const available = new Set(Array.isArray(current.available) ? current.available : []);
+            exerciseIds.forEach(id => available.add(id));
+            return {
+                ...state,
+                subjects: {
+                    ...subjects,
+                    deutsch: {
+                        ...current,
+                        available: [...available],
+                        completed: merged.completed,
+                        attempted: merged.attempted,
+                        firstTryCorrect: merged.firstTryCorrect,
+                        studiedTopics: merged.studiedTopics,
+                        answerHistory: merged.answerHistory
+                    }
+                }
+            };
+        }));
+        progressWriteQueue = write.then(() => {
+            storageError = '';
+        }).catch(error => {
+            storageError = 'Der Lernstand konnte nicht im gemeinsamen Speicher gesichert werden. Die lokale Sicherung bleibt auf diesem Gerät verfügbar.';
+            console.error('Der Deutsch-Lernstand konnte nicht mit dem gemeinsamen Speicher abgeglichen werden:', error);
+            refreshProgressView();
+        });
+        return progressWriteQueue;
+    }
+
+    async function loadSharedProgress() {
+        if (sharedProgressReady) return;
+        try {
+            const state = await window.LernraumDB.get('lernraumUebungen');
+            const stored = state?.subjects?.deutsch;
+            progress = mergeProgress(progress, stored);
+            sharedProgressReady = true;
+            await persistProgress();
+            refreshProgressView();
+        } catch (error) {
+            storageError = 'Der gemeinsame Lernstand konnte nicht geladen werden. Deine lokalen Fortschritte bleiben erhalten.';
+            console.error('Der Deutsch-Lernstand konnte nicht aus dem gemeinsamen Speicher geladen werden:', error);
+            refreshProgressView();
+        }
+    }
+
+    function recordAttempt(exercise, value, correct) {
+        const history = progress.answerHistory[exercise.id] || [];
+        history.push({
+            id: `${Date.now().toString(36)}-${++attemptIdSequence}-${Math.random().toString(36).slice(2)}`,
+            sequence: history.length + 1,
+            answer: displayAnswer(exercise, value),
+            correct,
+            correctAnswer: modelAnswer(exercise),
+            explanation: exercise.explanation,
+            at: new Date().toISOString()
+        });
+        progress.answerHistory[exercise.id] = history;
+        if (!progress.attempted.includes(exercise.id)) progress.attempted.push(exercise.id);
+        if (correct && !progress.completed.includes(exercise.id)) progress.completed.push(exercise.id);
+        progress = normalizeProgress(progress);
     }
 
     function escapeHTML(value) {
@@ -72,16 +248,31 @@
 
     function renderTopicDetail(category) {
         if (!category) return;
+        activeCategory = category;
+        if (!progress.studiedTopics.includes(category.id)) {
+            progress.studiedTopics.push(category.id);
+            persistProgress();
+        }
         const lesson = category.lesson || {
             overview: category.theory || category.description,
             focusPoints: [category.description],
             examples: [{ title: category.title, text: category.theory || category.description }]
         };
-        const done = category.exercises.filter(exercise => progress.completed.includes(exercise.id)).length;
+        const sources = category.sources || [];
+        const attemptedIds = new Set(progress.attempted);
+        const completedIds = new Set(progress.completed);
+        const firstTryIds = new Set(progress.firstTryCorrect);
+        const attempted = category.exercises.filter(exercise => attemptedIds.has(exercise.id)).length;
+        const completed = category.exercises.filter(exercise => completedIds.has(exercise.id)).length;
+        const firstTryCorrect = category.exercises.filter(exercise => firstTryIds.has(exercise.id)).length;
+        const wrongAttempts = category.exercises.reduce((total, exercise) =>
+            total + (progress.answerHistory[exercise.id] || []).filter(attempt => !attempt.correct).length, 0);
+        const attemptedExercises = category.exercises.filter(exercise =>
+            attemptedIds.has(exercise.id) || completedIds.has(exercise.id));
         root.innerHTML = `
             <section class="deutsch-session deutsch-topic-detail">
                 <div class="deutsch-session-top">
-                    <button class="deutsch-text-button" type="button" data-action="home">← Themenübersicht</button>
+                    <button class="deutsch-text-button" type="button" data-action="topic-map">← Themenkarten</button>
                     <span>${escapeHTML(category.title)}</span>
                 </div>
                 <article class="deutsch-question-card deutsch-topic-card-detail">
@@ -89,9 +280,45 @@
                     <h2>${escapeHTML(category.title)}</h2>
                     <p class="deutsch-topic-detail-description">${escapeHTML(category.description)}</p>
                     <div class="deutsch-topic-meta">
-                        <span>${done}/${category.exercises.length} bearbeitet</span>
-                        <span>7 Themen · ${category.exercises.length} Aufgaben</span>
+                        <span>${attempted}/${category.exercises.length} versucht</span>
+                        <span>${completed} richtig gelöst</span>
+                        <span>${firstTryCorrect} beim ersten Versuch richtig</span>
+                        <span>${wrongAttempts} Fehlversuche</span>
+                        <span>${categories.length} Themen · ${category.exercises.length} Aufgaben</span>
                     </div>
+                    ${storageError ? `<p class="deutsch-storage-warning" role="status">${escapeHTML(storageError)}</p>` : ''}
+                    <p class="deutsch-progress-note">Dieser Lerninhalt ist als angesehen gespeichert. Deine Antworten und Versuche werden ebenfalls festgehalten.</p>
+                    ${attemptedExercises.length ? `
+                        <details class="deutsch-answer-history">
+                            <summary>Bearbeitete Übungen und Antworten ansehen (${attemptedExercises.length})</summary>
+                            <ol>
+                                ${attemptedExercises.map(exercise => {
+                                    const attempts = progress.answerHistory[exercise.id] || [];
+                                    const firstAttempt = attempts[0];
+                                    return `
+                                        <li class="deutsch-history-exercise">
+                                            <strong>${formatText(exercise.prompt)}</strong>
+                                            <span>${completedIds.has(exercise.id) ? 'Richtig gelöst' : 'Noch nicht richtig gelöst'}
+                                                ${firstAttempt ? ` · Beim ersten Versuch ${firstAttempt.correct ? 'richtig' : 'falsch'}` : ''}
+                                            </span>
+                                            ${attempts.length ? `
+                                                <ol>
+                                                    ${attempts.map((attempt, index) => `
+                                                        <li class="${attempt.correct ? 'is-correct' : 'is-incorrect'}">
+                                                            <strong>Versuch ${index + 1}: ${attempt.correct ? 'richtig' : 'falsch'}</strong>
+                                                            <span>Deine Antwort: ${escapeHTML(attempt.answer || 'Keine Antwort eingegeben')}</span>
+                                                            <span>Musterlösung: ${escapeHTML(attempt.correctAnswer || 'Keine Musterlösung hinterlegt')}</span>
+                                                            <span>${escapeHTML(attempt.explanation)}</span>
+                                                        </li>
+                                                    `).join('')}
+                                                </ol>
+                                            ` : '<span>Vor der detaillierten Antwortspeicherung bearbeitet.</span>'}
+                                        </li>
+                                    `;
+                                }).join('')}
+                            </ol>
+                        </details>
+                    ` : ''}
                     <div class="deutsch-topic-feature-grid">
                         <div class="deutsch-topic-feature">
                             <h3>Kurz erklärt</h3>
@@ -104,6 +331,20 @@
                             </ul>
                         </div>
                     </div>
+                    ${Array.isArray(lesson.sections) && lesson.sections.length ? `
+                        <section class="deutsch-lesson-sections" aria-label="Vertiefung">
+                            <h3>Schritt für Schritt vertiefen</h3>
+                            <div class="deutsch-lesson-section-grid">
+                                ${lesson.sections.map(section => `
+                                    <article class="deutsch-lesson-section">
+                                        <h4>${escapeHTML(section.title)}</h4>
+                                        <p>${escapeHTML(section.text)}</p>
+                                        ${section.points?.length ? `<ul>${section.points.map(point => `<li>${escapeHTML(point)}</li>`).join('')}</ul>` : ''}
+                                    </article>
+                                `).join('')}
+                            </div>
+                        </section>
+                    ` : ''}
                     <div class="deutsch-example-grid">
                         ${lesson.examples.map(example => `
                             <article class="deutsch-example-card">
@@ -112,9 +353,23 @@
                             </article>
                         `).join('')}
                     </div>
+                    ${sources.length ? `
+                        <section class="deutsch-sources" aria-labelledby="deutschSourcesTitle">
+                            <h3 id="deutschSourcesTitle">Fachliche Quellen</h3>
+                            <ul>
+                                ${sources.map(source => `
+                                    <li>
+                                        <a href="${escapeHTML(source.url)}" target="_blank" rel="noopener noreferrer">${escapeHTML(source.title)}</a>
+                                        <span>${escapeHTML(source.note)}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                            <p>Die Erklärungen und Übungen in diesem Lernmodul sind eigenständig formuliert.</p>
+                        </section>
+                    ` : ''}
                     <div class="deutsch-question-actions">
                         <button class="deutsch-button deutsch-button-primary" type="button" data-action="start-category" data-category="${category.id}">Übungen starten</button>
-                        <button class="deutsch-button deutsch-button-light" type="button" data-action="home">Zurück</button>
+                        <button class="deutsch-button deutsch-button-light" type="button" data-action="topic-map">Zurück zu den Themenkarten</button>
                     </div>
                 </article>
             </section>
@@ -129,7 +384,7 @@
                 <a class="portal-back-link" href="./index.html">← Dashboard</a>
                 <span class="pill">📖 SPRACHEN · KLASSE 9 · HAUPTSCHULE / WERKREALSCHULE</span>
                 <h1>Deutsch lernen</h1>
-                <p>Trainiere Grammatik, Rechtschreibung und deinen Ausdruck mit Beispielen aus Schule, Praktikum, Sport und Alltag.</p>
+                <p>Trainiere Grammatik, Rechtschreibung, Gedichtverständnis und den Umgang mit Sachtexten und Schaubildern.</p>
                 <div class="deutsch-hero-actions">
                     <a class="deutsch-button deutsch-button-light" href="./deutsch-themen.html">🗂️ Themenkarte</a>
                 </div>
@@ -156,7 +411,7 @@
                     }).join('')}
                 </div>
             </section>
-            <footer class="deutsch-footer">Dein Fortschritt wird auf diesem Gerät gespeichert.</footer>
+            <footer class="deutsch-footer">Bearbeitete Themen, Aufgaben und Antworten werden gespeichert; mit Lernkonto auch geräteübergreifend synchronisiert.</footer>
         `;
     }
 
@@ -180,13 +435,14 @@
         renderExercise();
     }
 
-    function startTopicRound(category, maxTasks = 30) {
+    function startTopicRound(category, maxTasks) {
         if (!category || !Array.isArray(category.exercises) || category.exercises.length === 0) {
             console.error('Für dieses Deutsch-Thema sind keine Übungen vorhanden.');
             return;
         }
+        const taskLimit = Number.isFinite(maxTasks) ? maxTasks : category.exercises.length;
         const items = shuffle(category.exercises)
-            .slice(0, Math.min(maxTasks, 30))
+            .slice(0, Math.min(taskLimit, category.exercises.length))
             .map(exercise => ({
                 ...exercise,
                 categoryId: category.id,
@@ -276,9 +532,10 @@
         root.innerHTML = `
             <section class="deutsch-session">
                 <div class="deutsch-session-top">
-                    <button class="deutsch-text-button" type="button" data-action="home">← Themenübersicht</button>
+                    <button class="deutsch-text-button" type="button" data-action="topic-map">← Themenkarten</button>
                     <span>${escapeHTML(round.title)}</span>
                 </div>
+                ${storageError ? `<p class="deutsch-storage-warning" role="status">${escapeHTML(storageError)}</p>` : ''}
                 <div class="deutsch-question-progress" role="progressbar" aria-label="Rundenfortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent}"><span style="width:${percent}%"></span></div>
                 <div class="deutsch-session-count">Aufgabe ${round.index + 1} von ${totalTasks} <span>${round.solved.size} richtig</span></div>
                 ${theoryBlock}
@@ -310,12 +567,13 @@
         const total = round.items.length;
         root.innerHTML = `
             <section class="deutsch-session deutsch-round-summary">
+                ${storageError ? `<p class="deutsch-storage-warning" role="status">${escapeHTML(storageError)}</p>` : ''}
                 <span class="deutsch-eyebrow">RUNDE BEENDET</span>
                 <h1>Gut gemacht!</h1>
                 <p>Du hast ${correctCount} von ${total} Aufgaben richtig gelöst. ${missed.length ? `${missed.length} Aufgabe${missed.length === 1 ? '' : 'n'} kannst du gezielt wiederholen.` : 'Diesmal gab es keine Fehler.'}</p>
                 <div class="deutsch-summary-actions">
                     ${missed.length ? '<button class="deutsch-button deutsch-button-primary" type="button" data-action="repeat-mistakes">Fehler noch einmal üben</button>' : ''}
-                    <button class="deutsch-button deutsch-button-light" type="button" data-action="home">Zur Themenübersicht</button>
+                    <button class="deutsch-button deutsch-button-light" type="button" data-action="topic-map">Zur Themenkarte</button>
                 </div>
             </section>`;
     }
@@ -376,13 +634,10 @@
         if (correct) {
             round.correct.add(exercise.id);
             round.solved.add(round.index);
-            if (!progress.completed.includes(exercise.id)) {
-                progress.completed.push(exercise.id);
-                persistProgress();
-            }
         } else {
             round.mistakes.add(exercise.id);
         }
+        recordAttempt(exercise, value, correct);
         const compare = exercise.type === 'rewrite' || exercise.type === 'error-correction';
         feedback = {
             correct,
@@ -392,6 +647,7 @@
             modelAnswer: modelAnswer(exercise)
         };
 
+        persistProgress();
         renderExercise();
     }
 
@@ -402,13 +658,17 @@
         const action = button.dataset.action;
 
         if (action === 'home') {
-            renderHome();
+            window.location.href = './deutsch.html';
+            return;
+        }
+        if (action === 'topic-map') {
+            window.location.href = './deutsch.html';
             return;
         }
         if (action === 'start-category') {
             const category = categories.find(item => item.id === button.dataset.category);
             if (category) {
-                startTopicRound(category, 30);
+                startTopicRound(category);
             }
             return;
         }
@@ -488,5 +748,21 @@
         }
     });
 
-    renderHome();
+    const initialTopic = categories.find(category => category.id === pageParams.get('topic'));
+    if (initialTopic) {
+        renderTopicDetail(initialTopic);
+    } else if (pageParams.has('topic')) {
+        root.innerHTML = `
+            <section class="deutsch-session deutsch-topic-detail">
+                <article class="deutsch-question-card deutsch-topic-card-detail">
+                    <h1>Thema nicht gefunden</h1>
+                    <p>Diese Themenkarte ist nicht verfügbar. Öffne eine Karte aus der Themenübersicht.</p>
+                    <a class="deutsch-button deutsch-button-primary" href="./deutsch.html">Zu den Themenkarten</a>
+                </article>
+            </section>
+        `;
+    } else {
+        renderHome();
+    }
+    loadSharedProgress();
 })();

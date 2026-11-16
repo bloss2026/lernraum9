@@ -97,7 +97,7 @@ const physicsTopics = [
 
 const currentSubject = subjects.find(subject => subject.id === document.documentElement.dataset.subject);
 const app = document.getElementById('portalApp');
-const exerciseSubjects = new Set(['mathematik', 'chemie', 'physik']);
+const exerciseSubjects = new Set(['deutsch', 'mathematik', 'chemie', 'physik']);
 
 function refreshSubjectProgressCards() {
     if (!document.querySelector('[data-progress-subject]')) return;
@@ -105,22 +105,23 @@ function refreshSubjectProgressCards() {
     const updateProgress = (subjectId, entry) => {
         const available = Array.isArray(entry?.available) ? entry.available : [];
         const completedIds = new Set(Array.isArray(entry?.completed) ? entry.completed : []);
+        const total = available.length || (subjectId === 'deutsch' ? 370 : 0);
         const completed = available.length
             ? available.filter(id => completedIds.has(id)).length
             : completedIds.size;
-        const percent = available.length ? Math.round((completed / available.length) * 100) : 0;
+        const percent = total ? Math.round((completed / total) * 100) : 0;
         document.querySelectorAll(`[data-progress-subject="${subjectId}"]`).forEach(node => {
-            node.textContent = available.length
-                ? `${completed} von ${available.length} Aufgaben bearbeitet`
+            node.textContent = total
+                ? `${completed} von ${total} Aufgaben ${subjectId === 'deutsch' ? 'richtig gelöst' : 'bearbeitet'}`
                 : `${completed} Aufgaben bearbeitet`;
         });
         document.querySelectorAll(`[data-progress-bar="${subjectId}"]`).forEach(bar => {
             bar.style.width = `${percent}%`;
-            bar.parentElement.hidden = !available.length;
+            bar.parentElement.hidden = !total;
             const progressBar = bar.parentElement;
             progressBar.setAttribute('aria-valuenow', String(percent));
-            progressBar.setAttribute('aria-valuetext', available.length
-                ? `${completed} von ${available.length} Aufgaben bearbeitet`
+            progressBar.setAttribute('aria-valuetext', total
+                ? `${completed} von ${total} Aufgaben ${subjectId === 'deutsch' ? 'richtig gelöst' : 'bearbeitet'}`
                 : `${completed} Aufgaben bearbeitet`);
         });
     };
@@ -235,7 +236,7 @@ function renderDashboard() {
                             <div class="progress-bar-container" role="progressbar" aria-label="${subject.name} Lernfortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                                 <div class="progress-bar" data-progress-bar="${subject.id}"></div>
                             </div>
-                        ` : `<span class="dashboard-progress-label">${subject.id === 'englisch' ? 'Vokabeltrainer verfügbar' : subject.id === 'deutsch' ? '7 Themen · Übungen und Prüfungstraining' : 'Für dieses Fach sind noch keine Übungen verfügbar'}</span>`}
+                        ` : `<span class="dashboard-progress-label">${subject.id === 'englisch' ? 'Vokabeltrainer verfügbar' : subject.id === 'deutsch' ? '11 Themen · 370 Übungen' : 'Für dieses Fach sind noch keine Übungen verfügbar'}</span>`}
                         ${subject.id === 'deutsch' ? `<a class="portal-card-link" href="./${subject.file}">Deutsch-Lernmodul öffnen →</a>` : ''}
                     </article>
                 `).join('')}
@@ -346,7 +347,9 @@ function renderSubjectPage(subject) {
 
     if (subject.id === 'deutsch') {
         const path = (window.location.pathname || '').toLowerCase();
-        const isThemeMap = path.endsWith('deutsch-themen.html');
+        const query = new URLSearchParams(window.location.search || '');
+        const isThemeMap = path.endsWith('deutsch-themen.html')
+            || !query.has('topic');
         if (isThemeMap) {
             const themeCards = [
                 { id: 'kasus', icon: '🧩', title: 'Die vier Fälle', description: 'Nominativ, Genitiv, Dativ, Akkusativ – die richtige Frage macht den Unterschied.', details: 'Was ist das Subjekt? Wessen? Wem? Wen oder was?' },
@@ -355,30 +358,33 @@ function renderSubjectPage(subject) {
                 { id: 'wortarten', icon: '🔎', title: 'Wortarten', description: 'Nomen, Verben, Adjektive, Pronomen, Präpositionen und Konjunktionen erkennen.', details: 'Wortarten geben den Satzbau und die Funktion eines Wortes an.' },
                 { id: 'rechtschreibung', icon: '✍️', title: 'Rechtschreibung', description: 'das/dass, s/ss/ß und typische Stolpersteine sicher beherrschen.', details: 'Achte auf Laut und Bedeutung, nicht nur auf „gefühltes“ Schreiben.' },
                 { id: 'gross-kleinschreibung', icon: '🔠', title: 'Groß- und Kleinschreibung', description: 'Nominalisierungen wie „beim Laufen“ und „etwas Wichtiges“ erkennen.', details: 'Wenn ein Verb wie ein Nomen gebraucht wird, wird es großgeschrieben.' },
-                { id: 'schreibwerkstatt', icon: '📝', title: 'Schreibwerkstatt & Ausdruck', description: 'Sätze verbessern, Kommas setzen und Bewerbungen formulieren.', details: 'Mehr Klarheit, bessere Satzstruktur und passender Ausdruck machen Sinn.' }
+                { id: 'schreibwerkstatt', icon: '📝', title: 'Schreibwerkstatt & Ausdruck', description: 'Sätze verbessern, Kommas setzen und Bewerbungen formulieren.', details: 'Mehr Klarheit, bessere Satzstruktur und passender Ausdruck machen Sinn.' },
+                { id: 'satzbau', icon: '🧱', title: 'Satzbau & Satzverbindungen', description: 'Satzglieder, Haupt- und Nebensätze sowie Satzreihen erkennen.', details: 'Achte auf Konjunktionen, Kommas und die Stellung des Verbs.', exerciseCount: 40 },
+                { id: 'adjektiv-vergleich', icon: '📏', title: 'Adjektive & Vergleiche', description: 'Grundform, Vergleichsform und Höchststufe sicher verwenden.', details: 'Beispiele: leicht – leichter – am leichtesten; gut – besser – am besten.', exerciseCount: 40 },
+                { id: 'gedichte', icon: '🌙', title: 'Gedichte verstehen', description: 'Verse, Strophen, Reime, sprachliche Bilder und Stimmung untersuchen.', details: 'Beschreibe erst Beobachtungen und belege Deutungen am Text.', exerciseCount: 40 },
+                { id: 'sachtexte-diagramme', icon: '📊', title: 'Sachtexte & Schaubilder', description: 'Informationen aus Tabellen und Diagrammen entnehmen und sachlich beschreiben.', details: 'Lies Titel, Achsen, Einheiten, Legende und Quelle genau.', exerciseCount: 40 }
             ];
             return `
                 <section class="portal-hero portal-subject-hero deutsch-hero">
                     <a class="portal-back-link" href="./index.html">← Dashboard</a>
                     <span class="pill">📖 DEUTSCH · THEMENKARTE</span>
-                    <h1>Deutsch – Kapitelübersicht</h1>
-                    <p>Jedes Kapitel enthält eine kurze Erklärung, ein Beispiel und eine passende Übung. Über die Karte kannst du direkt in die Lernseite wechseln.</p>
-                    <a class="deutsch-button deutsch-button-primary" href="./deutsch.html">Übungen starten</a>
+                    <h1>Deutsch – Themenkarten</h1>
+                    <p>Wähle eine Themenkarte. Sie führt direkt zur Erklärung und den Übungen des jeweiligen Kapitels.</p>
                 </section>
                 <section class="portal-content-section">
                     <div class="portal-section-heading">
-                        <div><span class="pill">LERNPFAD</span><h2>Kapitelübersicht</h2></div>
-                        <p>Ein Thema wählen → Regeln ansehen → Übung lösen</p>
+                        <div><span class="pill">LERNPFAD</span><h2>Themenkarten</h2></div>
+                        <p>11 Themen · 370 Übungen</p>
                     </div>
                     <div class="subject-grid">
                         ${themeCards.map(chapter => `
                             <article class="subject-card portal-subject-card">
                                 <span class="subject-icon" aria-hidden="true">${chapter.icon}</span>
-                                <span class="subject-status available">Erklärung · Beispiel · Übung</span>
+                                <span class="subject-status available">${chapter.exerciseCount || 30} Übungen · Erklärungen &amp; Beispiele</span>
                                 <h3>${chapter.title}</h3>
                                 <p>${chapter.description}</p>
                                 <small>${chapter.details}</small>
-                                <a class="portal-card-link" href="./deutsch.html">Kapitel öffnen →</a>
+                                <a class="portal-card-link" href="./deutsch.html?topic=${chapter.id}">Thema lernen →</a>
                             </article>
                         `).join('')}
                     </div>
