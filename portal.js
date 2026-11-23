@@ -97,7 +97,7 @@ const physicsTopics = [
 
 const currentSubject = subjects.find(subject => subject.id === document.documentElement.dataset.subject);
 const app = document.getElementById('portalApp');
-const exerciseSubjects = new Set(['deutsch', 'mathematik', 'chemie', 'physik']);
+const exerciseSubjects = new Set(['deutsch', 'englisch', 'mathematik', 'chemie', 'physik']);
 
 function refreshSubjectProgressCards() {
     if (!document.querySelector('[data-progress-subject]')) return;
@@ -252,7 +252,7 @@ function renderSubjectPage(subject) {
                 <a class="portal-back-link" href="./index.html">← Dashboard</a>
                 <span class="pill">${subject.icon} ENGLISCH · KLASSE 9</span>
                 <h1>Englisch</h1>
-                <p>Übe englische Vokabeln in kleinen Einheiten und in deinem Tempo. Deine Lernkarten und Fortschritte findest du an einem Ort.</p>
+                <p>Lerne Englisch im Zusammenhang: Verstehen, anwenden, sprechen und selbst formulieren – ergänzt durch gezieltes Vokabeltraining.</p>
             </section>
             <section class="portal-content-section">
                 <div class="portal-section-heading">
@@ -266,6 +266,17 @@ function renderSubjectPage(subject) {
                         <h3>Vokabeltrainer</h3>
                         <p>Wiederhole Wörter, übe Übersetzungen und behalte deinen Lernfortschritt im Blick.</p>
                         <span class="portal-card-link">Trainer öffnen →</span>
+                    </a>
+                    <a class="subject-card portal-subject-card" href="./englisch-lernen.html">
+                        <span class="subject-icon" aria-hidden="true">📖</span>
+                        <span class="subject-status available">Einführung · Merksätze · Übungen</span>
+                        <h3>Englisch lernen und anwenden</h3>
+                        <p>Grammatik, Alltagssprache, kurze Texte und eigene Formulierungen Schritt für Schritt üben.</p>
+                        <span class="portal-card-link">Lernmodul öffnen →</span>
+                        <span class="dashboard-progress-label" data-progress-subject="englisch">Wird geladen …</span>
+                        <div class="progress-bar-container" role="progressbar" aria-label="Englisch Lernfortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                            <div class="progress-bar" data-progress-bar="englisch"></div>
+                        </div>
                     </a>
                 </div>
             </section>
@@ -808,6 +819,21 @@ if (app) {
                 </header>
                 ${renderPhysicsLearningPage()}
                 <footer class="portal-footer">Lernraum 9 · Physik · Klasse 9.</footer>
+            </main>
+        `;
+    } else if (page === 'english-learning') {
+        app.innerHTML = `
+            ${renderNavigation('englisch')}
+            <main class="portal-main">
+                <header class="portal-topbar">
+                    <button class="portal-menu-toggle" type="button" aria-controls="portalSidebar" aria-expanded="false">
+                        <span aria-hidden="true">☰</span><span>Fächer</span>
+                    </button>
+                    <span>Lernplattform · Klasse 9</span>
+                    <a href="./index.html">Startseite</a>
+                </header>
+                <div id="englishApp"></div>
+                <footer class="portal-footer">Lernraum 9 · Englisch · Lernen und Anwenden</footer>
             </main>
         `;
     } else if (page === 'subject' && !subject) {
