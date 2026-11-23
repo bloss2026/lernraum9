@@ -287,7 +287,12 @@
                         <span>${categories.length} Themen · ${category.exercises.length} Aufgaben</span>
                     </div>
                     ${storageError ? `<p class="deutsch-storage-warning" role="status">${escapeHTML(storageError)}</p>` : ''}
-                    <p class="deutsch-progress-note">Dieser Lerninhalt ist als angesehen gespeichert. Deine Antworten und Versuche werden ebenfalls festgehalten.</p>
+                    <ol class="deutsch-learning-path" aria-label="Lernpfad">
+                        <li class="is-active"><span>1</span><strong>Einführung lesen</strong></li>
+                        <li><span>2</span><strong>Merksätze merken</strong></li>
+                        <li><span>3</span><strong>${category.exercises.length} Aufgaben lösen</strong></li>
+                    </ol>
+                    <p class="deutsch-progress-note"><strong>Lernstand gespeichert:</strong> Dieses Thema wurde aufgerufen; Antworten, erste Versuche, richtige Lösungen und Fehlversuche werden festgehalten.</p>
                     ${attemptedExercises.length ? `
                         <details class="deutsch-answer-history">
                             <summary>Bearbeitete Übungen und Antworten ansehen (${attemptedExercises.length})</summary>
@@ -565,12 +570,19 @@
         const missed = [...round.mistakes];
         const correctCount = round.solved.size;
         const total = round.items.length;
+        const accuracy = total ? Math.round(correctCount / total * 100) : 0;
         root.innerHTML = `
             <section class="deutsch-session deutsch-round-summary">
                 ${storageError ? `<p class="deutsch-storage-warning" role="status">${escapeHTML(storageError)}</p>` : ''}
                 <span class="deutsch-eyebrow">RUNDE BEENDET</span>
                 <h1>Gut gemacht!</h1>
                 <p>Du hast ${correctCount} von ${total} Aufgaben richtig gelöst. ${missed.length ? `${missed.length} Aufgabe${missed.length === 1 ? '' : 'n'} kannst du gezielt wiederholen.` : 'Diesmal gab es keine Fehler.'}</p>
+                <div class="deutsch-summary-result">
+                    <strong>${accuracy} %</strong>
+                    <span>Erfolgsquote in dieser Runde</span>
+                    <div class="deutsch-progress-track" role="progressbar" aria-label="Erfolgsquote" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${accuracy}"><span style="width:${accuracy}%"></span></div>
+                    <p>Dein Ergebnis und alle Antworten bleiben auf diesem Gerät gespeichert${window.LernraumDB ? ' und werden mit deinem Lernkonto synchronisiert' : ''}.</p>
+                </div>
                 <div class="deutsch-summary-actions">
                     ${missed.length ? '<button class="deutsch-button deutsch-button-primary" type="button" data-action="repeat-mistakes">Fehler noch einmal üben</button>' : ''}
                     <button class="deutsch-button deutsch-button-light" type="button" data-action="topic-map">Zur Themenkarte</button>

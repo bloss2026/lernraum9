@@ -16,8 +16,41 @@ window.DeutschExercises = [
                 { title: 'Genitiv', text: 'Die Tasche der Schülerin liegt im Klassenraum. — Wessen Tasche? Der Schülerin.' },
                 { title: 'Dativ', text: 'Mila hilft dem Freund. — Wem hilft Mila? Dem Freund.' },
                 { title: 'Akkusativ', text: 'Lena trifft den Chef. — Wen trifft Lena? Den Chef.' }
+            ],
+            sections: [
+                {
+                    title: '1. Mit der richtigen Frage prüfen',
+                    text: 'Stelle vor der Bestimmung eine Fallfrage zur Wortgruppe. Die Frage ergibt sich aus Verb und Präposition: Wer oder was?, Wessen?, Wem? oder Wen oder was?',
+                    points: [
+                        'Frage zuerst nach dem Verb und nicht nur nach dem Wort.',
+                        'Behalte in der Antwort die ganze passende Wortgruppe im Blick.',
+                        'Prüfe bei Präpositionen, welchen Fall die Präposition verlangt.'
+                    ]
+                },
+                {
+                    title: '2. Artikel und Pronomen mitbeachten',
+                    text: 'Der bestimmte Artikel verändert sich je nach Fall und Geschlecht. Er ist ein nützlicher Hinweis, ersetzt aber nicht die Fallfrage.',
+                    points: [
+                        'Nominativ maskulin: der; Akkusativ maskulin: den.',
+                        'Dativ feminin: der; Genitiv feminin: der.',
+                        'Personalpronomen wechseln ebenfalls: ich – meiner – mir – mich.'
+                    ]
+                },
+                {
+                    title: '3. Den Satzinhalt kontrollieren',
+                    text: 'Übersetze die Frageprobe in eine kurze Kontrollfrage und prüfe, welche Rolle die Wortgruppe im Satz hat.',
+                    points: [
+                        'Das Subjekt antwortet auf Wer oder was?',
+                        'Der Empfänger steht nach geben, helfen und erzählen häufig im Dativ.',
+                        'Das direkte Ziel steht nach treffen, sehen oder fragen oft im Akkusativ.'
+                    ]
+                }
             ]
         },
+        sources: [
+            { title: 'IDS grammis: Kasus', url: 'https://grammis.ids-mannheim.de/vggf/2143', note: 'Fachliche Erklärung zu Nominativ, Genitiv, Dativ und Akkusativ.' },
+            { title: 'Duden: Vier Fälle', url: 'https://www.duden.de/sprachwissen/sprachratgeber/Fall-oder-Kasus', note: 'Regeln und typische Zweifelsfälle zu den deutschen Fällen.' }
+        ],
         exercises: [
             { id: 'kasus-01', type: 'multiple-choice', prompt: 'Bestimme den Fall des markierten Satzglieds: **Der neue Torwart** hält den Ball.', question: 'In welchem Fall steht „Der neue Torwart“?', options: ['Nominativ', 'Genitiv', 'Dativ', 'Akkusativ'], answer: 'Nominativ', tip: 'Frage: Wer oder was hält den Ball?', explanation: '„Der neue Torwart“ ist das Subjekt. Nach ihm fragst du mit „Wer oder was hält den Ball?“ – das ist der Nominativ.' },
             { id: 'kasus-02', type: 'multiple-choice', prompt: '„Die Tasche **meiner Schwester** liegt im Bus.“ Welcher Fall ist markiert?', question: 'Bestimme den Fall von „meiner Schwester“.', options: ['Nominativ', 'Genitiv', 'Dativ', 'Akkusativ'], answer: 'Genitiv', tip: 'Der Genitiv antwortet oft auf „Wessen?“', explanation: 'Wessen Tasche liegt im Bus? Die Tasche meiner Schwester. Die Frage „Wessen?“ zeigt den Genitiv.' },
@@ -48,8 +81,41 @@ window.DeutschExercises = [
                 { title: 'Präteritum', text: 'Gestern lief ich zum Training. — Handlung liegt in der Vergangenheit.' },
                 { title: 'Perfekt', text: 'Ich habe meine Bewerbung schon abgeschickt. — Ergebnis der Vergangenheit ist wichtig.' },
                 { title: 'Futur I', text: 'Morgen werde ich mich auf den Test vorbereiten. — Zukunft.' }
+            ],
+            sections: [
+                {
+                    title: '1. Zeitangaben und Verbformen prüfen',
+                    text: 'Such nach einer Zeitangabe und danach nach der Verbform. Zeitangaben wie heute, gestern oder morgen sind Hinweise, nicht immer die alleinige Regel.',
+                    points: [
+                        'Heute und jetzt können das Präsens anzeigen.',
+                        'Gestern und letztes Jahr weisen häufig auf Vergangenheit hin.',
+                        'Morgen zeigt häufig eine Zukunftsplanung oder Absicht an.'
+                    ]
+                },
+                {
+                    title: '2. Perfekt als Verbgruppe verstehen',
+                    text: 'Beim Perfekt besteht die Verbform aus Hilfsverb und Partizip II. Hilfsverb und Partizip dürfen nicht wie ein einzelnes Verb behandelt werden.',
+                    points: [
+                        'Haben wird bei den meisten Verben verwendet.',
+                        'Sein erscheint häufig bei Bewegung oder Zustandswechsel.',
+                        'Das Partizip II steht in der Regel am Satzende.'
+                    ]
+                },
+                {
+                    title: '3. Zeitform passend einsetzen',
+                    text: 'In mündlichen Erzählungen kommt häufig das Perfekt vor, in schriftlichen Erzählungen oft das Präteritum. Wähle eine einheitliche Erzählweise.',
+                    points: [
+                        'Im Text nicht ständig zwischen Perfekt und Präteritum wechseln.',
+                        'Das Futur I besteht aus werden und Infinitiv.',
+                        'Das Präsens kann Gegenwart, Gewohnheit oder in seltenen Fällen Zukunft ausdrücken.'
+                    ]
+                }
             ]
         },
+        sources: [
+            { title: 'IDS grammis: Tempus', url: 'https://grammis.ids-mannheim.de/vggf/2104', note: 'Zeitformen und ihre Verwendung im Deutschen.' },
+            { title: 'Duden: Perfekt und Präteritum', url: 'https://www.duden.de/sprachwissen/sprachratgeber/Perfekt-und-Praeteritum', note: 'Hilfen zur Wahl der Vergangenheitsformen.' }
+        ],
         exercises: [
             { id: 'tempora-01', type: 'multiple-choice', prompt: 'Welche Zeitform hat der Satz: „Wir trainieren heute in der Halle.“', question: 'Bestimme die Zeitform.', options: ['Präsens', 'Präteritum', 'Perfekt', 'Futur I'], answer: 'Präsens', tip: 'Die Handlung findet jetzt oder regelmäßig statt.', explanation: '„Trainieren“ ist die finite Verbform im Präsens. Der Satz beschreibt eine aktuelle Handlung.' },
             { id: 'tempora-02', type: 'multiple-choice', prompt: '„Gestern schrieb Amir seine Bewerbung.“ Welche Zeitform ist das?', question: 'Bestimme die Zeitform.', options: ['Präsens', 'Präteritum', 'Perfekt', 'Futur I'], answer: 'Präteritum', tip: 'Achte auf die einfache Vergangenheitsform „schrieb“.', explanation: '„Schrieb“ ist die Präteritumform von „schreiben“.' },
@@ -79,8 +145,41 @@ window.DeutschExercises = [
                 { title: 'Aktiv', text: 'Die Klasse organisiert das Sportfest. — Das Subjekt tut etwas.' },
                 { title: 'Passiv', text: 'Das Sportfest wird von der Klasse organisiert. — Das Ergebnis ist wichtig.' },
                 { title: 'Präzise Formulierung', text: 'Die Aufgaben werden verteilt. — Sachliche und neutrale Sprache.' }
+            ],
+            sections: [
+                {
+                    title: '1. Vom Aktor zur betroffenen Sache',
+                    text: 'Stelle fest, wer handelt und was betroffen ist. Im Aktiv führt das handelnde Subjekt die Tätigkeit aus; im Passiv steht die betroffene Sache im Fokus.',
+                    points: [
+                        'Aktiv: Der Hausmeister repariert das Tor.',
+                        'Passiv: Das Tor wird repariert.',
+                        'Die handelnde Person kann mit von oder durch ergänzt werden.'
+                    ]
+                },
+                {
+                    title: '2. Die Passivform erkennen',
+                    text: 'Das Vorgangspassiv besteht aus einer Form von werden und dem Partizip II. Die Form von werden bestimmt die Zeit.',
+                    points: [
+                        'Präsens: wird/wird ... repariert.',
+                        'Präteritum: wurde/wurden ... repariert.',
+                        'Das Partizip II bleibt bei der Umformung unverändert.'
+                    ]
+                },
+                {
+                    title: '3. Aktiv und Passiv gezielt umformen',
+                    text: 'Beim Umformen wird das Akkusativobjekt zum Subjekt. Die handelnde Person wird im Aktiv wieder zum Subjekt.',
+                    points: [
+                        'Mia wirft den Ball. -> Der Ball wird von Mia geworfen.',
+                        'Das Passiv lässt die handelnde Person weg, wenn sie unwichtig ist.',
+                        'Achte nach der Umformung auf die richtige Form von werden.'
+                    ]
+                }
             ]
         },
+        sources: [
+            { title: 'IDS grammis: Passiv', url: 'https://grammis.ids-mannheim.de/vggf/2230', note: 'Bildung und Funktion des Vorgangspassivs.' },
+            { title: 'Duden: Aktiv und Passiv', url: 'https://www.duden.de/sprachwissen/sprachratgeber/Aktiv-Passiv', note: 'Gebrauch und Umformung von Aktiv- und Passivsätzen.' }
+        ],
         exercises: [
             { id: 'passiv-01', type: 'multiple-choice', prompt: '„Die Trainerin erklärt die neue Taktik.“ Aktiv oder Passiv?', question: 'Welche Aussage passt?', options: ['Aktiv', 'Passiv', 'Infinitiv', 'Keine Verbform'], answer: 'Aktiv', tip: 'Im Aktiv handelt das Subjekt selbst.', explanation: 'Die Trainerin führt die Handlung aus. Das Subjekt ist die handelnde Person – deshalb Aktiv.' },
             { id: 'passiv-02', type: 'rewrite', prompt: 'Forme ins Vorgangspassiv um: „Der Hausmeister repariert das Tor.“', validAnswers: ['Das Tor wird vom Hausmeister repariert.', 'Das Tor wird durch den Hausmeister repariert.'], tip: 'Passiv im Präsens: werden + Partizip II; das Objekt rückt nach vorn.', explanation: 'Das Akkusativobjekt „das Tor“ wird zum Subjekt. „Wird repariert“ bildet das Vorgangspassiv im Präsens.' },
@@ -113,8 +212,41 @@ window.DeutschExercises = [
                 { title: 'Verb', text: 'lernen, laufen, schreiben.' },
                 { title: 'Adjektiv', text: 'schnell, freundlich, wichtig.' },
                 { title: 'Präposition', text: 'in, auf, zwischen, wegen.' }
+            ],
+            sections: [
+                {
+                    title: '1. Die Wortrolle bestimmen',
+                    text: 'Wortarten beschreiben die Rolle eines Wortes in einem bestimmten Satz. Dasselbe Wort kann je nach Satz sogar eine andere Rolle haben.',
+                    points: [
+                        'Frage bei Verben: Was geschieht oder was wird gemacht?',
+                        'Frage bei Adjektiven: Wie ist oder geschieht etwas?',
+                        'Prüfe bei Pronomen, ob ein Nomen ersetzt oder begleitet wird.'
+                    ]
+                },
+                {
+                    title: '2. Nomen und Adjektive unterscheiden',
+                    text: 'Nomen benennen Gegenstände, Personen, Gefühle oder Begriffe. Adjektive beschreiben Eigenschaften oder Zustände.',
+                    points: [
+                        'Nomen werden großgeschrieben.',
+                        'Adjektive bleiben kleingeschrieben, wenn sie kein Nomen ersetzen.',
+                        'Bei Nominalisierung können Verben oder Adjektive wie Nomen behandelt werden.'
+                    ]
+                },
+                {
+                    title: '3. Verbindungswörter erkennen',
+                    text: 'Präpositionen stellen Beziehungen her und bilden mit einem Nomen eine Gruppe. Konjunktionen verbinden Wörter, Satzteile oder ganze Sätze.',
+                    points: [
+                        'Präpositionen nennen Ort, Zeit oder Richtung: in, an, wegen.',
+                        'Nebenordnende Konjunktionen verbinden gleichrangige Teile.',
+                        'Unterordnende Konjunktionen wie weil oder obwohl leiten Nebensätze ein.'
+                    ]
+                }
             ]
         },
+        sources: [
+            { title: 'IDS grammis: Wortarten', url: 'https://grammis.ids-mannheim.de/vggf/2169', note: 'Überblick über die deutschen Wortarten und ihre Merkmale.' },
+            { title: 'Duden: Wortarten', url: 'https://www.duden.de/sprachwissen/sprachratgeber/Wortarten', note: 'Erläuterungen zu Nomen, Verben, Adjektiven und weiteren Wortarten.' }
+        ],
         exercises: [
             { id: 'wort-01', type: 'multiple-choice', prompt: 'Welche Wortart hat „zuverlässig“ in „Mina arbeitet zuverlässig“?', question: 'Wähle die passende Wortart.', options: ['Nomen', 'Verb', 'Adjektiv', 'Präposition'], answer: 'Adjektiv', tip: 'Adjektive beschreiben Eigenschaften oder wie etwas geschieht.', explanation: '„Zuverlässig“ beschreibt, wie Mina arbeitet. Es ist ein Adjektiv.' },
             { id: 'wort-02', type: 'word-click', prompt: 'Klicke alle Nomen an.', tokens: ['Nach', 'dem', 'Training', 'trinkt', 'Ben', 'Wasser.'], correctIndices: [2, 4, 5], tip: 'Nomen bezeichnen Menschen, Dinge oder Begriffe und werden großgeschrieben.', explanation: '„Training“, „Ben“ und „Wasser“ sind Nomen. „Nach“ ist eine Präposition, „trinkt“ ein Verb.' },
@@ -145,8 +277,41 @@ window.DeutschExercises = [
                 { title: 'dass', text: 'Ich weiß, dass du morgen kommst. — Nebensatz mit Konjunktion.' },
                 { title: 'ss', text: 'fließen, Strasse, Klasse.' },
                 { title: 'ß', text: 'Straße, groß, Fuß, Maß.' }
+            ],
+            sections: [
+                {
+                    title: '1. das oder dass mit der Ersatzprobe',
+                    text: 'Prüfe, ob das Wort ein Artikel, ein Pronomen oder ein Relativwort ist. Ein Nebensatz wird dagegen mit dass eingeleitet.',
+                    points: [
+                        'Kannst du dieses oder jenes einsetzen, passt meist das.',
+                        'Kannst du welches einsetzen, ist das ein Relativpronomen.',
+                        'Leitet dass einen Nebensatz ein, wird es mit ss geschrieben.'
+                    ]
+                },
+                {
+                    title: '2. s, ss oder ß durch die Aussprache prüfen',
+                    text: 'Sprich das Wort langsam und höre auf den vorherigen Vokal. Eine kurze betonte Silbe wird oft mit ss geschrieben.',
+                    points: [
+                        'Kurz: nass, Klasse, Fluss.',
+                        'Lang oder Doppellaut: Straße, groß, Fuß.',
+                        'Bei Unsicherheit hilft ein verwandtes Wort oder die Wortfamilie.'
+                    ]
+                },
+                {
+                    title: '3. Satz und Wort zugleich kontrollieren',
+                    text: 'Bei einem Rechtschreibfehler können mehrere Regeln zusammenkommen. Prüfe zuerst Satzbau und Wortart, danach die s-Schreibung.',
+                    points: [
+                        'Vor Nebensätzen steht häufig ein Komma.',
+                        'Nomen werden großgeschrieben.',
+                        'Kontrolliere das neue Wort noch einmal im vollständigen Satz.'
+                    ]
+                }
             ]
         },
+        sources: [
+            { title: 'Duden: Das oder dass', url: 'https://www.duden.de/sprachwissen/rechtschreibregeln/das-dass', note: 'Ersatzprobe und Schreibweise von das beziehungsweise dass.' },
+            { title: 'Duden: s, ss oder ß', url: 'https://www.duden.de/sprachwissen/rechtschreibregeln/s-ss-ss', note: 'Lautorientierte Regeln für s, ss und ß.' }
+        ],
         exercises: [
             { id: 'recht-01', type: 'dropdown', prompt: '„Ich finde, ___ unser Team gut gespielt hat.“', sentence: 'Ich finde, {{blank}} unser Team gut gespielt hat.', choices: ['das', 'dass'], answer: 'dass', tip: 'Leitet das Wort einen Nebensatz ein? Dann meist „dass“.', explanation: '„Dass“ leitet den Nebensatz „dass unser Team gut gespielt hat“ ein. Die Ersatzprobe mit „welches“ passt nicht.' },
             { id: 'recht-02', type: 'fill-in', prompt: 'Setze „das“ oder „dass“ ein. Achte auf die genaue Schreibweise: „___ Video, ___ du geteilt hast, ist witzig.“', sentence: '___ Video, ___ du geteilt hast, ist witzig.', answer: 'Das, das', strictCase: true, tip: 'Vor „Video“ passt „dieses“. Beim zweiten Wort passt „welches“.', explanation: '„Das Video“ enthält den Artikel „das“. Im Relativsatz kannst du „das“ durch „welches“ ersetzen.' },
@@ -176,8 +341,42 @@ window.DeutschExercises = [
                 { title: 'beim Laufen', text: 'Beim Laufen höre ich Musik. — „Laufen“ wird als Nomen genutzt.' },
                 { title: 'das Schreiben', text: 'Das Schreiben fällt mir leicht. — Nominalisierter Infinitiv.' },
                 { title: 'etwas Wichtiges', text: 'Ich habe etwas Wichtiges gelernt. — Das Adjektiv wird zu einem Nomen.' }
+            ],
+            sections: [
+                {
+                    title: '1. Hinweise auf Nominalisierung finden',
+                    text: 'Achte auf Artikel, Präpositionen mit Artikel oder unbestimmte Mengenangaben. Sie können anzeigen, dass ein Verb oder Adjektiv als Nomen gebraucht wird.',
+                    points: [
+                        'das Schreiben, das Lachen',
+                        'beim Lesen, zum Kochen',
+                        'etwas Neues, alles Gute'
+                    ]
+                },
+                {
+                    title: '2. Großschreibung begründen',
+                    text: 'Ist ein Wort in einen Nomengebrauch überführt, erhält es die Großschreibung eines Nomen. Die Begründung sollte sich auf den Artikel oder die Mengenangabe beziehen.',
+                    points: [
+                        'Artikel: das Lesen',
+                        'Präposition mit Artikel: beim Laufen',
+                        'Unbestimmtes Fürwort: etwas Wichtiges'
+                    ]
+                },
+                {
+                    title: '3. Adjektive nach der Nominalisierung prüfen',
+                    text: 'Ein nominalisiertes Adjektiv erhält je nach Begleitwort eine starke oder schwache Adjektivendung. Beginne mit der sicheren Großschreibung und prüfe dann die Endung.',
+                    points: [
+                        'etwas Neues',
+                        'nichts Gutes',
+                        'alles Schöne',
+                        'viele Wichtige'
+                    ]
+                }
             ]
         },
+        sources: [
+            { title: 'Duden: Groß- und Kleinschreibung', url: 'https://www.duden.de/sprachwissen/rechtschreibregeln/gross-kleinschreibung', note: 'Grundregeln und Nominalisierungen.' },
+            { title: 'IDS grammis: Nominalisierung', url: 'https://grammis.ids-mannheim.de/vggf/2204', note: 'Substantivierung von Verben und Adjektiven.' }
+        ],
         exercises: [
             { id: 'gross-01', type: 'multiple-choice', prompt: 'Welche Schreibweise ist richtig?', question: '„Beim ___ kann ich gut abschalten.“', options: ['laufen', 'Laufen', 'Laufen,', 'LAUFEN'], answer: 'Laufen', tip: 'Auf „beim“ folgt häufig ein nominalisierter Infinitiv.', explanation: '„Beim“ ist die Verschmelzung aus „bei dem“. Der Infinitiv wird dadurch als Nomen gebraucht und großgeschrieben.' },
             { id: 'gross-02', type: 'fill-in', prompt: 'Ergänze das nominalisierte Adjektiv: „Im Praktikum habe ich viel ___ gelernt.“', sentence: 'Im Praktikum habe ich viel ___ gelernt.', answer: 'Wichtiges', strictCase: true, tip: 'Nach „viel“ kann ein Adjektiv als Nomen gebraucht werden.', explanation: '„Wichtiges“ steht ohne Bezugsnomen und wird nominalisiert – deshalb schreibt man es groß.' },
@@ -207,8 +406,41 @@ window.DeutschExercises = [
                 { title: 'Komma bei Nebensätzen', text: 'Ich komme später, weil mein Bus verspätet ist.' },
                 { title: 'Standardsprache', text: 'Ich habe das Praktikum sehr interessant gefunden.' },
                 { title: 'Bewerbung', text: 'Ich interessiere mich für ein Praktikum in Ihrem Betrieb.' }
+            ],
+            sections: [
+                {
+                    title: '1. Inhalt zuerst klar formulieren',
+                    text: 'Überlege, welche Aussage wichtig ist, und ordne Hauptaussage, Grund und Beispiel in einer verständlichen Reihenfolge.',
+                    points: [
+                        'Ein Satz sollte eine klare Aussage enthalten.',
+                        'Begründe zentrale Aussagen mit weil oder dass.',
+                        'Wiederholungen durch präzise Nomen und Verben vermeiden.'
+                    ]
+                },
+                {
+                    title: '2. Stil und Adressat prüfen',
+                    text: 'Passe die Sprache dem Zweck an. Für Bewerbung und Unterricht ist die Standardsprache angemessen.',
+                    points: [
+                        'Vermeide Füllwörter wie irgendwie oder mega.',
+                        'Sprich Empfängerinnen und Empfänger in formellen Texten mit Sie an.',
+                        'Nenne konkrete Fähigkeiten und Beispiele statt allgemeiner Aussagen.'
+                    ]
+                },
+                {
+                    title: '3. Satzzeichen und Lesbarkeit kontrollieren',
+                    text: 'Lies den Text laut. Lange Nebensätze sollten durch sinnvolle Kommas gegliedert und nicht überladen werden.',
+                    points: [
+                        'Nebensätze vom Hauptsatz abgrenzen.',
+                        'Eingeschobene Nebensätze beidseitig mit Komma markieren.',
+                        'Nach der Zeichensetzung Rechtschreibung und Großschreibung prüfen.'
+                    ]
+                }
             ]
         },
+        sources: [
+            { title: 'Duden: Kommasetzung', url: 'https://www.duden.de/sprachwissen/rechtschreibregeln/Komma', note: 'Regeln für Haupt- und Nebensätze sowie Aufzählungen.' },
+            { title: 'Duden: Stilratgeber', url: 'https://www.duden.de/sprachwissen/sprachratgeber', note: 'Höfliche, klare und sachliche Formulierungen in verschiedenen Textsorten.' }
+        ],
         exercises: [
             { id: 'schreib-01', type: 'rewrite', prompt: 'Schreibe den Satz in Standardsprache um: „Der Film war voll nice und ich hab ihn direkt gepostet.“', validAnswers: ['Der Film war sehr gut und ich habe ihn sofort veröffentlicht.', 'Der Film hat mir sehr gut gefallen, deshalb habe ich ihn sofort gepostet.', 'Der Film war wirklich gut und ich habe ihn direkt geteilt.'], tip: 'Ersetze Umgangssprache durch genaue, sachliche Wörter.', explanation: 'In Standardsprache verwendest du zum Beispiel „sehr gut“ statt „voll nice“ und „habe“ statt „hab“. Eine passende Formulierung klingt klar und vollständig.' },
             { id: 'schreib-02', type: 'error-correction', prompt: 'Setze die fehlenden Kommas und korrigiere die Großschreibung.', sentence: 'Ich hoffe dass ich im Praktikum viel neues lerne.', validAnswers: ['Ich hoffe, dass ich im Praktikum viel Neues lerne.'], tip: 'Vor einem dass-Nebensatz steht ein Komma.', explanation: 'Der Nebensatz beginnt mit „dass“ und wird durch ein Komma abgetrennt. „Neues“ ist nach „viel“ nominalisiert.' },

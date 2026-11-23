@@ -1,4 +1,4 @@
-const CACHE_NAME = 'lernraum9-v65';
+const CACHE_NAME = 'lernraum9-v66';
 const APP_ASSETS = [
     './',
     './index.html',

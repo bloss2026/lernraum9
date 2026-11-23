@@ -262,6 +262,47 @@
     margin: 0;
     padding-left: 1.1rem;
 }
+.deutsch-learning-path {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.65rem;
+    margin: 1.1rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+.deutsch-learning-path li {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 58px;
+    padding: 0.65rem;
+    border: 1px solid #dbe7ef;
+    border-radius: 12px;
+    background: #fff;
+    color: #526579;
+}
+.deutsch-learning-path li > span {
+    display: grid;
+    width: 30px;
+    height: 30px;
+    flex: 0 0 30px;
+    place-items: center;
+    border-radius: 50%;
+    background: #edf5f9;
+    color: #087ba8;
+}
+.deutsch-learning-path li.is-active {
+    border-color: #8ccbe8;
+    background: #edf8ff;
+    color: #17415b;
+}
+.deutsch-learning-path li.is-active > span {
+    background: #087ba8;
+    color: #fff;
+}
+.deutsch-learning-path strong {
+    line-height: 1.35;
+}
 .deutsch-example-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -364,6 +405,28 @@
 .deutsch-theory-box h3 { margin: 0 0 0.45rem; color: #0f3d53; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em; }
 .deutsch-theory-box p { margin: 0; color: #365266; line-height: 1.7; }
 .deutsch-footer { margin-top: 1.25rem; color: #65798d; font-size: 0.82rem; }
+.deutsch-summary-result {
+    display: grid;
+    gap: 0.45rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid rgba(14, 165, 233, 0.16);
+    border-radius: 14px;
+    background: #f8fbff;
+}
+.deutsch-summary-result > strong {
+    color: #087ba8;
+    font-size: 1.8rem;
+}
+.deutsch-summary-result > span,
+.deutsch-summary-result p {
+    color: #526579;
+}
+.deutsch-summary-result p {
+    margin: 0.25rem 0 0;
+    font-size: 0.84rem;
+    line-height: 1.5;
+}
 
 .deutsch-session {
     max-width: 850px;
@@ -436,6 +499,7 @@
     .deutsch-topic-grid { grid-template-columns: 1fr; }
     .deutsch-topic-card { min-height: 0; }
     .deutsch-topic-description { min-height: 0; }
+    .deutsch-learning-path { grid-template-columns: 1fr; }
     .deutsch-choice-grid,
     .deutsch-comparison { grid-template-columns: 1fr; }
     .deutsch-session-top { align-items: flex-start; flex-direction: column; }
