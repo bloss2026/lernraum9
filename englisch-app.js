@@ -59,6 +59,30 @@
         }
     }
 
+    function mergeProgress(local, shared) {
+        const answerHistory = { ...(shared.answerHistory || {}) };
+        Object.entries(local.answerHistory || {}).forEach(([id, attempts]) => {
+            const merged = [...(answerHistory[id] || [])];
+            const seen = new Set(merged.map(attempt => JSON.stringify(attempt)));
+            (Array.isArray(attempts) ? attempts : []).forEach(attempt => {
+                const key = JSON.stringify(attempt);
+                if (!seen.has(key)) {
+                    seen.add(key);
+                    merged.push(attempt);
+                }
+            });
+            answerHistory[id] = merged;
+        });
+        return {
+            completed: [...new Set([...(shared.completed || []), ...local.completed])].filter(id => exerciseIds.has(id)),
+            attempted: [...new Set([...(shared.attempted || []), ...local.attempted])].filter(id => exerciseIds.has(id)),
+            studiedTopics: [...new Set([...(shared.studiedTopics || []), ...local.studiedTopics])]
+                .filter(id => categories.some(category => category.id === id)),
+            answerHistory: Object.fromEntries(Object.entries(answerHistory)
+                .filter(([id, attempts]) => exerciseIds.has(id) && Array.isArray(attempts)))
+        };
+    }
+
     function persistProgress() {
         try {
             window.localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
@@ -104,6 +128,37 @@
         renderTopic();
     }
 
+    function renderHome() {
+        activeCategory = null;
+        round = null;
+        root.innerHTML = `
+            <section class="english-learn">
+                <div class="english-hero">
+                    <a class="english-back" href="./englisch.html">← Englisch</a>
+                    <span class="english-eyebrow">ENGLISCH · KLASSE 9</span>
+                    <h1>Englisch lernen und anwenden</h1>
+                    <p>Wörter werden in Sätzen, Texten und eigenen Formulierungen gebraucht – für echten Lernfortschritt.</p>
+                </div>
+                <div class="english-section-heading"><h2>Deine Lernbereiche</h2><span>${exercises.length} Übungen</span></div>
+                <div class="english-topic-grid english-topic-overview">
+                    ${categories.map(category => {
+                        const done = category.exercises.filter(exercise => progress.completed.includes(exercise.id)).length;
+                        const attempted = category.exercises.filter(exercise => progress.attempted.includes(exercise.id)).length;
+                        const percent = Math.round(done / category.exercises.length * 100);
+                        return `<button type="button" class="english-topic-button" data-category="${category.id}">
+                            <span>${category.icon}</span>
+                            <strong>${escapeHTML(category.title)}</strong>
+                            <small>${escapeHTML(category.description)}</small>
+                            <span class="english-topic-count">${done}/${category.exercises.length} richtig gelöst · ${attempted} bearbeitet</span>
+                            <div class="english-progress-track"><span style="width:${percent}%"></span></div>
+                            <span class="english-topic-link">Lernbereich öffnen →</span>
+                        </button>`;
+                    }).join('')}
+                </div>
+            </section>
+        `;
+    }
+
     function renderTopic() {
         const category = activeCategory;
         const attempted = category.exercises.filter(exercise => progress.attempted.includes(exercise.id)).length;
@@ -112,12 +167,12 @@
             <section class="english-learn">
                 <div class="english-session-top">
                     <button type="button" class="english-text-button" data-action="home">← Themenübersicht</button>
-                    <span>${completed}/${category.exercises.length} Aufgaben richtig gelöst</span>
+                    <span>${completed}/${category.exercises.length} ${category.vocabulary ? 'Vokabeln gelernt' : 'Aufgaben richtig gelöst'}</span>
                 </div>
                 <article class="english-topic-card">
-                    <span class="english-eyebrow">${category.icon} ${category.title}</span>
-                    <h1>${category.title}</h1>
-                    <p class="english-description">${category.description}</p>
+                    <span class="english-eyebrow">${escapeHTML(category.icon)} ${escapeHTML(category.title)}</span>
+                    <h1>${escapeHTML(category.title)}</h1>
+                    <p class="english-description">${escapeHTML(category.description)}</p>
                     <div class="english-learning-path" aria-label="Lernpfad">
                         <span class="is-active"><strong>1</strong>Einführung lesen</span>
                         <span><strong>2</strong>Merksätze merken</span>
@@ -136,15 +191,22 @@
                     <div class="english-example-grid">
                         ${category.lesson.examples.map(([text, label]) => `<article><strong>${escapeHTML(label)}</strong><p>${escapeHTML(text)}</p></article>`).join('')}
                     </div>
-                    <p class="english-progress-note">${attempted}/${category.exercises.length} Aufgaben bearbeitet. Dein Fortschritt wird auf diesem Gerät und mit dem Lernkonto gespeichert.</p>
-                    <button type="button" class="english-button english-button-primary" data-action="start">Mit den Übungen beginnen</button>
+                    <p class="english-progress-note">${attempted}/${category.exercises.length} ${category.vocabulary ? 'Vokabeln' : 'Aufgaben'} bearbeitet. Dein Fortschritt wird auf diesem Gerät und mit dem Lernkonto gespeichert.</p>
+                    <button type="button" class="english-button english-button-primary" data-action="start">${category.vocabulary ? 'Mit bis zu 10 Vokabeln üben' : 'Mit den Übungen beginnen'}</button>
                 </article>
             </section>
         `;
     }
 
     function startRound() {
-        round = [...activeCategory.exercises].sort(() => Math.random() - 0.5);
+        const candidates = [...activeCategory.exercises];
+        if (activeCategory.vocabulary) {
+            const notMastered = candidates.filter(exercise => !progress.completed.includes(exercise.id));
+            const mastered = candidates.filter(exercise => progress.completed.includes(exercise.id));
+            round = [...shuffle(notMastered), ...shuffle(mastered)].slice(0, 10);
+        } else {
+            round = shuffle(candidates);
+        }
         index = 0;
         roundCorrect = new Set();
         selectedChoice = '';
@@ -168,12 +230,12 @@
             <section class="english-learn english-session">
                 <div class="english-session-top">
                     <button type="button" class="english-text-button" data-action="topic">← Thema</button>
-                    <span>${activeCategory.title}</span>
+                    <span>${escapeHTML(activeCategory.title)}</span>
                 </div>
                 <div class="english-progress-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent}"><span style="width:${percent}%"></span></div>
                 <div class="english-count">Aufgabe ${index + 1} von ${round.length}</div>
                 <article class="english-question-card">
-                    <span class="english-eyebrow">${exercise.categoryTitle}</span>
+                    <span class="english-eyebrow">${escapeHTML(exercise.categoryTitle)}</span>
                     <h2>${escapeHTML(exercise.prompt)}</h2>
                     ${exercise.sentence ? `<p class="english-sentence">${escapeHTML(exercise.sentence)}</p>` : ''}
                     ${input}
@@ -221,32 +283,52 @@
         return root.querySelector('[data-answer]')?.value || answerText;
     }
 
+    function shuffle(items) {
+        const result = [...items];
+        for (let i = result.length - 1; i > 0; i -= 1) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [result[i], result[j]] = [result[j], result[i]];
+        }
+        return result;
+    }
+
     loadProgress();
-    root.innerHTML = `
-        <section class="english-learn">
-            <div class="english-hero">
-                <a class="english-back" href="./englisch.html">← Englisch</a>
-                <span class="english-eyebrow">ENGLISCH · KLASSE 9</span>
-                <h1>Englisch lernen und anwenden</h1>
-                <p>Wörter werden in Sätzen, Texten und eigenen Formulierungen gebraucht – für echten Lernfortschritt.</p>
-            </div>
-            <div class="english-section-heading"><h2>Deine Lernbereiche</h2><span>${exercises.length} Übungen</span></div>
-            <div class="english-topic-grid english-topic-overview">
-                ${categories.map(category => {
-                    const done = category.exercises.filter(exercise => progress.completed.includes(exercise.id)).length;
-                    const percent = Math.round(done / category.exercises.length * 100);
-                    return `<button type="button" class="english-topic-button" data-category="${category.id}">
-                        <span>${category.icon}</span>
-                        <strong>${category.title}</strong>
-                        <small>${category.description}</small>
-                        <span class="english-topic-count">${done}/${category.exercises.length} richtig gelöst</span>
-                        <div class="english-progress-track"><span style="width:${percent}%"></span></div>
-                        <span class="english-topic-link">Lernbereich öffnen →</span>
-                    </button>`;
-                }).join('')}
-            </div>
-        </section>
-    `;
+    renderHome();
+
+    if (window.LernraumDB && typeof window.LernraumDB.get === 'function') {
+        window.LernraumDB.get('lernraumUebungen').then(state => {
+            const shared = state?.subjects?.englisch;
+            if (shared) progress = mergeProgress(progress, shared);
+            const available = new Set(Array.isArray(shared?.available) ? shared.available : []);
+            exerciseIds.forEach(id => available.add(id));
+            return window.LernraumDB.update('lernraumUebungen', currentState => {
+                const subjects = currentState && typeof currentState === 'object' && currentState.subjects
+                    ? currentState.subjects
+                    : {};
+                const current = subjects.englisch && typeof subjects.englisch === 'object' ? subjects.englisch : {};
+                const merged = mergeProgress(progress, current);
+                progress = merged;
+                const nextAvailable = new Set([...(Array.isArray(current.available) ? current.available : []), ...available]);
+                return {
+                    ...currentState,
+                    subjects: {
+                        ...subjects,
+                        englisch: {
+                            ...current,
+                            available: [...nextAvailable],
+                            completed: merged.completed,
+                            attempted: merged.attempted,
+                            studiedTopics: merged.studiedTopics,
+                            answerHistory: merged.answerHistory
+                        }
+                    }
+                };
+            });
+        }).then(() => {
+            window.localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+            renderHome();
+        }).catch(error => console.error('Der Englisch-Lernstand konnte nicht aus dem Lernkonto geladen werden:', error));
+    }
 
     root.addEventListener('click', event => {
         const button = event.target.closest('button');
@@ -262,7 +344,7 @@
         }
         const action = button.dataset.action;
         if (action === 'home') {
-            window.location.reload();
+            renderHome();
         } else if (action === 'topic') {
             renderTopic();
         } else if (action === 'start') {

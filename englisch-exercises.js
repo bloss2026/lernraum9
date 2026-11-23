@@ -128,3 +128,56 @@ window.EnglishExercises = [
         ]
     }
 ];
+
+const vocabularyGroups = new Map();
+(function addVocabularyPractice() {
+const slug = value => value.toLocaleLowerCase('en').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+(window.VocabularyData?.vocabularyData || []).forEach(word => {
+    if (!word || typeof word.id !== 'string' || !word.id.trim()
+        || typeof word.studyEnglish !== 'string' || !word.studyEnglish.trim()
+        || typeof word.studyGerman !== 'string' || !word.studyGerman.trim()) {
+        throw new Error('Jede Englisch-Vokabel braucht eine ID sowie bereinigte englische und deutsche Lernformen.');
+    }
+
+    const unit = typeof word.unit === 'string' && word.unit.trim() ? word.unit.trim() : 'Ohne Unit';
+    const category = typeof word.category === 'string' && word.category.trim() ? word.category.trim() : 'Ohne Thema';
+    const key = `${unit}\u0000${category}`;
+    if (!vocabularyGroups.has(key)) {
+        vocabularyGroups.set(key, {
+            id: `vocabulary-${slug(unit)}-${slug(category)}`,
+            title: `${unit} · ${category}`,
+            icon: '📚',
+            description: `Lerne ${category} aus ${unit} aktiv aus dem Gedächtnis abzufragen.`,
+            lesson: {
+                overview: 'Decke die englische Form ab, rufe sie aus der deutschen Bedeutung ab und prüfe danach die Lösung. So übst du aktives Erinnern statt nur Wiedererkennen.',
+                points: [
+                    'Lies zuerst die deutsche Bedeutung und formuliere die englische Lösung selbst.',
+                    'Achte bei Verben auf die passende Wortform und bei Wendungen auf die vollständige Phrase.',
+                    'Sprich die englische Antwort laut aus und prüfe die Aussprache im Vokabeltrainer.',
+                    'Falsche Antworten bleiben als Fehlversuche sichtbar und können erneut geübt werden.'
+                ],
+                examples: [
+                    ['Deutsche Bedeutung lesen', 'Abruf ohne Vorlage'],
+                    ['Englische Form selbst schreiben', 'Aktives Erinnern'],
+                    ['Lösung vergleichen und laut sprechen', 'Wiederholen und festigen']
+                ]
+            },
+            exercises: [],
+            vocabulary: true
+        });
+    }
+
+    vocabularyGroups.get(key).exercises.push({
+        id: `eng-vocab-${word.id}`,
+        type: 'fill',
+        prompt: `Write in English: “${word.studyGerman}”`,
+        sentence: '',
+        answer: word.studyEnglish,
+        strictCase: false,
+        tip: `Recall the English word or phrase for “${word.studyGerman}”.`,
+        explanation: `The English form is “${word.studyEnglish}”.`
+    });
+});
+})();
+
+window.EnglishExercises.push(...vocabularyGroups.values());
