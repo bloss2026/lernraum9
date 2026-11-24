@@ -842,12 +842,13 @@ window.DeutschExercises = [
                 },
                 {
                     title: '4. Wie sind die Sätze gebaut?',
-                    text: 'Du kannst Pronomen und Satzglieder auch im Gedicht finden. „Ich“ ist ein Personalpronomen. „Sich“ ist ein Reflexivpronomen. Frage nach dem Subjekt und dem Objekt. Im Feldermodell steht das gebeugte Verb links; bei „Ich kann … verlassen“ steht „verlassen“ am rechten Rand.',
+                    text: 'Du kannst Pronomen und Satzglieder auch im Gedicht finden. „Ich“ ist ein Personalpronomen. „Sich“ ist ein Reflexivpronomen. Frage nach dem Subjekt und dem Objekt. Eine Verszeile ist nicht immer ein Satz: Ein Satz kann in der nächsten Zeile weitergehen. Ordne im Feldermodell nach dem Satzbau, nicht nach dem Zeilenumbruch. Im Aussagesatz „Ich kann … verlassen“ steht „kann“ in der linken Satzklammer und „verlassen“ am rechten Rand.',
                     points: [
                         'Pronomen: „Ich“ (V. 3) ist ein Personalpronomen; „sich“ (V. 7) ist ein Reflexivpronomen.',
                         'Subjekt finden: Frage „Wer oder was?“ – Wer zieht? „Der Nebel“ (V. 1).',
                         'Objekt finden: Frage „Wen oder was?“ – Was kann ich verlassen? „Die bunte Welt“ (V. 3).',
-                        'Im Feldermodell suchst du das Verb: Vorfeld | linke Klammer | Mittelfeld | rechte Klammer.'
+                        'Im Feldermodell suchst du das gebeugte Verb und die Satzteile davor, dazwischen und danach.',
+                        'Versgrenze beachten: Ein Satz kann in der nächsten Verszeile weitergehen.'
                     ],
                     poemHighlights: [
                         { verse: 1, text: 'Der Nebel', kind: 'subject' },
@@ -1293,17 +1294,17 @@ const classworkPoemExercises = [
     {
         poemId: 'dieDreiSpatzen',
         step: 'Schritt 4/4: Sprache und Grammatik',
-        markingInstruction: 'Markiere das Pronomen „Sie“ sowie Ortsangabe, Verb und Subjekt im ersten Satz. Wähle danach das passende Feldermodell.',
-        markTargets: [{ text: 'Sie', occurrence: 1 }, 'In einem leeren Haselstrauch', 'sitzen', 'drei Spatzen'],
+        markingInstruction: 'Markiere das Pronomen „Sie“ in der zweiten Strophe. Der Satz am Gedichtanfang geht über zwei Verszeilen: Markiere die Ortsangabe, „da“, das Verb und das Subjekt. Wähle danach die passende Felderanalyse.',
+        markTargets: [{ text: 'Sie', occurrence: 1 }, 'In einem leeren Haselstrauch', 'da', 'sitzen', 'drei Spatzen', 'Bauch an Bauch'],
         options: [
+            'Vor-Vorfeld (linksversetzt): In einem leeren Haselstrauch | Vorfeld: da | linke Satzklammer: sitzen | Mittelfeld: drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
             'Vorfeld: In einem leeren Haselstrauch | linke Satzklammer: sitzen | Mittelfeld: da drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
-            'Vorfeld: sitzen | linke Satzklammer: In einem leeren Haselstrauch | Mittelfeld: da drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
-            'Vorfeld: In einem leeren Haselstrauch | linke Satzklammer: da | Mittelfeld: sitzen drei Spatzen | rechte Satzklammer: Bauch an Bauch',
-            'Vorfeld: da drei Spatzen | linke Satzklammer: sitzen | Mittelfeld: In einem leeren Haselstrauch | rechte Satzklammer: leer'
+            'Vorfeld: da | linke Satzklammer: In einem leeren Haselstrauch | Mittelfeld: sitzen drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
+            'Vor-Vorfeld (linksversetzt): da | Vorfeld: In einem leeren Haselstrauch | linke Satzklammer: sitzen | Mittelfeld: drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer'
         ],
-        answer: 'Vorfeld: In einem leeren Haselstrauch | linke Satzklammer: sitzen | Mittelfeld: da drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
-        tip: 'Frage: Wer sitzt im Haselstrauch? Und wo sitzen die Spatzen?',
-        explanation: '„Sie“ ist ein Personalpronomen. In Vers 1 ist „drei Spatzen“ das Subjekt, „sitzen“ das gebeugte Verb und „in einem leeren Haselstrauch“ die Ortsangabe. Das Feldermodell zeigt: Ortsangabe im Vorfeld, Verb in der linken Satzklammer, die übrigen Satzteile im Mittelfeld.'
+        answer: 'Vor-Vorfeld (linksversetzt): In einem leeren Haselstrauch | Vorfeld: da | linke Satzklammer: sitzen | Mittelfeld: drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
+        tip: '„Da“ nimmt den zuvor genannten Ort wieder auf. Achte auf das gebeugte Verb „sitzen“.',
+        explanation: 'Der Satz geht über die Versgrenze. „In einem leeren Haselstrauch“ steht linksversetzt vor dem eigentlichen Satz; „da“ nimmt den Ort im Vorfeld wieder auf. „Sitzen“ steht in der linken Satzklammer. „Drei Spatzen, Bauch an Bauch“ stehen im Mittelfeld. „Sie“ in der zweiten Strophe ist ein Personalpronomen.'
     },
     {
         poemId: 'erlkönig',
