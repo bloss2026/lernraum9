@@ -517,6 +517,43 @@
 
     const topicUrl = `./physik-themen.html?topic=${encodeURIComponent(lesson.topic)}`;
 
+    const speedVisualization = `
+        <section class="physics-visual physics-speed-visual" aria-labelledby="speedSimulationTitle">
+            <h3 id="speedSimulationTitle">Geschwindigkeit dreidimensional erleben</h3>
+            <p>Stelle Strecke und Zeit ein. Beobachte, wie weit das Fahrzeug im 15-fachen Zeitraffer fährt, und vergleiche die Werte mit v = s / t. Die Modellstrecke ist symbolisch, nicht maßstabsgetreu.</p>
+            <div class="physics-speed-controls">
+                <label class="physics-speed-control" for="physicsSpeedDistance">
+                    <span>Strecke s</span>
+                    <output id="physicsSpeedDistanceLabel" for="physicsSpeedDistance">600 m</output>
+                    <input id="physicsSpeedDistance" type="range" min="100" max="600" step="50" value="600">
+                </label>
+                <label class="physics-speed-control" for="physicsSpeedDuration">
+                    <span>Zeit t</span>
+                    <output id="physicsSpeedDurationLabel" for="physicsSpeedDuration">120 s</output>
+                    <input id="physicsSpeedDuration" type="range" min="20" max="120" step="10" value="120">
+                </label>
+            </div>
+            <div id="physicsSpeedScene" class="physics-speed-scene" role="img" aria-label="Dreidimensionale Simulation eines Fahrzeugs auf einer geraden Strecke">
+                <p class="physics-speed-loading">3D-Modell wird geladen …</p>
+                <div class="physics-speed-fallback" aria-hidden="true">
+                    <div class="physics-speed-fallback-track">
+                        <span class="physics-speed-fallback-car"></span>
+                    </div>
+                    <p>Die Bewegung wird vereinfacht dargestellt.</p>
+                </div>
+            </div>
+            <div class="physics-speed-readouts" aria-label="Aktuelle Simulationswerte">
+                <p><strong>Simulationszeit:</strong> <output id="physicsSpeedElapsed">0,0</output> / <span id="physicsSpeedTotalTime">120</span> s</p>
+                <p><strong>Zurückgelegt:</strong> <output id="physicsSpeedTravelled">0,0</output> m</p>
+                <p><strong>Geschwindigkeit:</strong> <output id="physicsSpeedMetersPerSecond">5,0</output> m/s · <output id="physicsSpeedKilometersPerHour">18</output> km/h</p>
+            </div>
+            <div class="physics-speed-actions">
+                <button class="math-button math-button-primary" type="button" data-speed-play>Starten</button>
+                <button class="math-button" type="button" data-speed-reset>Zurücksetzen</button>
+            </div>
+            <p class="physics-visual-memory"><strong>Merke:</strong> Bei gleichförmiger Bewegung gilt v = s / t. Die Anzeige zeigt außerdem die umgerechnete Geschwindigkeit: 1 m/s = 3,6 km/h.</p>
+        </section>`;
+
     const electricityVisuals = {
         'current-voltage': `
             <section class="physics-visual" aria-labelledby="physicsVisualTitle">
@@ -632,6 +669,7 @@
                 <div class="math-lesson-explanation">
                     ${lesson.paragraphs.map(paragraph => `<p>${escapeHtml(paragraph)}</p>`).join('')}
                 </div>
+                ${lesson.id === 'speed' ? speedVisualization : ''}
                 ${lesson.topic === 'electricity' ? electricityVisuals[lesson.id] : ''}
                 ${window.LernraumVideoResources.render(lesson, 'Physik')}
                 <section class="math-lesson-steps">
@@ -647,6 +685,247 @@
                 </section>
             </article>
             <a class="math-button math-button-primary" href="./physik-lernen.html?view=practice&amp;subtopic=${encodeURIComponent(lesson.id)}">Passende Übungen zu „${escapeHtml(lesson.title)}“ →</a>`;
+        if (lesson.id === 'speed') initSpeedVisualization();
+    }
+
+    function loadThree() {
+        if (window.THREE) return Promise.resolve(window.THREE);
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = './vendor/three/three.min.js';
+            script.addEventListener('load', () => {
+                if (window.THREE) resolve(window.THREE);
+                else reject(new Error('Das Three.js-Skript wurde geladen, aber die Bibliothek ist nicht verfügbar.'));
+            }, { once: true });
+            script.addEventListener('error', () => reject(new Error('Die lokale Three.js-Bibliothek konnte nicht geladen werden.')), { once: true });
+            document.head.appendChild(script);
+        });
+    }
+
+    function initSpeedVisualization() {
+        const host = view.querySelector('#physicsSpeedScene');
+        const distanceInput = view.querySelector('#physicsSpeedDistance');
+        const durationInput = view.querySelector('#physicsSpeedDuration');
+        const playButton = view.querySelector('[data-speed-play]');
+        const resetButton = view.querySelector('[data-speed-reset]');
+        const loadingMessage = host.querySelector('.physics-speed-loading');
+        const fallbackCar = host.querySelector('.physics-speed-fallback-car');
+        const fallback = host.querySelector('.physics-speed-fallback');
+        let progress = 0;
+        let playing = false;
+        let previousTimestamp = 0;
+        let frameId = 0;
+        let car = null;
+        let finishMarker = null;
+        let wheels = [];
+        let drawScene = () => {};
+
+        const distance = () => Number(distanceInput.value);
+        const duration = () => Number(durationInput.value);
+        const routeLength = () => 13 * distance() / 600;
+        const showFallback = error => {
+            if (error) console.error('Die 3D-Simulation konnte nicht gestartet werden:', error);
+            host.classList.add('is-fallback');
+            loadingMessage.hidden = true;
+            fallback.hidden = false;
+        };
+        const updateVisualization = () => {
+            const travelled = progress * distance();
+            const elapsed = progress * duration();
+            const speed = distance() / duration();
+            view.querySelector('#physicsSpeedDistanceLabel').textContent = `${distance()} m`;
+            view.querySelector('#physicsSpeedDurationLabel').textContent = `${duration()} s`;
+            view.querySelector('#physicsSpeedTotalTime').textContent = String(duration());
+            view.querySelector('#physicsSpeedElapsed').textContent = elapsed.toLocaleString('de-DE', { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+            view.querySelector('#physicsSpeedTravelled').textContent = travelled.toLocaleString('de-DE', { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+            view.querySelector('#physicsSpeedMetersPerSecond').textContent = speed.toLocaleString('de-DE', { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+            view.querySelector('#physicsSpeedKilometersPerHour').textContent = (speed * 3.6).toLocaleString('de-DE', { maximumFractionDigits: 1, minimumFractionDigits: 0 });
+            fallbackCar.style.left = `${3 + progress * (distance() / 600) * 94}%`;
+            if (car) {
+                car.position.x = -6.5 + progress * routeLength();
+                wheels.forEach(wheel => {
+                    wheel.rotation.z = -progress * 24;
+                });
+            }
+            if (finishMarker) finishMarker.position.x = -6.5 + routeLength();
+            drawScene();
+        };
+
+        distanceInput.addEventListener('input', () => {
+            playing = false;
+            window.cancelAnimationFrame(frameId);
+            progress = 0;
+            playButton.textContent = 'Starten';
+            updateVisualization();
+        });
+        durationInput.addEventListener('input', () => {
+            playing = false;
+            window.cancelAnimationFrame(frameId);
+            progress = 0;
+            playButton.textContent = 'Starten';
+            updateVisualization();
+        });
+        resetButton.addEventListener('click', () => {
+            playing = false;
+            window.cancelAnimationFrame(frameId);
+            progress = 0;
+            playButton.textContent = 'Starten';
+            updateVisualization();
+        });
+        playButton.addEventListener('click', () => {
+            if (playing) {
+                playing = false;
+                window.cancelAnimationFrame(frameId);
+                playButton.textContent = 'Fortsetzen';
+                return;
+            }
+            if (progress >= 1) progress = 0;
+            playing = true;
+            previousTimestamp = 0;
+            playButton.textContent = 'Pause';
+            frameId = window.requestAnimationFrame(animate);
+        });
+
+        function animate(timestamp) {
+            if (!playing) return;
+            if (previousTimestamp) progress += Math.min(timestamp - previousTimestamp, 100) / 1000 / (duration() / 15);
+            previousTimestamp = timestamp;
+            if (progress >= 1) {
+                progress = 1;
+                playing = false;
+                playButton.textContent = 'Noch einmal';
+            }
+            updateVisualization();
+            if (playing) frameId = window.requestAnimationFrame(animate);
+        }
+
+        updateVisualization();
+        loadThree().then(THREE => {
+            let renderer;
+            try {
+                renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+            } catch (error) {
+                showFallback(error);
+                return;
+            }
+
+            const scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xcfe3ed);
+            const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 100);
+            camera.position.set(7.5, 8, 15);
+            camera.lookAt(0, 0, 0);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFShadowMap;
+            host.replaceChildren(renderer.domElement);
+            host.classList.add('is-ready');
+            renderer.domElement.setAttribute('aria-hidden', 'true');
+
+            scene.add(new THREE.HemisphereLight(0xffffff, 0x637b86, 2));
+            const sunlight = new THREE.DirectionalLight(0xffffff, 2.2);
+            sunlight.position.set(-4, 9, 6);
+            sunlight.castShadow = true;
+            sunlight.shadow.mapSize.set(1024, 1024);
+            scene.add(sunlight);
+
+            const ground = new THREE.Mesh(
+                new THREE.PlaneGeometry(34, 24),
+                new THREE.MeshStandardMaterial({ color: 0x8dbc9d, roughness: 1 })
+            );
+            ground.rotation.x = -Math.PI / 2;
+            ground.position.y = -0.13;
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            const road = new THREE.Mesh(
+                new THREE.BoxGeometry(15, 0.16, 3.5),
+                new THREE.MeshStandardMaterial({ color: 0x40525e, roughness: 0.95 })
+            );
+            road.receiveShadow = true;
+            road.position.y = -0.02;
+            scene.add(road);
+
+            const markingMaterial = new THREE.MeshStandardMaterial({ color: 0xf6f0d7, roughness: 0.8 });
+            for (let x = -7; x <= 7; x += 2) {
+                const marking = new THREE.Mesh(new THREE.BoxGeometry(0.9, 0.025, 0.08), markingMaterial);
+                marking.position.set(x, 0.07, 0);
+                scene.add(marking);
+            }
+            for (const z of [-1.52, 1.52]) {
+                const edge = new THREE.Mesh(new THREE.BoxGeometry(14.8, 0.025, 0.08), markingMaterial);
+                edge.position.set(0, 0.07, z);
+                scene.add(edge);
+            }
+            const finishPost = new THREE.Mesh(
+                new THREE.BoxGeometry(0.06, 1.05, 0.06),
+                new THREE.MeshStandardMaterial({ color: 0xeff6f8, roughness: 0.8 })
+            );
+            finishPost.position.y = 0.55;
+            const finishFlag = new THREE.Mesh(
+                new THREE.BoxGeometry(0.58, 0.34, 0.07),
+                new THREE.MeshStandardMaterial({ color: 0x14b8a6, roughness: 0.65 })
+            );
+            finishFlag.position.set(0.27, 0.92, 0);
+            finishMarker = new THREE.Group();
+            finishMarker.add(finishPost, finishFlag);
+            finishMarker.position.z = 1.25;
+            scene.add(finishMarker);
+
+            car = new THREE.Group();
+            const body = new THREE.Mesh(
+                new THREE.BoxGeometry(1.55, 0.42, 0.82),
+                new THREE.MeshStandardMaterial({ color: 0x087ba8, roughness: 0.42, metalness: 0.12 })
+            );
+            body.position.y = 0.49;
+            body.castShadow = true;
+            car.add(body);
+            const cabin = new THREE.Mesh(
+                new THREE.BoxGeometry(0.82, 0.4, 0.68),
+                new THREE.MeshStandardMaterial({ color: 0xb9e3ed, roughness: 0.3, metalness: 0.08 })
+            );
+            cabin.position.set(-0.12, 0.87, 0);
+            cabin.castShadow = true;
+            car.add(cabin);
+            const wheelMaterial = new THREE.MeshStandardMaterial({ color: 0x202c33, roughness: 0.9 });
+            wheels = [];
+            for (const x of [-0.48, 0.48]) {
+                for (const z of [-0.43, 0.43]) {
+                    const wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.22, 0.22, 0.16, 20), wheelMaterial);
+                    wheel.rotation.x = Math.PI / 2;
+                    wheel.position.set(x, 0.27, z);
+                    wheel.castShadow = true;
+                    car.add(wheel);
+                    wheels.push(wheel);
+                }
+            }
+            const headlightMaterial = new THREE.MeshStandardMaterial({ color: 0xffe6a3, emissive: 0x6b4d12 });
+            for (const z of [-0.25, 0.25]) {
+                const headlight = new THREE.Mesh(new THREE.SphereGeometry(0.075, 12, 8), headlightMaterial);
+                headlight.position.set(0.79, 0.54, z);
+                car.add(headlight);
+            }
+            car.traverse(object => {
+                if (object.isMesh) object.castShadow = true;
+            });
+            scene.add(car);
+
+            drawScene = () => renderer.render(scene, camera);
+            const resize = () => {
+                const width = Math.max(host.clientWidth, 320);
+                const height = 300;
+                renderer.setSize(width, height);
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                drawScene();
+            };
+            if ('ResizeObserver' in window) {
+                new window.ResizeObserver(resize).observe(host);
+            } else {
+                window.addEventListener('resize', resize, { passive: true });
+            }
+            resize();
+            updateVisualization();
+        }).catch(showFallback);
     }
 
     function renderPractice() {

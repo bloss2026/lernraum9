@@ -105,7 +105,7 @@ function refreshSubjectProgressCards() {
     const updateProgress = (subjectId, entry) => {
         const available = Array.isArray(entry?.available) ? entry.available : [];
         const completedIds = new Set(Array.isArray(entry?.completed) ? entry.completed : []);
-        const total = available.length || (subjectId === 'deutsch' ? 370 : 0);
+        const total = available.length || (subjectId === 'deutsch' ? 386 : 0);
         const completed = available.length
             ? available.filter(id => completedIds.has(id)).length
             : completedIds.size;
@@ -236,7 +236,7 @@ function renderDashboard() {
                             <div class="progress-bar-container" role="progressbar" aria-label="${subject.name} Lernfortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
                                 <div class="progress-bar" data-progress-bar="${subject.id}"></div>
                             </div>
-                        ` : `<span class="dashboard-progress-label">${subject.id === 'englisch' ? 'Vokabeltrainer verfügbar' : subject.id === 'deutsch' ? '11 Themen · 370 Übungen' : 'Für dieses Fach sind noch keine Übungen verfügbar'}</span>`}
+                        ` : `<span class="dashboard-progress-label">${subject.id === 'englisch' ? 'Vokabeltrainer verfügbar' : subject.id === 'deutsch' ? '12 Themen · 386 Übungen' : 'Für dieses Fach sind noch keine Übungen verfügbar'}</span>`}
                         ${subject.id === 'deutsch' ? `<a class="portal-card-link" href="./${subject.file}">Deutsch-Lernmodul öffnen →</a>` : ''}
                     </article>
                 `).join('')}
@@ -373,7 +373,8 @@ function renderSubjectPage(subject) {
                 { id: 'satzbau', icon: '🧱', title: 'Satzbau & Satzverbindungen', description: 'Satzglieder, Haupt- und Nebensätze sowie Satzreihen erkennen.', details: 'Achte auf Konjunktionen, Kommas und die Stellung des Verbs.', exerciseCount: 40 },
                 { id: 'adjektiv-vergleich', icon: '📏', title: 'Adjektive & Vergleiche', description: 'Grundform, Vergleichsform und Höchststufe sicher verwenden.', details: 'Beispiele: leicht – leichter – am leichtesten; gut – besser – am besten.', exerciseCount: 40 },
                 { id: 'gedichte', icon: '🌙', title: 'Gedichte verstehen', description: 'Verse, Strophen, Reime, sprachliche Bilder und Stimmung untersuchen.', details: 'Beschreibe erst Beobachtungen und belege Deutungen am Text.', exerciseCount: 40 },
-                { id: 'sachtexte-diagramme', icon: '📊', title: 'Sachtexte & Schaubilder', description: 'Informationen aus Tabellen und Diagrammen entnehmen und sachlich beschreiben.', details: 'Lies Titel, Achsen, Einheiten, Legende und Quelle genau.', exerciseCount: 40 }
+                { id: 'sachtexte-diagramme', icon: '📊', title: 'Sachtexte & Schaubilder', description: 'Informationen aus Tabellen und Diagrammen entnehmen und sachlich beschreiben.', details: 'Lies Titel, Achsen, Einheiten, Legende und Quelle genau.', exerciseCount: 40 },
+                { id: 'deutsch-klassenarbeit', icon: '📝', title: 'Deutsch Klassenarbeit', description: 'Die drei PDF-Aufgaben zum Gedicht „Herbstabend“ verstehen und an vier anderen Gedichten üben.', details: 'Inhalt, Sprechsituation, Reimschema und sprachliche Bilder untersuchen.', exerciseCount: 16 }
             ];
             return `
                 <section class="portal-hero portal-subject-hero deutsch-hero">
@@ -385,7 +386,7 @@ function renderSubjectPage(subject) {
                 <section class="portal-content-section">
                     <div class="portal-section-heading">
                         <div><span class="pill">LERNPFAD</span><h2>Themenkarten</h2></div>
-                        <p>11 Themen · 370 Übungen</p>
+                        <p>12 Themen · 386 Übungen</p>
                     </div>
                     <div class="subject-grid">
                         ${themeCards.map(chapter => `

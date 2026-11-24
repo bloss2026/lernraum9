@@ -40,9 +40,23 @@
 
     function answerIsCorrect(exercise, value) {
         if (exercise.type === 'choice') return value === exercise.answer;
-        if (exercise.type === 'fill') return exercise.strictCase
-            ? String(value).trim() === exercise.answer
-            : normalize(value) === normalize(exercise.answer);
+        if (exercise.type === 'fill') {
+            const entered = String(value || '').trim();
+            const answers = [exercise.answer, ...(exercise.validAnswers || [])];
+            if (typeof exercise.sentence === 'string' && /_{3,}/.test(exercise.sentence)) {
+                answers.push(...answers.map(answer => exercise.sentence.replace(/_{3,}/g, answer)));
+            }
+            return answers.some(answer => exercise.strictCase
+                ? entered === answer
+                : normalize(entered) === normalize(answer));
+        }
+        if (exercise.type === 'open-writing') {
+            const normalized = normalize(value);
+            const wordCount = normalized ? normalized.split(' ').length : 0;
+            return (!exercise.requiredStart || normalized.startsWith(normalize(exercise.requiredStart)))
+                && wordCount >= exercise.minimumWords
+                && exercise.requiredPhraseGroups.every(group => group.some(phrase => normalized.includes(phrase)));
+        }
         return exercise.validAnswers.some(answer => normalize(answer) === normalize(value));
     }
 
@@ -207,6 +221,11 @@
         } else {
             round = shuffle(candidates);
         }
+        round = round.map(exercise => ({
+            ...exercise,
+            categoryId: activeCategory.id,
+            categoryTitle: activeCategory.title
+        }));
         index = 0;
         roundCorrect = new Set();
         selectedChoice = '';
@@ -237,17 +256,20 @@
                 <article class="english-question-card">
                     <span class="english-eyebrow">${escapeHTML(exercise.categoryTitle)}</span>
                     <h2>${escapeHTML(exercise.prompt)}</h2>
+                    ${exercise.promptDe ? `<p class="english-german-prompt" lang="de"><strong>Aufgabe auf Deutsch:</strong> ${escapeHTML(exercise.promptDe)}</p>` : ''}
                     ${exercise.sentence ? `<p class="english-sentence">${escapeHTML(exercise.sentence)}</p>` : ''}
+                    ${exercise.sentenceDe ? `<p class="english-sentence-translation" lang="de"><strong>Auf Deutsch:</strong> ${escapeHTML(exercise.sentenceDe)}</p>` : ''}
                     ${input}
                     <div class="english-actions">
                         <button type="button" class="english-button english-button-light" data-action="hint">${hintVisible ? 'Tipp ausblenden' : 'Tipp anzeigen'}</button>
                         ${feedback ? '' : '<button type="button" class="english-button english-button-primary" data-action="check">Antwort prüfen</button>'}
                     </div>
-                    ${hintVisible ? `<p class="english-hint"><strong>Tipp:</strong> ${escapeHTML(exercise.tip)}</p>` : ''}
+                    ${hintVisible ? `<p class="english-hint" lang="de"><strong>Tipp:</strong> ${escapeHTML(exercise.tipDe || exercise.tip)}</p>` : ''}
                     ${feedback ? `
                         <div class="english-feedback ${feedback.correct ? 'is-correct' : 'is-incorrect'}" role="status">
                             <strong>${feedback.correct ? 'Richtig!' : 'Noch nicht ganz.'}</strong>
-                            <p>${escapeHTML(feedback.explanation)}</p>
+                            <p lang="de">${escapeHTML(exercise.explanationDe || feedback.explanation)}</p>
+                            ${!feedback.correct && feedback.correctAnswer ? `<p><strong>Musterlösung:</strong> ${escapeHTML(feedback.correctAnswer)}</p>` : ''}
                         </div>
                         <div class="english-actions">
                             ${!feedback.correct ? '<button type="button" class="english-button english-button-light" data-action="retry">Noch einmal versuchen</button>' : ''}
@@ -363,7 +385,11 @@
                 ...(progress.answerHistory[exercise.id] || []),
                 { answer: String(Array.isArray(value) ? value.join(' ') : value), correct, at: new Date().toISOString() }
             ];
-            feedback = { correct, explanation: exercise.explanation };
+            feedback = {
+                correct,
+                explanation: exercise.explanation,
+                correctAnswer: exercise.answer || exercise.validAnswers?.[0] || exercise.modelAnswer || ''
+            };
             persistProgress();
             renderExercise();
         } else if (action === 'retry') {

@@ -327,6 +327,7 @@
 .deutsch-example-card p {
     color: #416078;
     line-height: 1.6;
+    white-space: pre-line;
 }
 .deutsch-lesson-sections {
     margin-top: 1.5rem;
@@ -452,6 +453,11 @@
 .deutsch-question-card { margin-top: 1rem; padding: clamp(1rem, 4vw, 1.7rem); border: 1px solid rgba(148, 163, 184, 0.2); border-radius: 18px; background: rgba(255,255,255,0.97); box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06); }
 .deutsch-question-card h2 { margin: 0.5rem 0 0.9rem; color: #10243b; font-size: clamp(1.2rem, 3.5vw, 1.65rem); line-height: 1.4; }
 .deutsch-question-text { margin: 0 0 1rem; color: #526579; font-weight: 650; }
+.deutsch-exercise-poem { margin: 1rem 0; padding: 1rem 1.15rem; border-inline-start: 4px solid #0ea5e9; border-radius: 12px; background: #f0f9ff; }
+.deutsch-exercise-poem figcaption { display: flex; flex-wrap: wrap; gap: 0.3rem 0.65rem; margin-bottom: 0.65rem; color: #526579; font-size: 0.88rem; }
+.deutsch-exercise-poem figcaption strong { color: #10243b; }
+.deutsch-exercise-poem-text { margin: 0; color: #243b50; font-family: Georgia, "Times New Roman", serif; font-size: 1.05rem; line-height: 1.7; white-space: pre-line; }
+.deutsch-exercise-poem-source { display: inline-block; margin-top: 0.75rem; color: #087ba8; font-size: 0.82rem; font-weight: 750; }
 .deutsch-input-area { margin: 1.3rem 0; }
 .deutsch-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
 .deutsch-choice { display: flex; align-items: center; gap: 0.7rem; min-height: 58px; padding: 0.75rem; border: 1px solid #d5e2eb; border-radius: 12px; background: #fff; color: #17415b; text-align: left; cursor: pointer; }

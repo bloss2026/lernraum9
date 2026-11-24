@@ -389,7 +389,7 @@
                 <a class="portal-back-link" href="./index.html">← Dashboard</a>
                 <span class="pill">📖 SPRACHEN · KLASSE 9 · HAUPTSCHULE / WERKREALSCHULE</span>
                 <h1>Deutsch lernen</h1>
-                <p>Trainiere Grammatik, Rechtschreibung, Gedichtverständnis und den Umgang mit Sachtexten und Schaubildern.</p>
+                <p>Trainiere Grammatik, Rechtschreibung, Gedichtverständnis und den Umgang mit Sachtexten, Schaubildern und der 2. Deutschklassenarbeit.</p>
                 <div class="deutsch-hero-actions">
                     <a class="deutsch-button deutsch-button-light" href="./deutsch-themen.html">🗂️ Themenkarte</a>
                 </div>
@@ -529,7 +529,16 @@
         const category = categories.find(item => item.id === exercise.categoryId);
         const totalTasks = round.mode === 'topic-round' ? round.maxTasks : round.items.length;
         const percent = Math.round((round.index / totalTasks) * 100);
-        const theoryBlock = category && category.theory ? `
+        const poemBlock = exercise.poem ? `
+            <figure class="deutsch-exercise-poem">
+                <figcaption>
+                    <strong>${escapeHTML(exercise.poem.title)}</strong>
+                    <span>von ${escapeHTML(exercise.poem.author)}</span>
+                </figcaption>
+                <blockquote class="deutsch-exercise-poem-text">${escapeHTML(exercise.poem.text)}</blockquote>
+                <a class="deutsch-exercise-poem-source" href="${escapeHTML(exercise.poem.sourceUrl)}" target="_blank" rel="noopener noreferrer">Textquelle bei Wikisource</a>
+            </figure>` : '';
+        const theoryBlock = category && category.theory && !exercise.poem ? `
             <div class="deutsch-theory-box">
                 <h3>Regel und Erklärung</h3>
                 <p>${escapeHTML(category.theory)}</p>
@@ -544,10 +553,11 @@
                 <div class="deutsch-question-progress" role="progressbar" aria-label="Rundenfortschritt" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percent}"><span style="width:${percent}%"></span></div>
                 <div class="deutsch-session-count">Aufgabe ${round.index + 1} von ${totalTasks} <span>${round.solved.size} richtig</span></div>
                 ${theoryBlock}
+                ${poemBlock}
                 <article class="deutsch-question-card">
                     <span class="deutsch-question-topic">${escapeHTML(exercise.categoryTitle || round.title)}</span>
-                    <h2>${formatText(exercise.prompt)}</h2>
-                    ${exercise.question ? `<p class="deutsch-question-text">${escapeHTML(exercise.question)}</p>` : ''}
+                    <h2>${formatText(exercise.displayPrompt || exercise.prompt)}</h2>
+                    ${exercise.question && !exercise.poem ? `<p class="deutsch-question-text">${escapeHTML(exercise.question)}</p>` : ''}
                     <div class="deutsch-input-area">${renderQuestionInput(exercise)}</div>
                     <div class="deutsch-question-actions">
                         <button class="deutsch-button deutsch-button-light" type="button" data-action="hint" aria-expanded="${hintVisible}">${hintVisible ? 'Tipp ausblenden' : 'Tipp anzeigen'}</button>
