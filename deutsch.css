@@ -329,6 +329,38 @@
     line-height: 1.6;
     white-space: pre-line;
 }
+.deutsch-opening-poem,
+.deutsch-lesson-intro,
+.deutsch-recall-feature {
+    margin-top: 1.15rem;
+}
+.deutsch-opening-poem > h3,
+.deutsch-lesson-intro > h3 {
+    margin: 0 0 0.65rem;
+    color: #10243b;
+    font-size: 1.1rem;
+}
+.deutsch-opening-poem-card {
+    margin: 0;
+    border-color: #b7d9e8;
+    background: linear-gradient(135deg, #fff, #eff9ff);
+}
+.deutsch-opening-poem-card p {
+    color: #233f56;
+    font-size: 1rem;
+    line-height: 1.8;
+}
+.deutsch-lesson-intro {
+    padding: 1rem 1.1rem;
+    border-left: 4px solid #087ba8;
+    border-radius: 0 12px 12px 0;
+    background: #edf8ff;
+}
+.deutsch-lesson-intro p {
+    margin: 0;
+    color: #365266;
+    line-height: 1.65;
+}
 .deutsch-lesson-sections {
     margin-top: 1.5rem;
 }
@@ -365,6 +397,110 @@
     gap: 0.3rem;
     margin: 0.65rem 0 0;
     padding-left: 1.2rem;
+}
+.deutsch-poem-study {
+    margin: 0.85rem 0 1rem;
+    padding: 0.9rem;
+    border: 1px solid #d6e5ec;
+    border-radius: 12px;
+    background: #fff;
+}
+.deutsch-poem-study figcaption {
+    margin-bottom: 0.55rem;
+    color: #365266;
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+.deutsch-marked-poem {
+    display: grid;
+    gap: 0.18rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.deutsch-marked-poem li {
+    display: grid;
+    grid-template-columns: 1.5rem minmax(0, 1fr);
+    gap: 0.4rem;
+    color: #233f56;
+    line-height: 1.75;
+}
+.deutsch-marked-poem-number {
+    color: #718397;
+    font-size: 0.78rem;
+    text-align: right;
+}
+.deutsch-poem-mark {
+    padding: 0.06em 0.16em;
+    border-radius: 0.25em;
+    color: #10243b;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+.deutsch-poem-mark-speaker,
+.deutsch-poem-mark-pronoun,
+.deutsch-poem-mark-metaphor { background: #ede9fe; color: #5b21b6; }
+.deutsch-poem-mark-time,
+.deutsch-poem-mark-rhyme-a,
+.deutsch-poem-mark-subject { background: #dbeafe; color: #1e40af; }
+.deutsch-poem-mark-place,
+.deutsch-poem-mark-finite-verb { background: #ccfbf1; color: #115e59; }
+.deutsch-poem-mark-mood,
+.deutsch-poem-mark-rhyme-b,
+.deutsch-poem-mark-object { background: #fef3c7; color: #92400e; }
+.deutsch-poem-mark-rhyme-c,
+.deutsch-poem-mark-locative { background: #dcfce7; color: #166534; }
+.deutsch-poem-mark-rhyme-d,
+.deutsch-poem-mark-personification,
+.deutsch-poem-mark-right-bracket { background: #ffedd5; color: #9a3412; }
+.deutsch-poem-annotations {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0.75rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+.deutsch-poem-annotations li {
+    display: grid;
+    grid-template-columns: minmax(125px, 0.4fr) minmax(0, 1fr);
+    gap: 0.55rem;
+    align-items: start;
+    color: #365266;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    white-space: pre-line;
+}
+.deutsch-poem-label {
+    width: fit-content;
+    padding: 0.12rem 0.4rem;
+    border-radius: 6px;
+    background: #f1f5f9;
+    color: #334155;
+    font-size: 0.78rem;
+}
+.deutsch-poem-label-speaker,
+.deutsch-poem-label-pronoun,
+.deutsch-poem-label-metaphor { background: #ede9fe; color: #5b21b6; }
+.deutsch-poem-label-time,
+.deutsch-poem-label-rhyme-a,
+.deutsch-poem-label-subject { background: #dbeafe; color: #1e40af; }
+.deutsch-poem-label-place,
+.deutsch-poem-label-finite-verb { background: #ccfbf1; color: #115e59; }
+.deutsch-poem-label-mood,
+.deutsch-poem-label-rhyme-b,
+.deutsch-poem-label-object { background: #fef3c7; color: #92400e; }
+.deutsch-poem-label-rhyme-c,
+.deutsch-poem-label-locative { background: #dcfce7; color: #166534; }
+.deutsch-poem-label-rhyme-d,
+.deutsch-poem-label-personification,
+.deutsch-poem-label-right-bracket { background: #ffedd5; color: #9a3412; }
+.deutsch-memory-sentence {
+    margin: 0.9rem 0 0 !important;
+    padding: 0.75rem 0.9rem;
+    border-left: 4px solid #087ba8;
+    border-radius: 0 10px 10px 0;
+    background: #edf8ff;
+    color: #17415b !important;
 }
 .deutsch-sources {
     margin-top: 1.25rem;
@@ -457,6 +593,11 @@
 .deutsch-exercise-poem figcaption { display: flex; flex-wrap: wrap; gap: 0.3rem 0.65rem; margin-bottom: 0.65rem; color: #526579; font-size: 0.88rem; }
 .deutsch-exercise-poem figcaption strong { color: #10243b; }
 .deutsch-exercise-poem-text { margin: 0; color: #243b50; font-family: Georgia, "Times New Roman", serif; font-size: 1.05rem; line-height: 1.7; white-space: pre-line; }
+.deutsch-markable-poem { white-space: pre-wrap; }
+.deutsch-poem-token { display: inline; margin: 0; padding: 0 0.025em; border: 0; border-radius: 0.2em; background: transparent; color: inherit; font: inherit; line-height: inherit; cursor: pointer; }
+.deutsch-poem-token:hover { background: #e0f2fe; }
+.deutsch-poem-token.is-selected { background: #fef08a; color: #713f12; box-shadow: 0 0 0 1px #eab308; }
+.deutsch-poem-token:focus-visible { outline: 2px solid #087ba8; outline-offset: 2px; }
 .deutsch-exercise-poem-source { display: inline-block; margin-top: 0.75rem; color: #087ba8; font-size: 0.82rem; font-weight: 750; }
 .deutsch-input-area { margin: 1.3rem 0; }
 .deutsch-choice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
@@ -506,6 +647,7 @@
     .deutsch-topic-card { min-height: 0; }
     .deutsch-topic-description { min-height: 0; }
     .deutsch-learning-path { grid-template-columns: 1fr; }
+    .deutsch-poem-annotations li { grid-template-columns: 1fr; gap: 0.2rem; }
     .deutsch-choice-grid,
     .deutsch-comparison { grid-template-columns: 1fr; }
     .deutsch-session-top { align-items: flex-start; flex-direction: column; }

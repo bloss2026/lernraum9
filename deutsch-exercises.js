@@ -747,59 +747,131 @@ window.DeutschExercises = [
     },
     {
         id: 'deutsch-klassenarbeit', title: 'Deutsch Klassenarbeit', icon: '📝',
-        description: 'Das Gedicht „Herbstabend“ verstehen und seine drei Analyseaufgaben an anderen Gedichten üben.',
-        theory: 'Die Einführung erklärt Inhalt und Sprechsituation, Reimschema sowie Metapher, Personifikation und Vergleich am Gedicht „Herbstabend“. Danach übst du dieselben Fähigkeiten an vier anderen Gedichten aus Wikisource.',
+        showSources: false,
+        description: 'Das Gedicht „Herbstabend“ in vier Lernschritten verstehen und die Fähigkeiten an anderen Gedichten üben.',
+        theory: 'Die Einführung erklärt Sprechsituation, Reimschema, sprachliche Bilder sowie Pronomen, Satzglieder und Feldermodell am Gedicht „Herbstabend“. Danach übst du diese Fähigkeiten an vier anderen Gedichten aus Wikisource.',
         lesson: {
-            overview: 'Die Einführung erklärt das Gedicht „Herbstabend“ vollständig anhand seiner drei Analyseaufgaben. Im anschließenden Übungsteil kommen andere Gedichte zum Einsatz: höchstens vier gemeinfreie Texte aus Wikisource mit verschiedenen Reimordnungen.',
+            overview: 'Lies zuerst das ganze Gedicht. Danach schauen wir uns vier Dinge nacheinander an: Wer spricht und in welcher Situation? Wie reimt sich das Gedicht? Welche sprachlichen Bilder gibt es? Wie ist ein Satz gebaut?',
             focusPoints: [
-                'Aufgabe 1: Thema, lyrischen Sprecher, Situation (wann und wo) und Stimmung mit Textbelegen bestimmen.',
-                'Aufgabe 2: Reimwörter am Versende vergleichen, Reimschema jeder Strophe notieren und die Reimform benennen.',
-                'Aufgabe 3: Metapher und Personifikation erklären; erkennen und begründen, dass im Gedicht kein Vergleich vorkommt.',
-                'Bei allen Antworten unterscheiden: Was steht ausdrücklich im Gedicht, und was ist eine begründete Deutung?'
+                'Nenne eine Textstelle als Beleg: „Ich denke das, weil in Vers … steht …“',
+                'Reime hörst du am Ende der Verse. Gleiche Reimklänge bekommen denselben Buchstaben.',
+                'Benenne ein Stilmittel und erkläre, welches Bild oder welche Stimmung es erzeugt.',
+                'Finde das Verb und frage nach den Satzgliedern: Wer tut was?'
             ],
             examples: [
                 {
-                    title: 'Übungstext: „Herbstabend“',
-                    text: '1 Der Nebel zieht durch stille Gassen,\n2 die letzten Blätter fallen sacht.\n3 Ich kann die bunte Welt verlassen\n4 und gehe langsam in die Nacht.\n5 Ein kalter Wind weht um die Ecken,\n6 das Licht verlischt im alten Haus.\n7 Schatten beginnen sich zu strecken,\n8 der Tag geht leis zu Ende aus.'
-                },
-                {
-                    title: 'Ausführliche Gedichtanalyse: „Herbstabend“',
-                    text: 'Aufgabe 1 – Inhalt: Das Gedicht zeigt den Übergang vom Herbsttag in die Nacht und den Rückzug aus der „bunten Welt“ in Ruhe und Dunkelheit. Sprecher: In Vers 3 und 4 tritt ein „Ich“ auf. Das ist das lyrische Ich, nicht automatisch die reale Autorin oder der Autor. Situation: „in die Nacht“ legt Abend oder Dämmerung nahe; „stille Gassen“, „Ecken“ und „altes Haus“ zeichnen eine ruhige Umgebung. Dorf oder Kleinstadt sind mögliche Deutungen, kein ausdrücklich genannter Ort. Stimmung: ruhig, nachdenklich, leicht melancholisch und verträumt; Hinweise sind „still“, „sacht“, „langsam“, „kalt“, „verlischt“, „Schatten“ und „leis“.\n\nAufgabe 2 – Reimschema: In Strophe 1 reimen sich Vers 1 und 3 (Gassen / verlassen) sowie Vers 2 und 4 (sacht / Nacht): ABAB, ein Kreuzreim. In Strophe 2 gehören Ecken / strecken und Haus / aus zusammen: CDCD, wenn die Buchstaben im ganzen Gedicht weitergezählt werden; für sich allein hat auch die Strophe die Form ABAB, also einen Kreuzreim.\n\nAufgabe 3 – Stilmittel: „Bunte Welt“ (V. 3) ist als Metapher zu verstehen: Das Bild kann für das farbige, lebendige Treiben des Herbsttags stehen. „Schatten beginnen sich zu strecken“ (V. 7) ist eine Personifikation, weil Schatten eine Handlung wie Lebewesen erhalten; dadurch wirkt die Dunkelheit lebendig. Einen Vergleich enthält das Gedicht nicht. Ein Vergleich verbindet zwei Dinge ausdrücklich, häufig mit „wie“ oder „als“; hier sollte also kein Beispiel erfunden werden.\n\nHinweis zum Wortlaut: Vers 8 lautet „der Tag geht leis zu Ende aus“. Die Verbindung „zu Ende aus“ ist sprachlich ungewöhnlich. Für das Reimschema zählt das Endwort „aus“.'
+                    title: 'Gedicht: „Herbstabend“',
+                    text: '1 Der Nebel zieht durch stille Gassen,\n2 die letzten Blätter fallen sacht.\n3 Ich kann die bunte Welt verlassen\n4 und gehe langsam in die Nacht.\n\n5 Ein kalter Wind weht um die Ecken,\n6 das Licht verlischt im alten Haus.\n7 Schatten beginnen sich zu strecken,\n8 der Tag geht leis zu Ende aus.'
                 }
             ],
             sections: [
                 {
-                    title: '1. Aufgabe: Inhalt, lyrischer Sprecher, Situation und Stimmung',
-                    text: 'Die Aufgabenstellung verlangt vier Punkte: Thema, lyrischen Sprecher, Situation (wann und wo) und Stimmung. Beim Thema fasst du die Entwicklung in einem Satz zusammen: Der Herbsttag geht in die Nacht über, während sich das Ich aus der Außenwelt zurückzieht. In Vers 3 („Ich kann … verlassen“) und Vers 4 („gehe … in die Nacht“) spricht ein lyrisches Ich. Es ist nicht automatisch mit dem Autor gleichzusetzen. Für die Zeit sprechen „in die Nacht“ und die dunkler werdenden Bilder. Für den Ort stehen „stille Gassen“, „Ecken“ und „altes Haus“; sie belegen eine ruhige Umgebung, aber keinen genauen Wohnort. Eine dörfliche oder kleinstädtische Umgebung bleibt eine mögliche Schlussfolgerung. Die Stimmung lässt sich als ruhig, nachdenklich, leicht melancholisch und verträumt beschreiben. Belege sie mit Wörtern wie „still“, „sacht“, „langsam“, „kalt“, „verlischt“, „Schatten“ und „leis“.',
+                    title: '1. Wer spricht? Wann und wo? Welche Stimmung?',
+                    text: 'Suche Hinweise direkt im Gedicht. „Ich“ zeigt das lyrische Ich: die Stimme im Gedicht, nicht automatisch die Dichterin oder den Dichter. „In die Nacht“ deutet auf den Abend. Gassen und Haus zeigen die Umgebung, aber keinen genauen Ort. Wörter wie „still“ und „leis“ helfen dir, die Stimmung zu beschreiben.',
                     points: [
-                        'Thema: Übergang vom Herbsttag in die Nacht und Rückzug aus der Außenwelt.',
-                        'Sprecher: Das „Ich“ in Vers 3–4 ist das lyrische Ich, nicht automatisch der Autor.',
-                        'Zeit: Abend oder Dämmerung ist durch den Übergang „in die Nacht“ begründet.',
-                        'Ort: Gassen, Ecken und altes Haus beschreiben eine Umgebung; sie verraten keine genaue Adresse.',
-                        'Stimmung: Deutung immer mit passenden Wörtern aus dem Gedicht belegen.'
-                    ]
+                        'Sprecher finden: Wer sagt „Ich“? Hier ist es das lyrische Ich.',
+                        'Zeit finden: Welche Wörter verraten, wann es passiert? „In die Nacht“ deutet auf Abend.',
+                        'Ort finden: Welche Wörter beschreiben den Platz? Gassen, Ecken und Haus.',
+                        'Stimmung begründen: Nenne zwei passende Wörter aus dem Gedicht.'
+                    ],
+                    poemHighlights: [
+                        { verse: 1, text: 'stille Gassen', kind: 'place' },
+                        { verse: 3, text: 'Ich', kind: 'speaker' },
+                        { verse: 4, text: 'in die Nacht', kind: 'time' },
+                        { verse: 4, text: 'langsam', kind: 'mood' },
+                        { verse: 5, text: 'kalter Wind', kind: 'mood' },
+                        { verse: 6, text: 'alten Haus', kind: 'place' },
+                        { verse: 8, text: 'leis', kind: 'mood' }
+                    ],
+                    annotations: [
+                        { kind: 'speaker', label: 'Sprecher · V. 3', text: '„Ich“ ist das lyrische Ich. Es ist die Stimme im Gedicht, nicht automatisch der Autor.' },
+                        { kind: 'time', label: 'Zeit · V. 4', text: '„In die Nacht“ lässt Abend oder Dämmerung vermuten.' },
+                        { kind: 'place', label: 'Ort · V. 1 und 6', text: 'Gassen und das alte Haus zeigen eine ruhige Umgebung. Ein genauer Ort wird nicht genannt.' },
+                        { kind: 'mood', label: 'Stimmung · V. 4, 5 und 8', text: '„Langsam“, „kalt“ und „leis“ stützen eine ruhige, nachdenkliche Stimmung.' }
+                    ],
+                    merksatz: 'Jede Deutung braucht einen Beleg: „Ich denke …, weil in Vers … steht …“.'
                 },
                 {
-                    title: '2. Aufgabe: Reimschema der beiden Strophen',
-                    text: 'Ein Vers ist eine Gedichtzeile. Vergleiche die Wörter am Ende der Verse nach ihrem Klang. Der erste Reimklang erhält A, ein neuer Klang B. In Strophe 1 reimen sich „Gassen“ und „verlassen“ (A) sowie „sacht“ und „Nacht“ (B): ABAB. Weil sich Vers 1 mit 3 und Vers 2 mit 4 reimt, heißt die Form Kreuzreim. In Strophe 2 reimen sich „Ecken“ und „strecken“ sowie „Haus“ und „aus“. Wenn du die Buchstaben im gesamten Gedicht weiterzählst, schreibst du CDCD. Betrachtest du nur diese Strophe, kannst du wieder ABAB notieren. Auch sie ist ein Kreuzreim. Entscheidend ist der hörbare Klang, nicht eine ähnliche Schreibweise.',
+                    title: '2. Welche Wörter reimen sich?',
+                    text: 'Vergleiche die letzten Wörter jeder Zeile. Gleiche Reimklänge bekommen denselben Buchstaben. In Strophe 1 reimen sich „Gassen / verlassen“ und „sacht / Nacht“: ABAB, ein Kreuzreim. In Strophe 2 reimen sich „Ecken / strecken“ und „Haus / aus“: CDCD im ganzen Gedicht. Für sich allein hat auch diese Strophe das Muster ABAB.',
                     points: [
-                        'Strophe 1: Gassen / verlassen = A; sacht / Nacht = B; also ABAB.',
-                        'Strophe 2: Ecken / strecken = C; Haus / aus = D; im Gesamtgedicht also CDCD.',
-                        'Jede Strophe für sich ist ABAB und damit ein Kreuzreim.',
-                        'Die Buchstaben stehen für Klanggruppen und nicht für gleiche Endbuchstaben.',
-                        'Vers 8 lautet „der Tag geht leis zu Ende aus“; das Reimwort „aus“ steht am Versende, auch wenn die Formulierung ungewöhnlich klingt.'
-                    ]
+                        'Schritt 1: Markiere das letzte Wort in jeder Zeile.',
+                        'Schritt 2: Vergleiche den Klang: Gassen / verlassen und sacht / Nacht.',
+                        'Schritt 3: Schreibe die Buchstabenfolge auf: ABAB.',
+                        'Strophe 2: Ecken / strecken und Haus / aus. Im ganzen Gedicht heißt das CDCD.',
+                        'Beide Strophen haben die Reimform Kreuzreim.'
+                    ],
+                    poemHighlights: [
+                        { verse: 1, text: 'Gassen', kind: 'rhyme-a' },
+                        { verse: 3, text: 'verlassen', kind: 'rhyme-a' },
+                        { verse: 2, text: 'sacht', kind: 'rhyme-b' },
+                        { verse: 4, text: 'Nacht', kind: 'rhyme-b' },
+                        { verse: 5, text: 'Ecken', kind: 'rhyme-c' },
+                        { verse: 7, text: 'strecken', kind: 'rhyme-c' },
+                        { verse: 6, text: 'Haus', kind: 'rhyme-d' },
+                        { verse: 8, text: 'aus', kind: 'rhyme-d' }
+                    ],
+                    annotations: [
+                        { kind: 'rhyme-a', label: 'A · V. 1 und 3', text: '„Gassen“ reimt sich auf „verlassen“.' },
+                        { kind: 'rhyme-b', label: 'B · V. 2 und 4', text: '„Sacht“ reimt sich auf „Nacht“. Strophe 1: ABAB, ein Kreuzreim.' },
+                        { kind: 'rhyme-c', label: 'C · V. 5 und 7', text: '„Ecken“ reimt sich auf „strecken“.' },
+                        { kind: 'rhyme-d', label: 'D · V. 6 und 8', text: '„Haus“ reimt sich auf „aus“. Die zweite Strophe ist CDCD, also ebenfalls ein Kreuzreim.' },
+                        { kind: 'note', label: 'Achte auf V. 8', text: 'Die Formulierung klingt ungewöhnlich. Für den Reim zählt hier das letzte Wort „aus“.' }
+                    ],
+                    merksatz: 'Erst die Endwörter hören, dann Buchstaben vergeben. ABAB heißt Kreuzreim.'
                 },
                 {
-                    title: '3. Aufgabe: Metapher, Personifikation und Vergleich',
-                    text: 'Untersuche Metapher, Personifikation und Vergleich und erkläre jeweils die Wirkung. Als Metapher wird „bunte Welt“ (V. 3) verwendet: Die Formulierung kann bildlich das farbige, lebendige Treiben des Tages meinen. Bei der Personifikation „Schatten beginnen sich zu strecken“ (V. 7) erhält etwas Lebloses eine Handlung, die man von einem Menschen oder Tier kennt. So erscheint die hereinbrechende Dunkelheit lebendig. Ein Vergleich wäre eine ausdrückliche Verbindung zweier Bereiche, oft mit „wie“ oder „als“. Im Gedicht steht kein solcher Vergleich. Eine vollständige Antwort sagt deshalb ausdrücklich, dass kein Beispiel vorhanden ist, statt ein Stilmittel zu erfinden.',
+                    title: '3. Welche sprachlichen Bilder gibt es?',
+                    text: 'Eine Metapher ist ein sprachliches Bild. „Bunte Welt“ kann für den lebendigen Tag stehen. Bei einer Personifikation tut etwas Lebloses so, als wäre es lebendig: Die Schatten „strecken sich“. Ein Vergleich verbindet zwei Dinge oft mit „wie“ oder „als“. Hier gibt es keinen Vergleich.',
                     points: [
-                        'Metapher: „bunte Welt“ (V. 3) – bildliche Bedeutung aus dem Zusammenhang ableiten.',
-                        'Personifikation: „Schatten beginnen sich zu strecken“ (V. 7) – Lebloses erhält eine lebendige Handlung.',
-                        'Wirkung erklären: Was macht das Bild anschaulich oder welche Stimmung unterstützt es?',
-                        'Vergleich: zwei Dinge werden ausdrücklich verbunden, oft mit „wie“ oder „als“.',
-                        'Hier fehlt ein Vergleich; das ist die fachlich richtige Antwort, keine Lücke, die gefüllt werden muss.'
-                    ]
+                        'Metapher finden: Suche nach einem Bild, das nicht wörtlich gemeint ist.',
+                        'Personifikation finden: Kann etwas Lebloses eine menschliche oder tierische Handlung?',
+                        'Wirkung erklären: Welches Bild oder Gefühl entsteht dadurch?',
+                        'Vergleich prüfen: Steht „wie“ oder „als“ zwischen zwei Dingen? Hier nicht.'
+                    ],
+                    poemHighlights: [
+                        { verse: 3, text: 'bunte Welt', kind: 'metaphor' },
+                        { verse: 7, text: 'Schatten beginnen sich zu strecken', kind: 'personification' }
+                    ],
+                    annotations: [
+                        { kind: 'metaphor', label: 'Metapher · V. 3', text: '„Bunte Welt“ kann für den lebendigen, farbigen Tag stehen. Das Bild macht den Gegensatz zur Nacht deutlich.' },
+                        { kind: 'personification', label: 'Personifikation · V. 7', text: 'Schatten sind nicht lebendig. Das „Strecken“ lässt sie wie Lebewesen wirken.' },
+                        { kind: 'note', label: 'Vergleich', text: 'Im Gedicht steht kein ausdrücklicher Vergleich mit „wie“ oder „als“. Erfinde deshalb keinen.' }
+                    ],
+                    merksatz: 'Nenne das Stilmittel, zitiere die Stelle und erkläre die Wirkung.'
+                },
+                {
+                    title: '4. Wie sind die Sätze gebaut?',
+                    text: 'Du kannst Pronomen und Satzglieder auch im Gedicht finden. „Ich“ ist ein Personalpronomen. „Sich“ ist ein Reflexivpronomen. Frage nach dem Subjekt und dem Objekt. Im Feldermodell steht das gebeugte Verb links; bei „Ich kann … verlassen“ steht „verlassen“ am rechten Rand.',
+                    points: [
+                        'Pronomen: „Ich“ (V. 3) ist ein Personalpronomen; „sich“ (V. 7) ist ein Reflexivpronomen.',
+                        'Subjekt finden: Frage „Wer oder was?“ – Wer zieht? „Der Nebel“ (V. 1).',
+                        'Objekt finden: Frage „Wen oder was?“ – Was kann ich verlassen? „Die bunte Welt“ (V. 3).',
+                        'Im Feldermodell suchst du das Verb: Vorfeld | linke Klammer | Mittelfeld | rechte Klammer.'
+                    ],
+                    poemHighlights: [
+                        { verse: 1, text: 'Der Nebel', kind: 'subject' },
+                        { verse: 1, text: 'zieht', kind: 'finite-verb' },
+                        { verse: 1, text: 'durch stille Gassen', kind: 'locative' },
+                        { verse: 3, text: 'Ich', kind: 'pronoun' },
+                        { verse: 3, text: 'kann', kind: 'finite-verb' },
+                        { verse: 3, text: 'die bunte Welt', kind: 'object' },
+                        { verse: 3, text: 'verlassen', kind: 'right-bracket' },
+                        { verse: 7, text: 'Schatten', kind: 'subject' },
+                        { verse: 7, text: 'beginnen', kind: 'finite-verb' },
+                        { verse: 7, text: 'sich', kind: 'pronoun' },
+                        { verse: 7, text: 'zu strecken', kind: 'right-bracket' }
+                    ],
+                    annotations: [
+                        { kind: 'pronoun', label: 'Pronomen', text: '„Ich“ (V. 3) ist ein Personalpronomen. „Sich“ (V. 7) ist ein Reflexivpronomen und gehört zu „sich strecken“.' },
+                        { kind: 'subject', label: 'Satzglied: Subjekt', text: '„Der Nebel“ (V. 1) und „Schatten“ (V. 7) sind die Subjekte. Frage: Wer zieht? Der Nebel. Wer beginnt? Die Schatten.' },
+                        { kind: 'locative', label: 'Ortsangabe', text: '„Durch stille Gassen“ (V. 1) sagt, wo der Nebel zieht. Frage: Wo zieht der Nebel? Durch stille Gassen.' },
+                        { kind: 'object', label: 'Satzglied: Akkusativobjekt', text: '„Die bunte Welt“ (V. 3) ist das Akkusativobjekt. Frage: Was kann ich verlassen? Die bunte Welt.' },
+                        { kind: 'finite-verb', label: 'Gebeugte Verben', text: '„Zieht“ (V. 1), „kann“ (V. 3) und „beginnen“ (V. 7) sind gebeugte Verben. „Kann“ und „beginnen“ stehen in der linken Satzklammer.' },
+                        { kind: 'finite-verb', label: 'Feldermodell · V. 3', text: 'Ich | kann | die bunte Welt | verlassen\nVorfeld | linke Satzklammer | Mittelfeld | rechte Satzklammer' },
+                        { kind: 'right-bracket', label: 'Feldermodell · Vers 7', text: 'Schatten | beginnen | sich | zu strecken\nVorfeld | linke Satzklammer | Mittelfeld | rechte Satzklammer' }
+                    ],
+                    merksatz: 'Frage nach dem Satzglied und suche danach das gebeugte Verb für die Satzklammern.'
                 }
             ]
         },
@@ -809,24 +881,7 @@ window.DeutschExercises = [
             { title: 'Wikisource: Erlkönig – Johann Wolfgang von Goethe', url: 'https://de.wikisource.org/wiki/Erlk%C3%B6nig', note: 'Ballade mit paarweise gereimten Versen; Übung zu Reim und Sprechsituation.' },
             { title: 'Wikisource: Die Bürgschaft – Friedrich Schiller', url: 'https://de.wikisource.org/wiki/Die_B%C3%BCrgschaft', note: 'Ballade mit verschränkten Reimgruppen; der Anfang zeigt einen umarmenden Reim (ABBA).' }
         ],
-        exercises: [
-            { id: 'deutsch-klassenarbeit-poem-01', type: 'fill-in', prompt: 'Joseph von Eichendorff, „Wünschelrute“: „Schläft ein Lied in allen Dingen, / Die da träumen fort und fort, / Und die Welt hebt an zu singen, / Triffst du nur das Zauberwort.“ Bestimme das Reimschema.', sentence: 'Das Reimschema lautet ___.', answer: 'ABAB', strictCase: false, tip: 'Vergleiche die Versenden „Dingen / singen“ und „fort / Wort“.', explanation: 'Vers 1 reimt sich auf Vers 3 (Dingen / singen), Vers 2 auf Vers 4 (fort / Wort). Die Folge ABAB heißt Kreuzreim.' },
-            { id: 'deutsch-klassenarbeit-poem-02', type: 'multiple-choice', prompt: 'Welche Versenden bilden in Eichendorffs „Wünschelrute“ den zweiten Reim?', question: '„Die da träumen fort und fort, / Und die Welt hebt an zu singen, / Triffst du nur das Zauberwort.“', options: ['fort / Wort', 'Dingen / fort', 'singen / Wort', 'träumen / Dingen'], answer: 'fort / Wort', tip: 'Achte auf den Klang am Ende von Vers 2 und Vers 4.', explanation: '„Fort“ und „Wort“ bilden den B-Reim; die andere Reimgruppe ist „Dingen / singen“.' },
-            { id: 'deutsch-klassenarbeit-poem-03', type: 'multiple-choice', prompt: 'Was kann das „Zauberwort“ in „Wünschelrute“ bedeuten?', question: 'Wähle eine Deutung, die zum ganzen Gedicht passt.', options: ['Ein besonderes Wort oder Verständnis, durch das die verborgene Poesie der Welt hörbar wird.', 'Ein Zauberspruch, der im Gedicht ausdrücklich eine Person verwandelt.', 'Der Name eines Ortes, an dem alle Figuren wohnen.', 'Ein Wort, das ausschließlich die Jahreszeit bezeichnet.'], answer: 'Ein besonderes Wort oder Verständnis, durch das die verborgene Poesie der Welt hörbar wird.', tip: 'Das Lied ist schon „in allen Dingen“; das Zauberwort lässt die Welt zu singen beginnen.', explanation: 'Eine mögliche Deutung ist, dass ein sensibles Wort oder ein besonderes Verständnis die Poesie sichtbar beziehungsweise hörbar macht, die laut Gedicht bereits in den Dingen schlummert.' },
-            { id: 'deutsch-klassenarbeit-poem-04', type: 'multiple-choice', prompt: 'An wen richtet sich das „du“ am Ende von Eichendorffs „Wünschelrute“?', question: 'Was lässt sich sicher aus dem kurzen Gedicht ableiten?', options: ['An ein nicht näher bestimmtes „du“; eine konkrete Person wird nicht genannt.', 'An eine namentlich genannte Königin.', 'An den Autor in einer ausdrücklich erzählten Kindheitserinnerung.', 'An einen Vogel, der im Gedicht spricht.'], answer: 'An ein nicht näher bestimmtes „du“; eine konkrete Person wird nicht genannt.', tip: 'Das Gedicht nennt nur „du“, aber keinen Namen und keine konkrete Situation.', explanation: 'Das Gedicht spricht ein „du“ an, legt dessen Identität aber nicht fest. Eine Antwort sollte diese offene Stelle nicht mit einer unbelegten Person füllen.' },
-            { id: 'deutsch-klassenarbeit-poem-05', type: 'fill-in', prompt: 'Christian Morgenstern, „Die drei Spatzen“: „In einem leeren Haselstrauch / da sitzen drei Spatzen, Bauch an Bauch. / Der Erich rechts und links der Franz / und mitten drin der freche Hans.“ Bestimme das Reimschema.', sentence: 'Das Reimschema lautet ___.', answer: 'AABB', strictCase: false, tip: 'Vers 1 reimt sich auf 2; Vers 3 reimt sich auf 4.', explanation: 'Haselstrauch / Bauch bilden den A-Reim; Franz / Hans den B-Reim. Das Muster AABB heißt Paarreim.' },
-            { id: 'deutsch-klassenarbeit-poem-06', type: 'multiple-choice', prompt: 'Welche Reimpaare hörst du in der ersten Strophe von Morgensterns „Die drei Spatzen“?', question: '„In einem leeren Haselstrauch / da sitzen drei Spatzen, Bauch an Bauch. / Der Erich rechts und links der Franz / und mitten drin der freche Hans.“', options: ['Haselstrauch / Bauch und Franz / Hans', 'Haselstrauch / Franz und Bauch / Hans', 'Spatzen / Haselstrauch und Franz / Bauch', 'Bauch / Franz und Haselstrauch / Hans'], answer: 'Haselstrauch / Bauch und Franz / Hans', tip: 'Lies jeweils zwei aufeinanderfolgende Versenden zusammen.', explanation: 'Die erste und zweite Zeile reimen sich auf Haselstrauch / Bauch; die dritte und vierte auf Franz / Hans.' },
-            { id: 'deutsch-klassenarbeit-poem-07', type: 'multiple-choice', prompt: 'Welche Stimmung entsteht in der ersten Strophe von „Die drei Spatzen“?', question: '„da sitzen drei Spatzen, Bauch an Bauch“; „Der Erich rechts und links der Franz / und mitten drin der freche Hans“', options: ['Eine gemütliche, vertraute Stimmung; die Spatzen sitzen eng beieinander.', 'Eine bedrohliche Stimmung, weil die Spatzen voneinander fliehen.', 'Eine feierliche Stimmung bei einer Preisverleihung.', 'Eine traurige Stimmung, weil ein Spatz allein zurückbleibt.'], answer: 'Eine gemütliche, vertraute Stimmung; die Spatzen sitzen eng beieinander.', tip: 'Beachte die Wiederholung der Nähe in „Bauch an Bauch“ und die spielerische Namensnennung.', explanation: 'Die Spatzen sitzen eng zusammen und werden mit Namen vorgestellt. Das vermittelt Nähe und eine gemütliche, leicht verspielte Stimmung.' },
-            { id: 'deutsch-klassenarbeit-poem-08', type: 'multiple-choice', prompt: 'Welches Stilmittel steht in Morgensterns Vers „So warm wie der Hans hats niemand nicht“?', question: 'Achte auf das Wort „wie“.', options: ['Ein Vergleich: Die Wärme der anderen wird mit Hans verglichen.', 'Eine Metapher ohne Vergleichswort.', 'Eine Personifikation des Haselstrauchs.', 'Ein umarmender Reim.'], answer: 'Ein Vergleich: Die Wärme der anderen wird mit Hans verglichen.', tip: 'Das Signalwort „wie“ verbindet hier zwei Größen.', explanation: 'Mit „wie“ wird die Wärme der anderen Spatzen ausdrücklich mit Hans verglichen. Die scherzhafte Formulierung unterstreicht, wie gemütlich Hans es in der Mitte hat.' },
-            { id: 'deutsch-klassenarbeit-poem-09', type: 'fill-in', prompt: 'Johann Wolfgang von Goethe, „Erlkönig“: „Wer reitet so spät durch Nacht und Wind? / Es ist der Vater mit seinem Kind; / Er hat den Knaben wohl in dem Arm, / Er faßt ihn sicher, er hält ihn warm.“ Bestimme das Reimschema dieser Strophe.', sentence: 'Das Reimschema lautet ___.', answer: 'AABB', strictCase: false, tip: 'Wind / Kind reimen sich; Arm / warm bilden das nächste Paar.', explanation: 'Wind / Kind bilden den A-Reim, Arm / warm den B-Reim. Die Folge AABB ist ein Paarreim.' },
-            { id: 'deutsch-klassenarbeit-poem-10', type: 'multiple-choice', prompt: 'Wer nimmt in den nächsten Versen des „Erlkönigs“ den Erlkönig wahr?', question: '„Siehst, Vater, du den Erlkönig nicht? / Mein Sohn, es ist ein Nebelstreif.“', options: ['Der Sohn sieht den Erlkönig; der Vater erklärt die Erscheinung als Nebelstreif.', 'Der Vater sieht den Erlkönig, der Sohn sieht nur Nebel.', 'Beide sehen dasselbe und nennen es einen Baum.', 'Der Erzähler sagt ausdrücklich, dass beide Figuren träumen.'], answer: 'Der Sohn sieht den Erlkönig; der Vater erklärt die Erscheinung als Nebelstreif.', tip: 'Achte darauf, wer die Frage stellt und wie der Vater antwortet.', explanation: 'Der Sohn fragt, ob der Vater den Erlkönig sehe. Der Vater deutet das Wahrgenommene als Nebelstreif. Das Gedicht stellt so die unterschiedlichen Wahrnehmungen der Figuren gegenüber.' },
-            { id: 'deutsch-klassenarbeit-poem-11', type: 'multiple-choice', prompt: 'Welche Versenden reimen sich im ersten Vierzeiler des „Erlkönigs“?', question: '„Wer reitet so spät durch Nacht und Wind? / Es ist der Vater mit seinem Kind; / Er hat den Knaben wohl in dem Arm, / Er faßt ihn sicher, er hält ihn warm.“', options: ['Wind / Kind und Arm / warm', 'Wind / Arm und Kind / warm', 'Nacht / Kind und Vater / warm', 'reitet / sicher und Knaben / Vater'], answer: 'Wind / Kind und Arm / warm', tip: 'Die Reime stehen hier in benachbarten Versen.', explanation: '„Wind / Kind“ und „Arm / warm“ sind die beiden Reimpaare des Vierzeilers.' },
-            { id: 'deutsch-klassenarbeit-poem-12', type: 'multiple-choice', prompt: 'Welche Wirkung hat der Wechsel der direkten Rede im „Erlkönig“?', question: '„Mein Sohn, was birgst du so bang dein Gesicht? — / Siehst, Vater, du den Erlkönig nicht? / … Mein Sohn, es ist ein Nebelstreif.“', options: ['Er zeigt den Gegensatz zwischen der Angst des Sohnes und den beruhigenden Erklärungen des Vaters.', 'Er beweist, dass der Vater den Erlkönig ebenfalls sieht.', 'Er macht die Ballade zu einer sachlichen Wetterbeschreibung.', 'Er zeigt, dass im Gedicht nur eine Figur spricht.'], answer: 'Er zeigt den Gegensatz zwischen der Angst des Sohnes und den beruhigenden Erklärungen des Vaters.', tip: 'Vergleiche, was der Sohn befürchtet und wie der Vater das Gesehene erklärt.', explanation: 'Die abwechselnde Rede macht die verschiedenen Wahrnehmungen hörbar: Der Sohn fürchtet den Erlkönig, während der Vater die Erscheinungen beruhigend natürlich erklärt. Das steigert die Spannung.' },
-            { id: 'deutsch-klassenarbeit-poem-13', type: 'fill-in', prompt: 'Friedrich Schiller, „Die Bürgschaft“: „Zu Dionys dem Tirannen schlich / Möros, den Dolch im Gewande, / Ihn schlugen die Häscher in Bande. / Was wolltest du mit dem Dolche, sprich!“ Bestimme das Reimschema dieser vier Verse.', sentence: 'Das Reimschema lautet ___.', answer: 'ABBA', strictCase: false, tip: 'Schlich / sprich bilden den äußeren Reim; Gewande / Bande den inneren.', explanation: 'Vers 1 und 4 reimen sich (schlich / sprich); Vers 2 und 3 (Gewande / Bande). Die Folge ABBA heißt umarmender Reim.' },
-            { id: 'deutsch-klassenarbeit-poem-14', type: 'multiple-choice', prompt: 'Wie lautet das Reimschema der ersten sieben Verse aus Schillers „Die Bürgschaft“?', question: 'Endwörter: schlich / Gewande / Bande / sprich / Wütherich / befreien / bereuen.', options: ['ABBAACC', 'AABBCCD', 'ABABABC', 'ABBAABB'], answer: 'ABBAACC', tip: 'Schlich / sprich / Wütherich gehören zusammen; Gewande / Bande bilden eine zweite Gruppe.', explanation: 'Die drei Reimgruppen lauten A: schlich / sprich / Wütherich, B: Gewande / Bande und C: befreien / bereuen. Daraus folgt ABBAACC.' },
-            { id: 'deutsch-klassenarbeit-poem-15', type: 'multiple-choice', prompt: 'Was möchte Möros in Schillers „Die Bürgschaft“ erreichen?', question: '„Die Stadt vom Tyrannen befreien!“', options: ['Er will die Stadt von der Herrschaft des Tyrannen befreien.', 'Er möchte den König mit einem Geschenk erfreuen.', 'Er will als Bote eine Nachricht überbringen.', 'Er sucht einen verlorenen Becher am Fluss.'], answer: 'Er will die Stadt von der Herrschaft des Tyrannen befreien.', tip: 'Die Absicht wird in der direkten Rede ausdrücklich genannt.', explanation: 'Möros sagt ausdrücklich, dass er die Stadt vom Tyrannen befreien will. Das ist eine im Text belegte Aussage, keine bloße Vermutung.' },
-            { id: 'deutsch-klassenarbeit-poem-16', type: 'multiple-choice', prompt: 'Welche Beschreibung passt zum Anfang von Schillers „Die Bürgschaft“?', question: 'Berücksichtige Reimordnung und Gesprächssituation.', options: ['Der umarmende Reim (ABBA) rahmt eine angespannte Befragung; die Erzählung wechselt danach in weitere Reimgruppen.', 'Ein Kreuzreim (ABAB) begleitet eine ruhige Naturbeschreibung.', 'Ein Paarreim (AABB) begleitet ein fröhliches Gespräch.', 'Es gibt keine Reime und keine direkte Rede.'], answer: 'Der umarmende Reim (ABBA) rahmt eine angespannte Befragung; die Erzählung wechselt danach in weitere Reimgruppen.', tip: 'Die erste und vierte Zeile umschließen das Reimpaar in der Mitte; beachte außerdem die Frage nach dem Dolch.', explanation: 'Im ersten Vierzeiler umschließen die Reime der ersten und vierten Zeile (schlich / sprich) die mittleren Reime (Gewande / Bande). Die Frage nach dem Dolch und die anschließende Antwort erzeugen eine gespannte Gesprächssituation.' }
-        ]
+        exercises: []
     }
 ];
 
@@ -1131,28 +1186,296 @@ window.DeutschExercises.forEach(category => {
     category.exercises.push(...additions.map(makeChoiceExercise));
 });
 
-const classworkPoemAssignments = {
-    'deutsch-klassenarbeit-poem-01': { poemId: 'wuenschelrute', displayPrompt: 'Welches Reimschema hat Eichendorffs „Wünschelrute“?' },
-    'deutsch-klassenarbeit-poem-02': { poemId: 'wuenschelrute', displayPrompt: 'Welche Versenden bilden den zweiten Reim?' },
-    'deutsch-klassenarbeit-poem-03': { poemId: 'wuenschelrute', displayPrompt: 'Was kann das „Zauberwort“ bedeuten?' },
-    'deutsch-klassenarbeit-poem-04': { poemId: 'wuenschelrute', displayPrompt: 'An wen richtet sich das „du“?' },
-    'deutsch-klassenarbeit-poem-05': { poemId: 'dieDreiSpatzen', displayPrompt: 'Bestimme das Reimschema der ersten Strophe.' },
-    'deutsch-klassenarbeit-poem-06': { poemId: 'dieDreiSpatzen', displayPrompt: 'Welche Reimpaare hörst du in der ersten Strophe?' },
-    'deutsch-klassenarbeit-poem-07': { poemId: 'dieDreiSpatzen', displayPrompt: 'Welche Stimmung entsteht in der ersten Strophe?' },
-    'deutsch-klassenarbeit-poem-08': { poemId: 'dieDreiSpatzen', displayPrompt: 'Welches Stilmittel steht im Vers „So warm wie der Hans hats niemand nicht“?' },
-    'deutsch-klassenarbeit-poem-09': { poemId: 'erlkönig', displayPrompt: 'Bestimme das Reimschema der ersten Strophe des „Erlkönigs“.' },
-    'deutsch-klassenarbeit-poem-10': { poemId: 'erlkönig', displayPrompt: 'Wer nimmt den Erlkönig in den nächsten Versen wahr?' },
-    'deutsch-klassenarbeit-poem-11': { poemId: 'erlkönig', displayPrompt: 'Welche Versenden reimen sich im ersten Vierzeiler?' },
-    'deutsch-klassenarbeit-poem-12': { poemId: 'erlkönig', displayPrompt: 'Welche Wirkung hat der Wechsel der direkten Rede?' },
-    'deutsch-klassenarbeit-poem-13': { poemId: 'dieBürgschaft', displayPrompt: 'Bestimme das Reimschema der ersten vier Verse aus Schillers „Die Bürgschaft“.' },
-    'deutsch-klassenarbeit-poem-14': { poemId: 'dieBürgschaft', displayPrompt: 'Wie lautet das Reimschema der ersten sieben Verse?' },
-    'deutsch-klassenarbeit-poem-15': { poemId: 'dieBürgschaft', displayPrompt: 'Was möchte Möros erreichen?' },
-    'deutsch-klassenarbeit-poem-16': { poemId: 'dieBürgschaft', displayPrompt: 'Welche Wirkung hat der umarmende Reim am Anfang?' }
-};
+const classworkPoemExercises = [
+    {
+        poemId: 'wuenschelrute',
+        step: 'Schritt 1/4: Inhalt und Sprechsituation',
+        markingInstruction: 'Markiere Hinweise auf Thema, Sprecher und Stimmung. Wähle danach die passende Deutung.',
+        markTargets: ['Lied', 'träumen', 'du', 'Zauberwort'],
+        options: [
+            'Das Gedicht beschreibt verborgene Poesie in den Dingen; ein unbestimmtes „du“ kann sie mit einem Zauberwort hörbar machen. Ort und Zeit bleiben offen.',
+            'Ein Kind sucht nachts ein Schloss und findet dort einen Zauberstab.',
+            'Der Sprecher erzählt von einem Sänger auf einer Bühne.',
+            'Ein Reisender beschreibt eine genaue Landschaft und eine Tageszeit.'
+        ],
+        answer: 'Das Gedicht beschreibt verborgene Poesie in den Dingen; ein unbestimmtes „du“ kann sie mit einem Zauberwort hörbar machen. Ort und Zeit bleiben offen.',
+        tip: 'Achte auf „Lied“, „träumen“ und die Anrede „du“.',
+        explanation: '„Lied“, „träumen“ und „Zauberwort“ erzeugen eine geheimnisvolle Stimmung. Das „du“ wird nicht genauer benannt; ein genauer Ort oder Zeitpunkt steht nicht im Gedicht.'
+    },
+    {
+        poemId: 'wuenschelrute',
+        step: 'Schritt 2/4: Reime',
+        markingInstruction: 'Markiere alle Reimwörter am Versende. Wähle danach Reimschema und Reimform.',
+        markTargets: ['Dingen', { text: 'fort', occurrence: 2 }, 'singen', 'Zauberwort'],
+        options: ['ABAB – Kreuzreim', 'AABB – Paarreim', 'ABBA – umarmender Reim', 'ABCB – Schweifreim'],
+        answer: 'ABAB – Kreuzreim',
+        tip: 'Vergleiche Vers 1 mit 3 und Vers 2 mit 4.',
+        explanation: '„Dingen / singen“ bilden A und „fort / Zauberwort“ bilden B. Das Muster ABAB heißt Kreuzreim.'
+    },
+    {
+        poemId: 'wuenschelrute',
+        step: 'Schritt 3/4: Sprachliche Bilder',
+        markingInstruction: 'Markiere Wörter, durch die Dinge oder die Welt lebendig wirken. Wähle danach das Stilmittel und seine Wirkung.',
+        markTargets: ['Schläft', 'träumen', 'singen'],
+        options: [
+            'Personifikation: Dinge und Welt erhalten lebendige Handlungen. Dadurch wirkt die Welt geheimnisvoll.',
+            'Vergleich: Zwei Dinge werden mit „wie“ verglichen.',
+            'Wörtliche Beschreibung: Dinge schlafen und singen tatsächlich.',
+            'Paarreim: Die Wörter beschreiben nur den Klang.'
+        ],
+        answer: 'Personifikation: Dinge und Welt erhalten lebendige Handlungen. Dadurch wirkt die Welt geheimnisvoll.',
+        tip: 'Können Dinge wirklich schlafen, träumen oder singen?',
+        explanation: 'Dinge schlafen und träumen nicht wie Lebewesen. Auch die Welt wird als singend dargestellt. Das sind Personifikationen, die die verborgene Poesie lebendig wirken lassen.'
+    },
+    {
+        poemId: 'wuenschelrute',
+        step: 'Schritt 4/4: Sprache und Grammatik',
+        markingInstruction: 'Markiere Pronomen, Subjekt und Verbteile. Wähle danach das passende Feldermodell zu „Und die Welt hebt an zu singen.“',
+        markTargets: ['du', 'die Welt', 'hebt', 'an zu singen'],
+        options: [
+            'Vorfeld: Und die Welt | linke Satzklammer: hebt | Mittelfeld: leer | rechte Satzklammer: an zu singen',
+            'Vorfeld: hebt | linke Satzklammer: Und die Welt | Mittelfeld: an | rechte Satzklammer: zu singen',
+            'Vorfeld: Und die Welt hebt | linke Satzklammer: an | Mittelfeld: zu | rechte Satzklammer: singen',
+            'Vorfeld: zu singen | linke Satzklammer: die Welt | Mittelfeld: hebt | rechte Satzklammer: an'
+        ],
+        answer: 'Vorfeld: Und die Welt | linke Satzklammer: hebt | Mittelfeld: leer | rechte Satzklammer: an zu singen',
+        tip: '„Die Welt“ beantwortet die Frage „Wer hebt an?“; das Verb „anheben“ wird getrennt.',
+        explanation: '„Du“ ist ein Personalpronomen. „Die Welt“ ist das Subjekt. „Hebt … an“ ist das trennbare Verb. Im Feldermodell steht „hebt“ links und „an zu singen“ am rechten Rand.'
+    },
+    {
+        poemId: 'dieDreiSpatzen',
+        step: 'Schritt 1/4: Inhalt und Sprechsituation',
+        markingInstruction: 'Markiere Hinweise auf Ort, Wetter und Stimmung. Wähle danach die passende Deutung.',
+        markTargets: ['Haselstrauch', 'Bauch an Bauch', 'schneit', 'dicht an dicht', 'freche Hans'],
+        options: [
+            'Drei Spatzen sitzen eng in einem Strauch. Der Schnee und ihre Nähe erzeugen eine gemütliche, verspielte Stimmung.',
+            'Ein einzelner Vogel fliegt im Sommer davon und wirkt traurig.',
+            'Drei Menschen streiten sich in einem warmen Haus.',
+            'Die Gedichtstimme beschreibt eine genaue Uhrzeit und eine Stadt.'
+        ],
+        answer: 'Drei Spatzen sitzen eng in einem Strauch. Der Schnee und ihre Nähe erzeugen eine gemütliche, verspielte Stimmung.',
+        tip: 'Achte auf den Haselstrauch, den Schnee und die Wiederholung von „dicht“.',
+        explanation: 'Der Haselstrauch zeigt den Ort. „Schneit“ deutet auf winterliches Wetter; „Bauch an Bauch“ und „dicht an dicht“ zeigen die Nähe der Spatzen. Das wirkt gemütlich und verspielt.'
+    },
+    {
+        poemId: 'dieDreiSpatzen',
+        step: 'Schritt 2/4: Reime',
+        markingInstruction: 'Markiere alle Reimwörter am Ende der Verse. Wähle danach die Reimordnung der Strophen.',
+        markTargets: [
+            'Haselstrauch', { text: 'Bauch', occurrence: 2 }, 'Franz', 'Hans',
+            { text: 'zu', occurrence: 2 }, 'hu', { text: 'dicht', occurrence: 2 }, 'nicht', 'Gepoch', 'noch'
+        ],
+        options: [
+            'Strophe 1: AABB; Strophen 2–4: je AA – Paarreime',
+            'Alle Strophen: ABAB – Kreuzreime',
+            'Strophe 1: ABBA; Strophen 2–4: je AABB – umarmende Reime',
+            'Es gibt keine Reimwörter.'
+        ],
+        answer: 'Strophe 1: AABB; Strophen 2–4: je AA – Paarreime',
+        tip: 'Vergleiche die Endwörter der Zeilen: Haselstrauch / Bauch, Franz / Hans und die weiteren Paare.',
+        explanation: 'In Strophe 1 reimen sich die ersten beiden und die letzten beiden Verse (AABB). Die übrigen Strophen bestehen jeweils aus einem Reimpaar (AA). Das ist jeweils ein Paarreim.'
+    },
+    {
+        poemId: 'dieDreiSpatzen',
+        step: 'Schritt 3/4: Sprachliche Bilder',
+        markingInstruction: 'Markiere die Textstelle, die du auf ein sprachliches Bild prüfst. Wähle danach Stilmittel und Wirkung.',
+        markTargets: ['warm wie der Hans'],
+        options: [
+            'Vergleich: „Wie“ verbindet die Wärme mit Hans und betont, wie gemütlich er es hat.',
+            'Metapher: Hans ist ein wörtlicher Heizkörper.',
+            'Personifikation: Der Haselstrauch spricht mit den Spatzen.',
+            'Kein Stilmittel: „Wie“ verbindet hier keine Dinge.'
+        ],
+        answer: 'Vergleich: „Wie“ verbindet die Wärme mit Hans und betont, wie gemütlich er es hat.',
+        tip: 'Suche das Vergleichswort „wie“.',
+        explanation: '„Warm wie der Hans“ ist ein Vergleich. Das Wort „wie“ verbindet die Wärme mit Hans und unterstreicht die gemütliche Stimmung.'
+    },
+    {
+        poemId: 'dieDreiSpatzen',
+        step: 'Schritt 4/4: Sprache und Grammatik',
+        markingInstruction: 'Markiere das Pronomen „Sie“ sowie Ortsangabe, Verb und Subjekt im ersten Satz. Wähle danach das passende Feldermodell.',
+        markTargets: [{ text: 'Sie', occurrence: 1 }, 'In einem leeren Haselstrauch', 'sitzen', 'drei Spatzen'],
+        options: [
+            'Vorfeld: In einem leeren Haselstrauch | linke Satzklammer: sitzen | Mittelfeld: da drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
+            'Vorfeld: sitzen | linke Satzklammer: In einem leeren Haselstrauch | Mittelfeld: da drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
+            'Vorfeld: In einem leeren Haselstrauch | linke Satzklammer: da | Mittelfeld: sitzen drei Spatzen | rechte Satzklammer: Bauch an Bauch',
+            'Vorfeld: da drei Spatzen | linke Satzklammer: sitzen | Mittelfeld: In einem leeren Haselstrauch | rechte Satzklammer: leer'
+        ],
+        answer: 'Vorfeld: In einem leeren Haselstrauch | linke Satzklammer: sitzen | Mittelfeld: da drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
+        tip: 'Frage: Wer sitzt im Haselstrauch? Und wo sitzen die Spatzen?',
+        explanation: '„Sie“ ist ein Personalpronomen. In Vers 1 ist „drei Spatzen“ das Subjekt, „sitzen“ das gebeugte Verb und „in einem leeren Haselstrauch“ die Ortsangabe. Das Feldermodell zeigt: Ortsangabe im Vorfeld, Verb in der linken Satzklammer, die übrigen Satzteile im Mittelfeld.'
+    },
+    {
+        poemId: 'erlkönig',
+        step: 'Schritt 1/4: Inhalt und Sprechsituation',
+        markingInstruction: 'Markiere Hinweise auf Zeit, Situation und Stimmung. Wähle danach die passende Deutung.',
+        markTargets: ['so spät', 'Nacht und Wind', 'Vater mit seinem Kind', 'bang', 'sicher', 'warm'],
+        options: [
+            'Ein Vater reitet spät mit seinem Kind durch die Nacht. Das Kind wirkt ängstlich, der Vater versucht es zu beruhigen.',
+            'Ein Kind reitet am Mittag allein und fühlt sich sicher.',
+            'Zwei Freunde gehen bei Sonnenschein durch eine Stadt.',
+            'Der Sprecher beschreibt ein Fest ohne Anzeichen von Angst.'
+        ],
+        answer: 'Ein Vater reitet spät mit seinem Kind durch die Nacht. Das Kind wirkt ängstlich, der Vater versucht es zu beruhigen.',
+        tip: 'Beachte „so spät“, „Nacht und Wind“ sowie die Wörter „bang“, „sicher“ und „warm“.',
+        explanation: '„So spät“ und „Nacht und Wind“ zeigen die Zeit und die Umgebung. Vater und Kind reiten gemeinsam. „Bang“ zeigt die Angst des Kindes; der Vater versucht es mit „sicher“ und „warm“ zu beruhigen.'
+    },
+    {
+        poemId: 'erlkönig',
+        step: 'Schritt 2/4: Reime',
+        markingInstruction: 'Markiere alle Reimwörter am Ende der Verse. Wähle danach Reimschema und Reimform beider Strophen.',
+        markTargets: ['Wind', 'Kind', 'Arm', 'warm', 'Gesicht', 'nicht', 'Schweif', 'Nebelstreif'],
+        options: [
+            'Beide Strophen: AABB – Paarreime',
+            'Beide Strophen: ABAB – Kreuzreime',
+            'Beide Strophen: ABBA – umarmende Reime',
+            'Erste Strophe AABB, zweite Strophe ABBA'
+        ],
+        answer: 'Beide Strophen: AABB – Paarreime',
+        tip: 'In jeder Strophe reimen sich Vers 1 mit 2 und Vers 3 mit 4.',
+        explanation: 'In Strophe 1 reimen sich Wind / Kind und Arm / warm. In Strophe 2 reimen sich Gesicht / nicht und Schweif / Nebelstreif. Beide Strophen haben AABB, also Paarreime.'
+    },
+    {
+        poemId: 'erlkönig',
+        step: 'Schritt 3/4: Sprachliche Bilder',
+        markingInstruction: 'Markiere die Stelle, an der der Vater die Erscheinung erklärt. Prüfe, ob das eine Metapher, Personifikation oder ein Vergleich ist.',
+        markTargets: ['Nebelstreif'],
+        options: [
+            '„Nebelstreif“ ist die wörtliche Erklärung des Vaters. Im Auszug steht kein eindeutiger Vergleich oder klares sprachliches Bild.',
+            '„Nebelstreif“ ist ein Vergleich, weil davor „wie“ steht.',
+            'Der Nebel wird personifiziert, weil er selbst spricht.',
+            '„Nebelstreif“ ist eine Metapher für ein Schloss.'
+        ],
+        answer: '„Nebelstreif“ ist die wörtliche Erklärung des Vaters. Im Auszug steht kein eindeutiger Vergleich oder klares sprachliches Bild.',
+        tip: 'Prüfe, ob der Vater etwas bildlich oder als natürliche Erklärung benennt.',
+        explanation: 'Der Vater erklärt die Erscheinung als „Nebelstreif“. In diesem Auszug steht kein eindeutiger Vergleich mit „wie“ oder eine klare Personifikation. Nicht jedes anschauliche Wort ist automatisch ein Stilmittel.'
+    },
+    {
+        poemId: 'erlkönig',
+        step: 'Schritt 4/4: Sprache und Grammatik',
+        markingInstruction: 'Markiere das Pronomen, das Subjekt, das Verb und das Objekt. Wähle danach das passende Feldermodell zu „Er hat den Knaben wohl in dem Arm.“',
+        markTargets: ['Er hat den Knaben', 'in dem Arm'],
+        options: [
+            'Vorfeld: Er | linke Satzklammer: hat | Mittelfeld: den Knaben wohl in dem Arm | rechte Satzklammer: leer',
+            'Vorfeld: hat | linke Satzklammer: Er | Mittelfeld: den Knaben wohl in dem Arm | rechte Satzklammer: leer',
+            'Vorfeld: Er hat | linke Satzklammer: den Knaben | Mittelfeld: wohl in dem Arm | rechte Satzklammer: leer',
+            'Vorfeld: in dem Arm | linke Satzklammer: hat | Mittelfeld: Er den Knaben | rechte Satzklammer: wohl'
+        ],
+        answer: 'Vorfeld: Er | linke Satzklammer: hat | Mittelfeld: den Knaben wohl in dem Arm | rechte Satzklammer: leer',
+        tip: 'Frage: Wer hat den Knaben? Wen oder was hat der Vater?',
+        explanation: '„Er“ ist Personalpronomen und Subjekt. „Hat“ ist das gebeugte Verb. „Den Knaben“ ist das Akkusativobjekt. Im Feldermodell steht „Er“ im Vorfeld und „hat“ in der linken Satzklammer; eine rechte Satzklammer ist leer.'
+    },
+    {
+        poemId: 'dieBürgschaft',
+        step: 'Schritt 1/4: Inhalt und Sprechsituation',
+        markingInstruction: 'Markiere Hinweise auf Ort, Situation und Stimmung. Wähle danach die passende Deutung.',
+        markTargets: ['Zu Dionys', 'schlich', 'Dolch im Gewande', 'Häscher', 'finster'],
+        options: [
+            'Möros schleicht sich mit einem Dolch zu Dionys. Die Häscher halten ihn auf; die Szene wirkt bedrohlich.',
+            'Möros besucht einen Freund am helllichten Tag und bringt ein Geschenk.',
+            'Die Häscher helfen Möros, eine Stadt zu feiern.',
+            'Der Text nennt einen genauen Ort und eine friedliche Alltagssituation.'
+        ],
+        answer: 'Möros schleicht sich mit einem Dolch zu Dionys. Die Häscher halten ihn auf; die Szene wirkt bedrohlich.',
+        tip: 'Achte darauf, wohin Möros schleicht, was er bei sich trägt und wer ihn aufhält.',
+        explanation: '„Zu Dionys“ nennt das Ziel. „Schlich“, „Dolch im Gewande“ und „Häscher“ zeigen eine gefährliche Situation. „Finster“ verstärkt die bedrohliche Stimmung; eine genaue Tageszeit wird nicht genannt.'
+    },
+    {
+        poemId: 'dieBürgschaft',
+        step: 'Schritt 2/4: Reime',
+        markingInstruction: 'Markiere alle Reimwörter am Ende der Verse. Wähle danach das Reimschema und die Reimform.',
+        markTargets: ['schlich', 'Gewande', 'Bande', 'sprich', 'Wütherich', 'befreien', 'bereuen'],
+        options: [
+            'ABBAACC; die ersten vier Verse bilden einen umarmenden Reim',
+            'AABBCCD; nur Paarreime',
+            'ABABABC; durchgehend Kreuzreim',
+            'ABBAACC; durchgehend Paarreim'
+        ],
+        answer: 'ABBAACC; die ersten vier Verse bilden einen umarmenden Reim',
+        tip: 'Schlich / sprich / Wütherich gehören zusammen; Gewande / Bande bilden ein weiteres Reimpaar.',
+        explanation: 'Die Reimfolge lautet ABBAACC. In den ersten vier Versen umschließen Vers 1 und 4 das Reimpaar aus Vers 2 und 3: Das ist ein umarmender Reim.'
+    },
+    {
+        poemId: 'dieBürgschaft',
+        step: 'Schritt 3/4: Sprachliche Bilder',
+        markingInstruction: 'Markiere die anschauliche Stelle, die du auf ein Stilmittel prüfst. Wähle danach die passende Einordnung.',
+        markTargets: ['Dolch im Gewande'],
+        options: [
+            'Die Stelle beschreibt wörtlich einen verborgenen Dolch. Sie zeigt Gefahr, ist aber keine klare Metapher, Personifikation oder Vergleich.',
+            'Der Dolch wird personifiziert, weil er selbst handelt.',
+            '„Im Gewande“ ist ein Vergleich mit dem Wort „wie“.',
+            'Die Stelle ist eine Metapher für einen friedlichen Besuch.'
+        ],
+        answer: 'Die Stelle beschreibt wörtlich einen verborgenen Dolch. Sie zeigt Gefahr, ist aber keine klare Metapher, Personifikation oder Vergleich.',
+        tip: 'Frage dich, ob der Dolch wirklich im Gewand steckt oder nur bildlich gemeint ist.',
+        explanation: '„Den Dolch im Gewande“ beschreibt wörtlich, dass Möros eine Waffe unter seiner Kleidung trägt. Das erzeugt Spannung, ist aber keine klare Metapher, Personifikation oder Vergleich.'
+    },
+    {
+        poemId: 'dieBürgschaft',
+        step: 'Schritt 4/4: Sprache und Grammatik',
+        markingInstruction: 'Markiere das Pronomen, das Subjekt, das Verb und die Satzteile. Wähle danach das passende Feldermodell zu „Ihn schlugen die Häscher in Bande.“',
+        markTargets: ['Ihn', 'schlugen', 'die Häscher', 'in Bande'],
+        options: [
+            'Vorfeld: Ihn | linke Satzklammer: schlugen | Mittelfeld: die Häscher in Bande | rechte Satzklammer: leer',
+            'Vorfeld: schlugen | linke Satzklammer: Ihn | Mittelfeld: die Häscher in Bande | rechte Satzklammer: leer',
+            'Vorfeld: die Häscher | linke Satzklammer: Ihn | Mittelfeld: schlugen in Bande | rechte Satzklammer: leer',
+            'Vorfeld: in Bande | linke Satzklammer: schlugen | Mittelfeld: Ihn die Häscher | rechte Satzklammer: leer'
+        ],
+        answer: 'Vorfeld: Ihn | linke Satzklammer: schlugen | Mittelfeld: die Häscher in Bande | rechte Satzklammer: leer',
+        tip: '„Ihn“ antwortet auf „Wen schlugen die Häscher?“; frage außerdem „Wer schlug?“',
+        explanation: '„Ihn“ ist ein Personalpronomen und das Akkusativobjekt. „Die Häscher“ ist das Subjekt; „schlugen“ ist das gebeugte Verb. Weil das Objekt vorangestellt ist, steht es im Vorfeld.'
+    }
+];
 
-window.DeutschExercises.find(category => category.id === 'deutsch-klassenarbeit').exercises.forEach(exercise => {
-    const assignment = classworkPoemAssignments[exercise.id];
-    if (!assignment) return;
-    exercise.poem = classworkPoems[assignment.poemId];
-    exercise.displayPrompt = assignment.displayPrompt;
+function normalizePoemWord(word) {
+    return word.toLocaleLowerCase('de-DE').replace(/^[^a-zäöüß0-9]+|[^a-zäöüß0-9]+$/g, '');
+}
+
+function findPoemTargetIndices(poemText, markTargets) {
+    const tokens = poemText.match(/\S+/g) || [];
+    const selected = new Set();
+    markTargets.forEach(target => {
+        const targetText = typeof target === 'string' ? target : target.text;
+        const occurrence = typeof target === 'string' ? 1 : target.occurrence || 1;
+        const targetWords = (targetText.match(/\S+/g) || []).map(normalizePoemWord);
+        let matches = 0;
+        let matchStart = -1;
+
+        for (let start = 0; start <= tokens.length - targetWords.length; start += 1) {
+            if (!targetWords.every((word, offset) => normalizePoemWord(tokens[start + offset]) === word)) continue;
+            matches += 1;
+            if (matches === occurrence) {
+                matchStart = start;
+                break;
+            }
+        }
+
+        if (matchStart < 0) {
+            throw new Error(`Markiertext „${targetText}“ wurde im Gedicht nicht gefunden.`);
+        }
+        targetWords.forEach((word, offset) => selected.add(matchStart + offset));
+    });
+
+    return [...selected].sort((first, second) => first - second);
+}
+
+const classworkCategory = window.DeutschExercises.find(category => category.id === 'deutsch-klassenarbeit');
+classworkCategory.exercises = classworkPoemExercises.map((assignment, index) => {
+    const poem = classworkPoems[assignment.poemId];
+    const tokens = poem.text.match(/\S+/g) || [];
+    return {
+        id: `deutsch-klassenarbeit-poem-${String(index + 1).padStart(2, '0')}`,
+        type: 'poem-marking',
+        prompt: assignment.step,
+        displayPrompt: assignment.step,
+        markingInstruction: assignment.markingInstruction,
+        markTargets: assignment.markTargets,
+        tokens,
+        correctIndices: findPoemTargetIndices(poem.text, assignment.markTargets),
+        options: assignment.options,
+        answer: assignment.answer,
+        tip: assignment.tip,
+        explanation: assignment.explanation,
+        poem
+    };
 });

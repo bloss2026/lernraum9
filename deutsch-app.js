@@ -246,6 +246,49 @@
         return result;
     }
 
+    function renderMarkedLessonPoem(poem, section) {
+        const verses = poem.text.split(/\r?\n/)
+            .map(line => {
+                const match = line.match(/^(\d+)\s+(.*)$/);
+                return match ? { number: Number(match[1]), text: match[2] } : null;
+            })
+            .filter(Boolean);
+        const markedVerses = verses.map(verse => {
+            const highlights = section.poemHighlights
+                .filter(highlight => highlight.verse === verse.number)
+                .sort((left, right) => verse.text.indexOf(left.text) - verse.text.indexOf(right.text));
+            let cursor = 0;
+            let markedText = '';
+
+            highlights.forEach(highlight => {
+                const start = verse.text.indexOf(highlight.text, cursor);
+                if (start < 0) {
+                    throw new Error(`Gedichtmarkierung „${highlight.text}“ fehlt in Vers ${verse.number}.`);
+                }
+                markedText += escapeHTML(verse.text.slice(cursor, start));
+                markedText += `<mark class="deutsch-poem-mark deutsch-poem-mark-${escapeHTML(highlight.kind)}">${escapeHTML(highlight.text)}</mark>`;
+                cursor = start + highlight.text.length;
+            });
+            markedText += escapeHTML(verse.text.slice(cursor));
+            return `<li><span class="deutsch-marked-poem-number">${verse.number}</span><span>${markedText}</span></li>`;
+        }).join('');
+
+        return `
+            <figure class="deutsch-poem-study">
+                <figcaption>Das Gedicht mit Markierungen</figcaption>
+                <ol class="deutsch-marked-poem">${markedVerses}</ol>
+                <ul class="deutsch-poem-annotations">
+                    ${section.annotations.map(annotation => `
+                        <li>
+                            <strong class="deutsch-poem-label deutsch-poem-label-${escapeHTML(annotation.kind)}">${escapeHTML(annotation.label)}</strong>
+                            <span>${escapeHTML(annotation.text)}</span>
+                        </li>
+                    `).join('')}
+                </ul>
+            </figure>
+        `;
+    }
+
     function renderTopicDetail(category) {
         if (!category) return;
         activeCategory = category;
@@ -259,6 +302,7 @@
             examples: [{ title: category.title, text: category.theory || category.description }]
         };
         const sources = category.sources || [];
+        const showSources = category.showSources !== false;
         const attemptedIds = new Set(progress.attempted);
         const completedIds = new Set(progress.completed);
         const firstTryIds = new Set(progress.firstTryCorrect);
@@ -269,6 +313,14 @@
             total + (progress.answerHistory[exercise.id] || []).filter(attempt => !attempt.correct).length, 0);
         const attemptedExercises = category.exercises.filter(exercise =>
             attemptedIds.has(exercise.id) || completedIds.has(exercise.id));
+        const hasGuidedLesson = Array.isArray(lesson.sections)
+            && lesson.sections.length > 0
+            && Array.isArray(lesson.examples)
+            && lesson.examples.length > 0
+            && lesson.sections.every(section => Array.isArray(section.poemHighlights)
+                && Array.isArray(section.annotations));
+        const openingPoem = hasGuidedLesson ? lesson.examples[0] : null;
+        const showProgressDetails = !hasGuidedLesson;
         root.innerHTML = `
             <section class="deutsch-session deutsch-topic-detail">
                 <div class="deutsch-session-top">
@@ -287,13 +339,67 @@
                         <span>${categories.length} Themen · ${category.exercises.length} Aufgaben</span>
                     </div>
                     ${storageError ? `<p class="deutsch-storage-warning" role="status">${escapeHTML(storageError)}</p>` : ''}
-                    <ol class="deutsch-learning-path" aria-label="Lernpfad">
-                        <li class="is-active"><span>1</span><strong>Einführung lesen</strong></li>
-                        <li><span>2</span><strong>Merksätze merken</strong></li>
-                        <li><span>3</span><strong>${category.exercises.length} Aufgaben lösen</strong></li>
-                    </ol>
-                    <p class="deutsch-progress-note"><strong>Lernstand gespeichert:</strong> Dieses Thema wurde aufgerufen; Antworten, erste Versuche, richtige Lösungen und Fehlversuche werden festgehalten.</p>
-                    ${attemptedExercises.length ? `
+                    ${openingPoem ? `
+                        <section class="deutsch-opening-poem" aria-label="Gedicht">
+                            <h3>Das Gedicht zuerst lesen</h3>
+                            <article class="deutsch-example-card deutsch-opening-poem-card">
+                                <strong>${escapeHTML(openingPoem.title)}</strong>
+                                <p>${escapeHTML(openingPoem.text)}</p>
+                            </article>
+                        </section>
+                        <section class="deutsch-lesson-intro">
+                            <h3>Einführung</h3>
+                            <p>${escapeHTML(lesson.overview)}</p>
+                        </section>
+                    ` : `
+                        <div class="deutsch-topic-feature-grid">
+                            <div class="deutsch-topic-feature">
+                                <h3>Kurz erklärt</h3>
+                                <p>${escapeHTML(lesson.overview)}</p>
+                            </div>
+                            <div class="deutsch-topic-feature">
+                                <h3>Merksätze</h3>
+                                <ul>
+                                    ${lesson.focusPoints.map(point => `<li>${escapeHTML(point)}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `}
+                    ${Array.isArray(lesson.sections) && lesson.sections.length ? `
+                        <section class="deutsch-lesson-sections" aria-label="Einführung Schritt für Schritt">
+                            <h3>Wir gehen das Gedicht Schritt für Schritt durch</h3>
+                            <div class="deutsch-lesson-section-grid">
+                                ${lesson.sections.map(section => `
+                                    <article class="deutsch-lesson-section">
+                                        <h4>${escapeHTML(section.title)}</h4>
+                                        ${openingPoem && section.poemHighlights.length
+                                            ? renderMarkedLessonPoem(openingPoem, section)
+                                            : ''}
+                                        <p>${escapeHTML(section.text)}</p>
+                                        ${section.points?.length ? `<ul>${section.points.map(point => `<li>${escapeHTML(point)}</li>`).join('')}</ul>` : ''}
+                                        ${section.merksatz ? `<p class="deutsch-memory-sentence"><strong>Merksatz:</strong> ${escapeHTML(section.merksatz)}</p>` : ''}
+                                    </article>
+                                `).join('')}
+                            </div>
+                        </section>
+                    ` : ''}
+                    ${openingPoem ? `
+                        <section class="deutsch-topic-feature deutsch-recall-feature">
+                            <h3>Merksätze zum Wiederholen</h3>
+                            <ul>${lesson.focusPoints.map(point => `<li>${escapeHTML(point)}</li>`).join('')}</ul>
+                        </section>
+                    ` : `
+                        <div class="deutsch-example-grid">
+                            ${lesson.examples.map(example => `
+                                <article class="deutsch-example-card">
+                                    <strong>${escapeHTML(example.title)}</strong>
+                                    <p>${escapeHTML(example.text)}</p>
+                                </article>
+                            `).join('')}
+                        </div>
+                    `}
+                    ${showProgressDetails ? `<p class="deutsch-progress-note"><strong>Lernstand gespeichert:</strong> Dieses Thema wurde aufgerufen; Antworten, erste Versuche, richtige Lösungen und Fehlversuche werden festgehalten.</p>` : ''}
+                    ${showProgressDetails && attemptedExercises.length ? `
                         <details class="deutsch-answer-history">
                             <summary>Bearbeitete Übungen und Antworten ansehen (${attemptedExercises.length})</summary>
                             <ol>
@@ -324,41 +430,7 @@
                             </ol>
                         </details>
                     ` : ''}
-                    <div class="deutsch-topic-feature-grid">
-                        <div class="deutsch-topic-feature">
-                            <h3>Kurz erklärt</h3>
-                            <p>${escapeHTML(lesson.overview)}</p>
-                        </div>
-                        <div class="deutsch-topic-feature">
-                            <h3>Merksätze</h3>
-                            <ul>
-                                ${lesson.focusPoints.map(point => `<li>${escapeHTML(point)}</li>`).join('')}
-                            </ul>
-                        </div>
-                    </div>
-                    ${Array.isArray(lesson.sections) && lesson.sections.length ? `
-                        <section class="deutsch-lesson-sections" aria-label="Vertiefung">
-                            <h3>Schritt für Schritt vertiefen</h3>
-                            <div class="deutsch-lesson-section-grid">
-                                ${lesson.sections.map(section => `
-                                    <article class="deutsch-lesson-section">
-                                        <h4>${escapeHTML(section.title)}</h4>
-                                        <p>${escapeHTML(section.text)}</p>
-                                        ${section.points?.length ? `<ul>${section.points.map(point => `<li>${escapeHTML(point)}</li>`).join('')}</ul>` : ''}
-                                    </article>
-                                `).join('')}
-                            </div>
-                        </section>
-                    ` : ''}
-                    <div class="deutsch-example-grid">
-                        ${lesson.examples.map(example => `
-                            <article class="deutsch-example-card">
-                                <strong>${escapeHTML(example.title)}</strong>
-                                <p>${escapeHTML(example.text)}</p>
-                            </article>
-                        `).join('')}
-                    </div>
-                    ${sources.length ? `
+                    ${showSources && sources.length ? `
                         <section class="deutsch-sources" aria-labelledby="deutschSourcesTitle">
                             <h3 id="deutschSourcesTitle">Fachliche Quellen</h3>
                             <ul>
@@ -371,6 +443,13 @@
                             </ul>
                             <p>Die Erklärungen und Übungen in diesem Lernmodul sind eigenständig formuliert.</p>
                         </section>
+                    ` : ''}
+                    ${showProgressDetails ? `
+                        <ol class="deutsch-learning-path" aria-label="So geht es weiter">
+                            <li><span>1</span><strong>Einführung lesen</strong></li>
+                            <li><span>2</span><strong>Merksätze merken</strong></li>
+                            <li><span>3</span><strong>${category.exercises.length} Aufgaben lösen</strong></li>
+                        </ol>
                     ` : ''}
                     <div class="deutsch-question-actions">
                         <button class="deutsch-button deutsch-button-primary" type="button" data-action="start-category" data-category="${category.id}">Übungen starten</button>
@@ -446,7 +525,10 @@
             return;
         }
         const taskLimit = Number.isFinite(maxTasks) ? maxTasks : category.exercises.length;
-        const items = shuffle(category.exercises)
+        const orderedExercises = category.id === 'deutsch-klassenarbeit'
+            ? category.exercises
+            : shuffle(category.exercises);
+        const items = orderedExercises
             .slice(0, Math.min(taskLimit, category.exercises.length))
             .map(exercise => ({
                 ...exercise,
@@ -459,12 +541,30 @@
         });
     }
 
+    function renderMarkablePoem(exercise) {
+        let wordIndex = 0;
+        return escapeHTML(exercise.poem.text).replace(/\S+/g, token => {
+            const index = wordIndex++;
+            const selected = selectedWords.includes(index);
+            return `<button class="deutsch-poem-token ${selected ? 'is-selected' : ''}" type="button" data-poem-word="${index}" aria-pressed="${selected}" aria-label="Gedichtwort: ${token}">${token}</button>`;
+        });
+    }
+
     function renderQuestionInput(exercise) {
         if (exercise.type === 'multiple-choice') {
             return `<div class="deutsch-choice-grid">${exercise.options.map(option => `
                 <button class="deutsch-choice ${selectedChoice === option ? 'is-selected' : ''}" type="button" data-choice="${escapeHTML(option)}" aria-pressed="${selectedChoice === option}">
                     <span class="deutsch-choice-letter" aria-hidden="true">${String.fromCharCode(65 + exercise.options.indexOf(option))}</span>${escapeHTML(option)}
                 </button>`).join('')}</div>`;
+        }
+
+        if (exercise.type === 'poem-marking') {
+            return `<p class="deutsch-word-instruction">${escapeHTML(exercise.markingInstruction)}</p>
+                <p class="deutsch-word-instruction">Wähle danach die passende Antwort.</p>
+                <div class="deutsch-choice-grid">${exercise.options.map((option, index) => `
+                    <button class="deutsch-choice ${selectedChoice === option ? 'is-selected' : ''}" type="button" data-choice="${escapeHTML(option)}" aria-pressed="${selectedChoice === option}">
+                        <span class="deutsch-choice-letter" aria-hidden="true">${String.fromCharCode(65 + index)}</span>${escapeHTML(option)}
+                    </button>`).join('')}</div>`;
         }
 
         if (exercise.type === 'word-click') {
@@ -535,8 +635,8 @@
                     <strong>${escapeHTML(exercise.poem.title)}</strong>
                     <span>von ${escapeHTML(exercise.poem.author)}</span>
                 </figcaption>
-                <blockquote class="deutsch-exercise-poem-text">${escapeHTML(exercise.poem.text)}</blockquote>
-                <a class="deutsch-exercise-poem-source" href="${escapeHTML(exercise.poem.sourceUrl)}" target="_blank" rel="noopener noreferrer">Textquelle bei Wikisource</a>
+                <blockquote class="deutsch-exercise-poem-text ${exercise.type === 'poem-marking' ? 'deutsch-markable-poem' : ''}">${exercise.type === 'poem-marking' ? renderMarkablePoem(exercise) : escapeHTML(exercise.poem.text)}</blockquote>
+                ${category?.showSources === false ? '' : `<a class="deutsch-exercise-poem-source" href="${escapeHTML(exercise.poem.sourceUrl)}" target="_blank" rel="noopener noreferrer">Textquelle bei Wikisource</a>`}
             </figure>` : '';
         const theoryBlock = category && category.theory && !exercise.poem ? `
             <div class="deutsch-theory-box">
@@ -602,6 +702,7 @@
 
     function collectAnswer(exercise) {
         if (exercise.type === 'multiple-choice') return selectedChoice;
+        if (exercise.type === 'poem-marking') return { words: [...selectedWords], choice: selectedChoice };
         if (exercise.type === 'word-click') return selectedWords;
         if (exercise.type === 'dropdown') {
             return [...root.querySelectorAll('[data-blank]')].map(select => select.value);
@@ -615,6 +716,13 @@
 
     function answerIsCorrect(exercise, value) {
         if (exercise.type === 'multiple-choice') return value === exercise.answer;
+        if (exercise.type === 'poem-marking') {
+            return value
+                && Array.isArray(value.words)
+                && value.words.length === exercise.correctIndices.length
+                && value.words.every((word, index) => word === exercise.correctIndices[index])
+                && value.choice === exercise.answer;
+        }
         if (exercise.type === 'word-click' || exercise.type === 'sentence-builder') {
             const expected = exercise.type === 'word-click' ? exercise.correctIndices : exercise.correctOrder;
             return Array.isArray(value) && value.length === expected.length && value.every((item, index) => item === expected[index]);
@@ -632,6 +740,10 @@
     }
 
     function displayAnswer(exercise, value) {
+        if (exercise.type === 'poem-marking') {
+            const markedWords = value.words.map(index => exercise.tokens[index]).join(' ') || 'Keine Textstelle markiert';
+            return `${markedWords} · ${value.choice || 'Keine Auswahl'}`;
+        }
         if (Array.isArray(value)) {
             if (exercise.type === 'word-click') return value.map(index => exercise.tokens[index]).join(' ');
             if (exercise.type === 'sentence-builder') return value.map(index => exercise.cards[index]).join(' ');
@@ -642,6 +754,10 @@
 
     function modelAnswer(exercise) {
         if (exercise.type === 'multiple-choice') return exercise.answer;
+        if (exercise.type === 'poem-marking') {
+            const markedWords = exercise.correctIndices.map(index => exercise.tokens[index]).join(' ') || 'Keine Textstelle markieren';
+            return `${markedWords} · ${exercise.answer}`;
+        }
         if (exercise.type === 'word-click') return exercise.correctIndices.map(index => exercise.tokens[index]).join(' ');
         if (exercise.type === 'sentence-builder') return exercise.correctOrder.map(index => exercise.cards[index]).join(' ');
         if (exercise.type === 'dropdown') return (Array.isArray(exercise.answer) ? exercise.answer : [exercise.answer]).join(' · ');
@@ -660,12 +776,12 @@
             round.mistakes.add(exercise.id);
         }
         recordAttempt(exercise, value, correct);
-        const compare = exercise.type === 'rewrite' || exercise.type === 'error-correction';
+        const compare = exercise.type === 'rewrite' || exercise.type === 'error-correction' || exercise.type === 'poem-marking';
         feedback = {
             correct,
             explanation: exercise.explanation,
             showComparison: !correct && compare,
-            userAnswer: compare ? value : '',
+            userAnswer: compare ? displayAnswer(exercise, value) : '',
             modelAnswer: modelAnswer(exercise)
         };
 
@@ -704,6 +820,15 @@
 
         if (button.dataset.choice) {
             selectedChoice = button.dataset.choice;
+            renderExercise();
+            return;
+        }
+
+        if (button.dataset.poemWord !== undefined) {
+            const index = Number(button.dataset.poemWord);
+            selectedWords = selectedWords.includes(index)
+                ? selectedWords.filter(item => item !== index)
+                : [...selectedWords, index].sort((a, b) => a - b);
             renderExercise();
             return;
         }
