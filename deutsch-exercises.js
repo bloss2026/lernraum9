@@ -747,10 +747,10 @@ window.DeutschExercises = [
     },
     {
         id: 'deutsch-klassenarbeit', title: 'Deutsch Klassenarbeit', icon: '📝',
-        description: 'Die drei Aufgaben des PDF-Übungsblatts „Herbstabend“ verstehen und an anderen Gedichten üben.',
-        theory: 'Der Erklärungsteil geht vollständig durch das PDF-Arbeitsblatt: Inhalt und Sprechsituation, Reimschema sowie Metapher, Personifikation und Vergleich. Danach übst du dieselben Fähigkeiten an vier anderen Gedichten aus Wikisource.',
+        description: 'Das Gedicht „Herbstabend“ verstehen und seine drei Analyseaufgaben an anderen Gedichten üben.',
+        theory: 'Die Einführung erklärt Inhalt und Sprechsituation, Reimschema sowie Metapher, Personifikation und Vergleich am Gedicht „Herbstabend“. Danach übst du dieselben Fähigkeiten an vier anderen Gedichten aus Wikisource.',
         lesson: {
-            overview: 'Der Erklärungsteil behandelt ausschließlich den vollständigen Inhalt des PDF-Arbeitsblatts „Zweite Deutschklassenarbeit – Lernbereich Lyrik“ mit den Aufgaben 1 bis 3. Im anschließenden Übungsteil kommen andere Gedichte zum Einsatz: höchstens vier gemeinfreie Texte aus Wikisource mit verschiedenen Reimordnungen.',
+            overview: 'Die Einführung erklärt das Gedicht „Herbstabend“ vollständig anhand seiner drei Analyseaufgaben. Im anschließenden Übungsteil kommen andere Gedichte zum Einsatz: höchstens vier gemeinfreie Texte aus Wikisource mit verschiedenen Reimordnungen.',
             focusPoints: [
                 'Aufgabe 1: Thema, lyrischen Sprecher, Situation (wann und wo) und Stimmung mit Textbelegen bestimmen.',
                 'Aufgabe 2: Reimwörter am Versende vergleichen, Reimschema jeder Strophe notieren und die Reimform benennen.',
@@ -759,12 +759,12 @@ window.DeutschExercises = [
             ],
             examples: [
                 {
-                    title: 'PDF-Übungstext: „Herbstabend“',
+                    title: 'Übungstext: „Herbstabend“',
                     text: '1 Der Nebel zieht durch stille Gassen,\n2 die letzten Blätter fallen sacht.\n3 Ich kann die bunte Welt verlassen\n4 und gehe langsam in die Nacht.\n5 Ein kalter Wind weht um die Ecken,\n6 das Licht verlischt im alten Haus.\n7 Schatten beginnen sich zu strecken,\n8 der Tag geht leis zu Ende aus.'
                 },
                 {
-                    title: 'Ausführliche Erklärung zu den PDF-Aufgaben 1–3',
-                    text: 'Aufgabe 1 – Inhalt: Das Gedicht zeigt den Übergang vom Herbsttag in die Nacht und den Rückzug aus der „bunten Welt“ in Ruhe und Dunkelheit. Sprecher: In Vers 3 und 4 tritt ein „Ich“ auf. Das ist das lyrische Ich, nicht automatisch die reale Autorin oder der Autor. Situation: „in die Nacht“ legt Abend oder Dämmerung nahe; „stille Gassen“, „Ecken“ und „altes Haus“ zeichnen eine ruhige Umgebung. Dorf oder Kleinstadt sind mögliche Deutungen, kein ausdrücklich genannter Ort. Stimmung: ruhig, nachdenklich, leicht melancholisch und verträumt; Hinweise sind „still“, „sacht“, „langsam“, „kalt“, „verlischt“, „Schatten“ und „leis“.\n\nAufgabe 2 – Reimschema: In Strophe 1 reimen sich Vers 1 und 3 (Gassen / verlassen) sowie Vers 2 und 4 (sacht / Nacht): ABAB, ein Kreuzreim. In Strophe 2 gehören Ecken / strecken und Haus / aus zusammen: CDCD, wenn die Buchstaben im ganzen Gedicht weitergezählt werden; für sich allein hat auch die Strophe die Form ABAB, also einen Kreuzreim.\n\nAufgabe 3 – Stilmittel: „Bunte Welt“ (V. 3) ist als Metapher zu verstehen: Das Bild kann für das farbige, lebendige Treiben des Herbsttags stehen. „Schatten beginnen sich zu strecken“ (V. 7) ist eine Personifikation, weil Schatten eine Handlung wie Lebewesen erhalten; dadurch wirkt die Dunkelheit lebendig. Einen Vergleich enthält das Gedicht nicht. Ein Vergleich verbindet zwei Dinge ausdrücklich, häufig mit „wie“ oder „als“; hier sollte also kein Beispiel erfunden werden.\n\nHinweis zum Original: Vers 8 lautet im PDF „der Tag geht leis zu Ende aus“. Die Verbindung „zu Ende aus“ ist sprachlich ungewöhnlich. Für das Reimschema zählt das tatsächlich gedruckte Endwort „aus“.'
+                    title: 'Ausführliche Gedichtanalyse: „Herbstabend“',
+                    text: 'Aufgabe 1 – Inhalt: Das Gedicht zeigt den Übergang vom Herbsttag in die Nacht und den Rückzug aus der „bunten Welt“ in Ruhe und Dunkelheit. Sprecher: In Vers 3 und 4 tritt ein „Ich“ auf. Das ist das lyrische Ich, nicht automatisch die reale Autorin oder der Autor. Situation: „in die Nacht“ legt Abend oder Dämmerung nahe; „stille Gassen“, „Ecken“ und „altes Haus“ zeichnen eine ruhige Umgebung. Dorf oder Kleinstadt sind mögliche Deutungen, kein ausdrücklich genannter Ort. Stimmung: ruhig, nachdenklich, leicht melancholisch und verträumt; Hinweise sind „still“, „sacht“, „langsam“, „kalt“, „verlischt“, „Schatten“ und „leis“.\n\nAufgabe 2 – Reimschema: In Strophe 1 reimen sich Vers 1 und 3 (Gassen / verlassen) sowie Vers 2 und 4 (sacht / Nacht): ABAB, ein Kreuzreim. In Strophe 2 gehören Ecken / strecken und Haus / aus zusammen: CDCD, wenn die Buchstaben im ganzen Gedicht weitergezählt werden; für sich allein hat auch die Strophe die Form ABAB, also einen Kreuzreim.\n\nAufgabe 3 – Stilmittel: „Bunte Welt“ (V. 3) ist als Metapher zu verstehen: Das Bild kann für das farbige, lebendige Treiben des Herbsttags stehen. „Schatten beginnen sich zu strecken“ (V. 7) ist eine Personifikation, weil Schatten eine Handlung wie Lebewesen erhalten; dadurch wirkt die Dunkelheit lebendig. Einen Vergleich enthält das Gedicht nicht. Ein Vergleich verbindet zwei Dinge ausdrücklich, häufig mit „wie“ oder „als“; hier sollte also kein Beispiel erfunden werden.\n\nHinweis zum Wortlaut: Vers 8 lautet „der Tag geht leis zu Ende aus“. Die Verbindung „zu Ende aus“ ist sprachlich ungewöhnlich. Für das Reimschema zählt das Endwort „aus“.'
                 }
             ],
             sections: [
@@ -787,12 +787,12 @@ window.DeutschExercises = [
                         'Strophe 2: Ecken / strecken = C; Haus / aus = D; im Gesamtgedicht also CDCD.',
                         'Jede Strophe für sich ist ABAB und damit ein Kreuzreim.',
                         'Die Buchstaben stehen für Klanggruppen und nicht für gleiche Endbuchstaben.',
-                        'Vers 8 hat im PDF den auffälligen Wortlaut „der Tag geht leis zu Ende aus“; das Reimwort „aus“ steht dennoch am Versende.'
+                        'Vers 8 lautet „der Tag geht leis zu Ende aus“; das Reimwort „aus“ steht am Versende, auch wenn die Formulierung ungewöhnlich klingt.'
                     ]
                 },
                 {
                     title: '3. Aufgabe: Metapher, Personifikation und Vergleich',
-                    text: 'Die PDF-Aufgabe bittet um je ein Beispiel für Metapher, Personifikation und Vergleich beziehungsweise eine Erklärung ihrer Wirkung. Als Metapher wird „bunte Welt“ (V. 3) verwendet: Die Formulierung kann bildlich das farbige, lebendige Treiben des Tages meinen. Bei der Personifikation „Schatten beginnen sich zu strecken“ (V. 7) erhält etwas Lebloses eine Handlung, die man von einem Menschen oder Tier kennt. So erscheint die hereinbrechende Dunkelheit lebendig. Ein Vergleich wäre eine ausdrückliche Verbindung zweier Bereiche, oft mit „wie“ oder „als“. Im Gedicht steht kein solcher Vergleich. Eine vollständige Antwort sagt deshalb ausdrücklich, dass kein Beispiel vorhanden ist, statt ein Stilmittel zu erfinden.',
+                    text: 'Untersuche Metapher, Personifikation und Vergleich und erkläre jeweils die Wirkung. Als Metapher wird „bunte Welt“ (V. 3) verwendet: Die Formulierung kann bildlich das farbige, lebendige Treiben des Tages meinen. Bei der Personifikation „Schatten beginnen sich zu strecken“ (V. 7) erhält etwas Lebloses eine Handlung, die man von einem Menschen oder Tier kennt. So erscheint die hereinbrechende Dunkelheit lebendig. Ein Vergleich wäre eine ausdrückliche Verbindung zweier Bereiche, oft mit „wie“ oder „als“. Im Gedicht steht kein solcher Vergleich. Eine vollständige Antwort sagt deshalb ausdrücklich, dass kein Beispiel vorhanden ist, statt ein Stilmittel zu erfinden.',
                     points: [
                         'Metapher: „bunte Welt“ (V. 3) – bildliche Bedeutung aus dem Zusammenhang ableiten.',
                         'Personifikation: „Schatten beginnen sich zu strecken“ (V. 7) – Lebloses erhält eine lebendige Handlung.',

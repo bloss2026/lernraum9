@@ -374,7 +374,7 @@ function renderSubjectPage(subject) {
                 { id: 'adjektiv-vergleich', icon: '📏', title: 'Adjektive & Vergleiche', description: 'Grundform, Vergleichsform und Höchststufe sicher verwenden.', details: 'Beispiele: leicht – leichter – am leichtesten; gut – besser – am besten.', exerciseCount: 40 },
                 { id: 'gedichte', icon: '🌙', title: 'Gedichte verstehen', description: 'Verse, Strophen, Reime, sprachliche Bilder und Stimmung untersuchen.', details: 'Beschreibe erst Beobachtungen und belege Deutungen am Text.', exerciseCount: 40 },
                 { id: 'sachtexte-diagramme', icon: '📊', title: 'Sachtexte & Schaubilder', description: 'Informationen aus Tabellen und Diagrammen entnehmen und sachlich beschreiben.', details: 'Lies Titel, Achsen, Einheiten, Legende und Quelle genau.', exerciseCount: 40 },
-                { id: 'deutsch-klassenarbeit', icon: '📝', title: 'Deutsch Klassenarbeit', description: 'Die drei PDF-Aufgaben zum Gedicht „Herbstabend“ verstehen und an vier anderen Gedichten üben.', details: 'Inhalt, Sprechsituation, Reimschema und sprachliche Bilder untersuchen.', exerciseCount: 16 }
+                { id: 'deutsch-klassenarbeit', icon: '📝', title: 'Deutsch Klassenarbeit', description: 'Das Gedicht „Herbstabend“ verstehen und an vier anderen Gedichten üben.', details: 'Inhalt, Sprechsituation, Reimschema und sprachliche Bilder untersuchen.', exerciseCount: 16 }
             ];
             return `
                 <section class="portal-hero portal-subject-hero deutsch-hero">
