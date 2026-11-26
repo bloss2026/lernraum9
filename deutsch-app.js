@@ -256,6 +256,13 @@
         });
     }
 
+    function shuffleTopicOptions(exercises) {
+        return exercises.map(exercise => {
+            if (exercise.type !== 'multiple-choice') return exercise;
+            return { ...exercise, options: shuffle(exercise.options) };
+        });
+    }
+
     function renderMarkedLessonPoem(poem, section) {
         const verses = poem.text.split(/\r?\n/)
             .map(line => {
@@ -542,7 +549,9 @@
             .slice(0, Math.min(taskLimit, category.exercises.length));
         const preparedExercises = category.id === 'deutsch-klassenarbeit'
             ? shuffleClassworkOptions(selectedExercises)
-            : selectedExercises;
+            : category.id === 'gedichte'
+                ? shuffleTopicOptions(selectedExercises)
+                : selectedExercises;
         const items = preparedExercises
             .map(exercise => ({
                 ...exercise,
