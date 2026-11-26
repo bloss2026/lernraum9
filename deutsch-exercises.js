@@ -1191,13 +1191,13 @@ const classworkPoemExercises = [
     {
         poemId: 'wuenschelrute',
         step: 'Schritt 1/4: Inhalt und Sprechsituation',
-        markingInstruction: 'Markiere Hinweise auf Thema, Sprecher und Stimmung. Wähle danach die passende Deutung.',
+        question: 'Welche Deutung passt zu den farbig markierten Hinweisen auf Thema, Sprecher und Stimmung?',
         markTargets: ['Lied', 'träumen', 'du', 'Zauberwort'],
         options: [
             'Das Gedicht beschreibt verborgene Poesie in den Dingen; ein unbestimmtes „du“ kann sie mit einem Zauberwort hörbar machen. Ort und Zeit bleiben offen.',
-            'Ein Kind sucht nachts ein Schloss und findet dort einen Zauberstab.',
-            'Der Sprecher erzählt von einem Sänger auf einer Bühne.',
-            'Ein Reisender beschreibt eine genaue Landschaft und eine Tageszeit.'
+            'Die Dinge singen bereits hörbar, bevor das angesprochene „du“ ein Zauberwort findet.',
+            'Das Gedicht schildert, wie ein Lied aus den Dingen verschwindet und die Welt verstummt.',
+            'Ein angesprochenes „du“ soll ein verborgenes Lied in den Dingen entdecken; eine konkrete Situation wird genannt.'
         ],
         answer: 'Das Gedicht beschreibt verborgene Poesie in den Dingen; ein unbestimmtes „du“ kann sie mit einem Zauberwort hörbar machen. Ort und Zeit bleiben offen.',
         tip: 'Achte auf „Lied“, „träumen“ und die Anrede „du“.',
@@ -1206,9 +1206,9 @@ const classworkPoemExercises = [
     {
         poemId: 'wuenschelrute',
         step: 'Schritt 2/4: Reime',
-        markingInstruction: 'Markiere alle Reimwörter am Versende. Wähle danach Reimschema und Reimform.',
+        question: 'Welches Reimschema haben die vier Verse, und wie heißt diese Reimform?',
         markTargets: ['Dingen', { text: 'fort', occurrence: 2 }, 'singen', 'Zauberwort'],
-        options: ['ABAB – Kreuzreim', 'AABB – Paarreim', 'ABBA – umarmender Reim', 'ABCB – Schweifreim'],
+        options: ['ABAB – Kreuzreim', 'AABB – Paarreim', 'ABBA – umarmender Reim', 'ABCB – nur die Verse 2 und 4 reimen sich'],
         answer: 'ABAB – Kreuzreim',
         tip: 'Vergleiche Vers 1 mit 3 und Vers 2 mit 4.',
         explanation: '„Dingen / singen“ bilden A und „fort / Zauberwort“ bilden B. Das Muster ABAB heißt Kreuzreim.'
@@ -1216,13 +1216,13 @@ const classworkPoemExercises = [
     {
         poemId: 'wuenschelrute',
         step: 'Schritt 3/4: Sprachliche Bilder',
-        markingInstruction: 'Markiere Wörter, durch die Dinge oder die Welt lebendig wirken. Wähle danach das Stilmittel und seine Wirkung.',
+        question: 'Welches Stilmittel prägt die farbig markierten Handlungen der Dinge und welche Wirkung hat es?',
         markTargets: ['Schläft', 'träumen', 'singen'],
         options: [
             'Personifikation: Dinge und Welt erhalten lebendige Handlungen. Dadurch wirkt die Welt geheimnisvoll.',
-            'Vergleich: Zwei Dinge werden mit „wie“ verglichen.',
-            'Wörtliche Beschreibung: Dinge schlafen und singen tatsächlich.',
-            'Paarreim: Die Wörter beschreiben nur den Klang.'
+            'Metapher: Das Lied steht für die Erinnerung an eine vergangene Zeit.',
+            'Vergleich: Die Dinge werden ausdrücklich mit einem Lebewesen verglichen.',
+            'Alliteration: Die Wiederholung gleicher Anfangslaute macht die Aussage lebendig.'
         ],
         answer: 'Personifikation: Dinge und Welt erhalten lebendige Handlungen. Dadurch wirkt die Welt geheimnisvoll.',
         tip: 'Können Dinge wirklich schlafen, träumen oder singen?',
@@ -1231,28 +1231,28 @@ const classworkPoemExercises = [
     {
         poemId: 'wuenschelrute',
         step: 'Schritt 4/4: Sprache und Grammatik',
-        markingInstruction: 'Markiere Pronomen, Subjekt und Verbteile. Wähle danach das passende Feldermodell zu „Und die Welt hebt an zu singen.“',
+        question: 'Welche Analyse passt zum Feldermodell? „Und“ steht als Konjunktion außerhalb der Satzfelder.',
         markTargets: ['du', 'die Welt', 'hebt', 'an zu singen'],
         options: [
+            'Vorfeld: die Welt | linke Satzklammer: hebt | Mittelfeld: leer | rechte Satzklammer: an zu singen',
+            'Vorfeld: die Welt | linke Satzklammer: hebt an | Mittelfeld: leer | rechte Satzklammer: zu singen',
             'Vorfeld: Und die Welt | linke Satzklammer: hebt | Mittelfeld: leer | rechte Satzklammer: an zu singen',
-            'Vorfeld: hebt | linke Satzklammer: Und die Welt | Mittelfeld: an | rechte Satzklammer: zu singen',
-            'Vorfeld: Und die Welt hebt | linke Satzklammer: an | Mittelfeld: zu | rechte Satzklammer: singen',
-            'Vorfeld: zu singen | linke Satzklammer: die Welt | Mittelfeld: hebt | rechte Satzklammer: an'
+            'Vorfeld: zu singen | linke Satzklammer: hebt | Mittelfeld: die Welt | rechte Satzklammer: an'
         ],
-        answer: 'Vorfeld: Und die Welt | linke Satzklammer: hebt | Mittelfeld: leer | rechte Satzklammer: an zu singen',
+        answer: 'Vorfeld: die Welt | linke Satzklammer: hebt | Mittelfeld: leer | rechte Satzklammer: an zu singen',
         tip: '„Die Welt“ beantwortet die Frage „Wer hebt an?“; das Verb „anheben“ wird getrennt.',
-        explanation: '„Du“ ist ein Personalpronomen. „Die Welt“ ist das Subjekt. „Hebt … an“ ist das trennbare Verb. Im Feldermodell steht „hebt“ links und „an zu singen“ am rechten Rand.'
+        explanation: '„Und“ verbindet mit dem vorherigen Satz und steht außerhalb der Satzfelder. „Die Welt“ ist das Subjekt und das Vorfeld; „hebt“ steht in der linken Satzklammer, „an zu singen“ in der rechten. „Du“ ist im Gedicht ein Personalpronomen.'
     },
     {
         poemId: 'dieDreiSpatzen',
         step: 'Schritt 1/4: Inhalt und Sprechsituation',
-        markingInstruction: 'Markiere Hinweise auf Ort, Wetter und Stimmung. Wähle danach die passende Deutung.',
+        question: 'Welche Deutung passt zu den farbig markierten Hinweisen auf Ort, Wetter und Stimmung?',
         markTargets: ['Haselstrauch', 'Bauch an Bauch', 'schneit', 'dicht an dicht', 'freche Hans'],
         options: [
             'Drei Spatzen sitzen eng in einem Strauch. Der Schnee und ihre Nähe erzeugen eine gemütliche, verspielte Stimmung.',
             'Ein einzelner Vogel fliegt im Sommer davon und wirkt traurig.',
-            'Drei Menschen streiten sich in einem warmen Haus.',
-            'Die Gedichtstimme beschreibt eine genaue Uhrzeit und eine Stadt.'
+            'Die drei Spatzen sitzen getrennt im Strauch; der Schnee lässt die Szene unruhig und kalt wirken.',
+            'Die Spatzen suchen im Schnee nach Futter und verlassen anschließend den Strauch.'
         ],
         answer: 'Drei Spatzen sitzen eng in einem Strauch. Der Schnee und ihre Nähe erzeugen eine gemütliche, verspielte Stimmung.',
         tip: 'Achte auf den Haselstrauch, den Schnee und die Wiederholung von „dicht“.',
@@ -1261,7 +1261,7 @@ const classworkPoemExercises = [
     {
         poemId: 'dieDreiSpatzen',
         step: 'Schritt 2/4: Reime',
-        markingInstruction: 'Markiere alle Reimwörter am Ende der Verse. Wähle danach die Reimordnung der Strophen.',
+        question: 'Welche Beschreibung der Reime in den Strophen ist richtig?',
         markTargets: [
             'Haselstrauch', { text: 'Bauch', occurrence: 2 }, 'Franz', 'Hans',
             { text: 'zu', occurrence: 2 }, 'hu', { text: 'dicht', occurrence: 2 }, 'nicht', 'Gepoch', 'noch'
@@ -1269,8 +1269,8 @@ const classworkPoemExercises = [
         options: [
             'Strophe 1: AABB; Strophen 2–4: je AA – Paarreime',
             'Alle Strophen: ABAB – Kreuzreime',
-            'Strophe 1: ABBA; Strophen 2–4: je AABB – umarmende Reime',
-            'Es gibt keine Reimwörter.'
+            'Strophe 1: ABBA; Strophen 2–4: je AA – Paarreime',
+            'Strophe 1: AABB; Strophen 2–4: je AB – Kreuzreime'
         ],
         answer: 'Strophe 1: AABB; Strophen 2–4: je AA – Paarreime',
         tip: 'Vergleiche die Endwörter der Zeilen: Haselstrauch / Bauch, Franz / Hans und die weiteren Paare.',
@@ -1279,13 +1279,13 @@ const classworkPoemExercises = [
     {
         poemId: 'dieDreiSpatzen',
         step: 'Schritt 3/4: Sprachliche Bilder',
-        markingInstruction: 'Markiere die Textstelle, die du auf ein sprachliches Bild prüfst. Wähle danach Stilmittel und Wirkung.',
+        question: 'Welches Stilmittel liegt in „warm wie der Hans“ vor?',
         markTargets: ['warm wie der Hans'],
         options: [
             'Vergleich: „Wie“ verbindet die Wärme mit Hans und betont, wie gemütlich er es hat.',
-            'Metapher: Hans ist ein wörtlicher Heizkörper.',
-            'Personifikation: Der Haselstrauch spricht mit den Spatzen.',
-            'Kein Stilmittel: „Wie“ verbindet hier keine Dinge.'
+            'Metapher: „Der Hans“ steht bildlich für einen warmen Platz im Strauch.',
+            'Personifikation: Die Wärme handelt wie ein Mensch und sorgt für Hans.',
+            'Wiederholung: Das Wort „warm“ wird im Vers direkt zweimal verwendet.'
         ],
         answer: 'Vergleich: „Wie“ verbindet die Wärme mit Hans und betont, wie gemütlich er es hat.',
         tip: 'Suche das Vergleichswort „wie“.',
@@ -1294,7 +1294,7 @@ const classworkPoemExercises = [
     {
         poemId: 'dieDreiSpatzen',
         step: 'Schritt 4/4: Sprache und Grammatik',
-        markingInstruction: 'Markiere das Pronomen „Sie“ in der zweiten Strophe. Der Satz am Gedichtanfang geht über zwei Verszeilen: Markiere die Ortsangabe, „da“, das Verb und das Subjekt. Wähle danach die passende Felderanalyse.',
+        question: 'Welche Analyse passt zum Satz „In einem leeren Haselstrauch / da sitzen drei Spatzen, Bauch an Bauch“?',
         markTargets: [{ text: 'Sie', occurrence: 1 }, 'In einem leeren Haselstrauch', 'da', 'sitzen', 'drei Spatzen', 'Bauch an Bauch'],
         options: [
             'Vor-Vorfeld (linksversetzt): In einem leeren Haselstrauch | Vorfeld: da | linke Satzklammer: sitzen | Mittelfeld: drei Spatzen, Bauch an Bauch | rechte Satzklammer: leer',
@@ -1309,13 +1309,13 @@ const classworkPoemExercises = [
     {
         poemId: 'erlkönig',
         step: 'Schritt 1/4: Inhalt und Sprechsituation',
-        markingInstruction: 'Markiere Hinweise auf Zeit, Situation und Stimmung. Wähle danach die passende Deutung.',
+        question: 'Welche Aussage passt zu den farbig markierten Hinweisen aus den ersten beiden Strophen?',
         markTargets: ['so spät', 'Nacht und Wind', 'Vater mit seinem Kind', 'bang', 'sicher', 'warm'],
         options: [
             'Ein Vater reitet spät mit seinem Kind durch die Nacht. Das Kind wirkt ängstlich, der Vater versucht es zu beruhigen.',
-            'Ein Kind reitet am Mittag allein und fühlt sich sicher.',
-            'Zwei Freunde gehen bei Sonnenschein durch eine Stadt.',
-            'Der Sprecher beschreibt ein Fest ohne Anzeichen von Angst.'
+            'Der Vater reitet allein durch die Nacht und erinnert sich an die Angst seines Sohnes.',
+            'Das Kind sieht den Erlkönig, während der Vater seine Angst bestätigt.',
+            'Vater und Sohn reiten am Tag; das Kind erzählt von einer früheren Begegnung.'
         ],
         answer: 'Ein Vater reitet spät mit seinem Kind durch die Nacht. Das Kind wirkt ängstlich, der Vater versucht es zu beruhigen.',
         tip: 'Beachte „so spät“, „Nacht und Wind“ sowie die Wörter „bang“, „sicher“ und „warm“.',
@@ -1324,13 +1324,13 @@ const classworkPoemExercises = [
     {
         poemId: 'erlkönig',
         step: 'Schritt 2/4: Reime',
-        markingInstruction: 'Markiere alle Reimwörter am Ende der Verse. Wähle danach Reimschema und Reimform beider Strophen.',
+        question: 'Welches Reimschema haben die beiden Strophen jeweils?',
         markTargets: ['Wind', 'Kind', 'Arm', 'warm', 'Gesicht', 'nicht', 'Schweif', 'Nebelstreif'],
         options: [
             'Beide Strophen: AABB – Paarreime',
             'Beide Strophen: ABAB – Kreuzreime',
             'Beide Strophen: ABBA – umarmende Reime',
-            'Erste Strophe AABB, zweite Strophe ABBA'
+            'Erste Strophe ABAB, zweite Strophe AABB'
         ],
         answer: 'Beide Strophen: AABB – Paarreime',
         tip: 'In jeder Strophe reimen sich Vers 1 mit 2 und Vers 3 mit 4.',
@@ -1339,13 +1339,13 @@ const classworkPoemExercises = [
     {
         poemId: 'erlkönig',
         step: 'Schritt 3/4: Sprachliche Bilder',
-        markingInstruction: 'Markiere die Stelle, an der der Vater die Erscheinung erklärt. Prüfe, ob das eine Metapher, Personifikation oder ein Vergleich ist.',
-        markTargets: ['Nebelstreif'],
+        question: 'Wie ist die farbig markierte Erklärung des Vaters („Nebelstreif“) einzuordnen?',
+        markTargets: ['Erlkönig', 'Nebelstreif'],
         options: [
             '„Nebelstreif“ ist die wörtliche Erklärung des Vaters. Im Auszug steht kein eindeutiger Vergleich oder klares sprachliches Bild.',
-            '„Nebelstreif“ ist ein Vergleich, weil davor „wie“ steht.',
-            'Der Nebel wird personifiziert, weil er selbst spricht.',
-            '„Nebelstreif“ ist eine Metapher für ein Schloss.'
+            '„Nebelstreif“ ist eine Metapher, mit der der Vater den Erlkönig als Nebel beschreibt.',
+            'Der Nebel wird personifiziert, weil der Vater ihm eine menschliche Handlung zuschreibt.',
+            '„Nebelstreif“ ist ein Vergleich, der durch ein unausgesprochenes „wie“ gekennzeichnet ist.'
         ],
         answer: '„Nebelstreif“ ist die wörtliche Erklärung des Vaters. Im Auszug steht kein eindeutiger Vergleich oder klares sprachliches Bild.',
         tip: 'Prüfe, ob der Vater etwas bildlich oder als natürliche Erklärung benennt.',
@@ -1354,13 +1354,13 @@ const classworkPoemExercises = [
     {
         poemId: 'erlkönig',
         step: 'Schritt 4/4: Sprache und Grammatik',
-        markingInstruction: 'Markiere das Pronomen, das Subjekt, das Verb und das Objekt. Wähle danach das passende Feldermodell zu „Er hat den Knaben wohl in dem Arm.“',
+        question: 'Welche Felderanalyse passt zum Satz „Er hat den Knaben wohl in dem Arm“?',
         markTargets: ['Er hat den Knaben', 'in dem Arm'],
         options: [
             'Vorfeld: Er | linke Satzklammer: hat | Mittelfeld: den Knaben wohl in dem Arm | rechte Satzklammer: leer',
             'Vorfeld: hat | linke Satzklammer: Er | Mittelfeld: den Knaben wohl in dem Arm | rechte Satzklammer: leer',
-            'Vorfeld: Er hat | linke Satzklammer: den Knaben | Mittelfeld: wohl in dem Arm | rechte Satzklammer: leer',
-            'Vorfeld: in dem Arm | linke Satzklammer: hat | Mittelfeld: Er den Knaben | rechte Satzklammer: wohl'
+            'Vorfeld: Er | linke Satzklammer: hat | Mittelfeld: den Knaben wohl | rechte Satzklammer: in dem Arm',
+            'Vorfeld: in dem Arm | linke Satzklammer: hat | Mittelfeld: Er den Knaben wohl | rechte Satzklammer: leer'
         ],
         answer: 'Vorfeld: Er | linke Satzklammer: hat | Mittelfeld: den Knaben wohl in dem Arm | rechte Satzklammer: leer',
         tip: 'Frage: Wer hat den Knaben? Wen oder was hat der Vater?',
@@ -1369,13 +1369,13 @@ const classworkPoemExercises = [
     {
         poemId: 'dieBürgschaft',
         step: 'Schritt 1/4: Inhalt und Sprechsituation',
-        markingInstruction: 'Markiere Hinweise auf Ort, Situation und Stimmung. Wähle danach die passende Deutung.',
+        question: 'Welche Deutung passt zu den farbig markierten Hinweisen auf Ort, Situation und Stimmung?',
         markTargets: ['Zu Dionys', 'schlich', 'Dolch im Gewande', 'Häscher', 'finster'],
         options: [
             'Möros schleicht sich mit einem Dolch zu Dionys. Die Häscher halten ihn auf; die Szene wirkt bedrohlich.',
-            'Möros besucht einen Freund am helllichten Tag und bringt ein Geschenk.',
-            'Die Häscher helfen Möros, eine Stadt zu feiern.',
-            'Der Text nennt einen genauen Ort und eine friedliche Alltagssituation.'
+            'Möros wird von Dionys ausgesandt, um die Stadt vor den Häschern zu schützen.',
+            'Möros nähert sich Dionys offen und ohne Waffe; die Häscher halten ihn vorsorglich an.',
+            'Möros wird von den Häschern begleitet und bittet Dionys um Schutz für die Stadt.'
         ],
         answer: 'Möros schleicht sich mit einem Dolch zu Dionys. Die Häscher halten ihn auf; die Szene wirkt bedrohlich.',
         tip: 'Achte darauf, wohin Möros schleicht, was er bei sich trägt und wer ihn aufhält.',
@@ -1384,13 +1384,13 @@ const classworkPoemExercises = [
     {
         poemId: 'dieBürgschaft',
         step: 'Schritt 2/4: Reime',
-        markingInstruction: 'Markiere alle Reimwörter am Ende der Verse. Wähle danach das Reimschema und die Reimform.',
+        question: 'Welches Reimschema hat die Strophe, und wie sind die ersten vier Verse gereimt?',
         markTargets: ['schlich', 'Gewande', 'Bande', 'sprich', 'Wütherich', 'befreien', 'bereuen'],
         options: [
             'ABBAACC; die ersten vier Verse bilden einen umarmenden Reim',
-            'AABBCCD; nur Paarreime',
-            'ABABABC; durchgehend Kreuzreim',
-            'ABBAACC; durchgehend Paarreim'
+            'AABBCCD; die ersten vier Verse bilden zwei Paarreime',
+            'ABABABC; die ersten vier Verse bilden einen Kreuzreim',
+            'ABBAACC; die ersten vier Verse bilden zwei Paarreime'
         ],
         answer: 'ABBAACC; die ersten vier Verse bilden einen umarmenden Reim',
         tip: 'Schlich / sprich / Wütherich gehören zusammen; Gewande / Bande bilden ein weiteres Reimpaar.',
@@ -1399,13 +1399,13 @@ const classworkPoemExercises = [
     {
         poemId: 'dieBürgschaft',
         step: 'Schritt 3/4: Sprachliche Bilder',
-        markingInstruction: 'Markiere die anschauliche Stelle, die du auf ein Stilmittel prüfst. Wähle danach die passende Einordnung.',
-        markTargets: ['Dolch im Gewande'],
+        question: 'Wie ist die farbig markierte Stelle „den Dolch im Gewande“ sprachlich einzuordnen?',
+        markTargets: ['schlich', 'Dolch im Gewande'],
         options: [
             'Die Stelle beschreibt wörtlich einen verborgenen Dolch. Sie zeigt Gefahr, ist aber keine klare Metapher, Personifikation oder Vergleich.',
-            'Der Dolch wird personifiziert, weil er selbst handelt.',
-            '„Im Gewande“ ist ein Vergleich mit dem Wort „wie“.',
-            'Die Stelle ist eine Metapher für einen friedlichen Besuch.'
+            'Der Dolch ist eine Metapher für Möros’ verborgene Absicht, die Stadt zu befreien.',
+            'Die Stelle personifiziert den Dolch, weil er als handelnde Figur erscheint.',
+            '„Im Gewande“ ist ein Vergleich, der Möros’ Waffe mit seiner Kleidung gleichsetzt.'
         ],
         answer: 'Die Stelle beschreibt wörtlich einen verborgenen Dolch. Sie zeigt Gefahr, ist aber keine klare Metapher, Personifikation oder Vergleich.',
         tip: 'Frage dich, ob der Dolch wirklich im Gewand steckt oder nur bildlich gemeint ist.',
@@ -1414,7 +1414,7 @@ const classworkPoemExercises = [
     {
         poemId: 'dieBürgschaft',
         step: 'Schritt 4/4: Sprache und Grammatik',
-        markingInstruction: 'Markiere das Pronomen, das Subjekt, das Verb und die Satzteile. Wähle danach das passende Feldermodell zu „Ihn schlugen die Häscher in Bande.“',
+        question: 'Welche Felderanalyse passt zum Satz „Ihn schlugen die Häscher in Bande“?',
         markTargets: ['Ihn', 'schlugen', 'die Häscher', 'in Bande'],
         options: [
             'Vorfeld: Ihn | linke Satzklammer: schlugen | Mittelfeld: die Häscher in Bande | rechte Satzklammer: leer',
@@ -1432,9 +1432,9 @@ function normalizePoemWord(word) {
     return word.toLocaleLowerCase('de-DE').replace(/^[^a-zäöüß0-9]+|[^a-zäöüß0-9]+$/g, '');
 }
 
-function findPoemTargetIndices(poemText, markTargets) {
+function findPoemTargetGroups(poemText, markTargets) {
     const tokens = poemText.match(/\S+/g) || [];
-    const selected = new Set();
+    const groups = [];
     markTargets.forEach(target => {
         const targetText = typeof target === 'string' ? target : target.text;
         const occurrence = typeof target === 'string' ? 1 : target.occurrence || 1;
@@ -1454,25 +1454,24 @@ function findPoemTargetIndices(poemText, markTargets) {
         if (matchStart < 0) {
             throw new Error(`Markiertext „${targetText}“ wurde im Gedicht nicht gefunden.`);
         }
-        targetWords.forEach((word, offset) => selected.add(matchStart + offset));
+        groups.push(targetWords.map((word, offset) => matchStart + offset));
     });
 
-    return [...selected].sort((first, second) => first - second);
+    return groups;
 }
 
 const classworkCategory = window.DeutschExercises.find(category => category.id === 'deutsch-klassenarbeit');
 classworkCategory.exercises = classworkPoemExercises.map((assignment, index) => {
     const poem = classworkPoems[assignment.poemId];
-    const tokens = poem.text.match(/\S+/g) || [];
+    const markGroups = findPoemTargetGroups(poem.text, assignment.markTargets);
     return {
         id: `deutsch-klassenarbeit-poem-${String(index + 1).padStart(2, '0')}`,
-        type: 'poem-marking',
+        type: 'multiple-choice',
         prompt: assignment.step,
         displayPrompt: assignment.step,
-        markingInstruction: assignment.markingInstruction,
+        question: assignment.question,
         markTargets: assignment.markTargets,
-        tokens,
-        correctIndices: findPoemTargetIndices(poem.text, assignment.markTargets),
+        markGroups,
         options: assignment.options,
         answer: assignment.answer,
         tip: assignment.tip,

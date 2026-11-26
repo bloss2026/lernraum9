@@ -246,6 +246,16 @@
         return result;
     }
 
+    function shuffleClassworkOptions(exercises) {
+        const answerOffset = Math.floor(Math.random() * exercises[0].options.length);
+        return exercises.map((exercise, index) => {
+            const options = shuffle(exercise.options.filter(option => option !== exercise.answer));
+            const answerIndex = (answerOffset + index) % exercise.options.length;
+            options.splice(answerIndex, 0, exercise.answer);
+            return { ...exercise, options };
+        });
+    }
+
     function renderMarkedLessonPoem(poem, section) {
         const verses = poem.text.split(/\r?\n/)
             .map(line => {
@@ -528,8 +538,12 @@
         const orderedExercises = category.id === 'deutsch-klassenarbeit'
             ? category.exercises
             : shuffle(category.exercises);
-        const items = orderedExercises
-            .slice(0, Math.min(taskLimit, category.exercises.length))
+        const selectedExercises = orderedExercises
+            .slice(0, Math.min(taskLimit, category.exercises.length));
+        const preparedExercises = category.id === 'deutsch-klassenarbeit'
+            ? shuffleClassworkOptions(selectedExercises)
+            : selectedExercises;
+        const items = preparedExercises
             .map(exercise => ({
                 ...exercise,
                 categoryId: category.id,
@@ -547,6 +561,22 @@
             const index = wordIndex++;
             const selected = selectedWords.includes(index);
             return `<button class="deutsch-poem-token ${selected ? 'is-selected' : ''}" type="button" data-poem-word="${index}" aria-pressed="${selected}" aria-label="Gedichtwort: ${token}">${token}</button>`;
+        });
+    }
+
+    function renderPreMarkedPoem(exercise) {
+        const colorsByWord = new Map();
+        exercise.markGroups.forEach((group, groupIndex) => {
+            group.forEach(wordIndex => {
+                if (!colorsByWord.has(wordIndex)) colorsByWord.set(wordIndex, groupIndex % 6 + 1);
+            });
+        });
+        let wordIndex = 0;
+        return escapeHTML(exercise.poem.text).replace(/\S+/g, token => {
+            const color = colorsByWord.get(wordIndex++);
+            return color
+                ? `<mark class="deutsch-pre-mark deutsch-pre-mark-${color}">${token}</mark>`
+                : token;
         });
     }
 
@@ -634,8 +664,9 @@
                 <figcaption>
                     <strong>${escapeHTML(exercise.poem.title)}</strong>
                     <span>von ${escapeHTML(exercise.poem.author)}</span>
+                    ${exercise.markGroups ? '<span>Farbige Markierungen zeigen wichtige Textstellen.</span>' : ''}
                 </figcaption>
-                <blockquote class="deutsch-exercise-poem-text ${exercise.type === 'poem-marking' ? 'deutsch-markable-poem' : ''}">${exercise.type === 'poem-marking' ? renderMarkablePoem(exercise) : escapeHTML(exercise.poem.text)}</blockquote>
+                <blockquote class="deutsch-exercise-poem-text">${exercise.markGroups ? renderPreMarkedPoem(exercise) : exercise.type === 'poem-marking' ? renderMarkablePoem(exercise) : escapeHTML(exercise.poem.text)}</blockquote>
                 ${category?.showSources === false ? '' : `<a class="deutsch-exercise-poem-source" href="${escapeHTML(exercise.poem.sourceUrl)}" target="_blank" rel="noopener noreferrer">Textquelle bei Wikisource</a>`}
             </figure>` : '';
         const theoryBlock = category && category.theory && !exercise.poem ? `
@@ -657,7 +688,7 @@
                 <article class="deutsch-question-card">
                     <span class="deutsch-question-topic">${escapeHTML(exercise.categoryTitle || round.title)}</span>
                     <h2>${formatText(exercise.displayPrompt || exercise.prompt)}</h2>
-                    ${exercise.question && !exercise.poem ? `<p class="deutsch-question-text">${escapeHTML(exercise.question)}</p>` : ''}
+                    ${exercise.question ? `<p class="deutsch-question-text">${escapeHTML(exercise.question)}</p>` : ''}
                     <div class="deutsch-input-area">${renderQuestionInput(exercise)}</div>
                     <div class="deutsch-question-actions">
                         <button class="deutsch-button deutsch-button-light" type="button" data-action="hint" aria-expanded="${hintVisible}">${hintVisible ? 'Tipp ausblenden' : 'Tipp anzeigen'}</button>
